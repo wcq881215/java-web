@@ -14,10 +14,10 @@ import java.util.Random;
 public class LogFile {
 
     private static Random random = new Random();
-    private static final SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss,SSS");
+    private static final SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS");
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        BufferedWriter br = new BufferedWriter(new FileWriter("D:\\share\\logstash\\run.log"));
+        BufferedWriter br = new BufferedWriter(new FileWriter("D:\\share\\logstash\\run2.log"));
         boolean flag = true;
         int i =0;
         while (flag){
@@ -54,11 +54,13 @@ public class LogFile {
 
     public static String creatException() {
         StringBuffer sb = new StringBuffer();
-        int s1 = random.nextInt(2);
-        if (s1 == 1) {
+        int s1 = random.nextInt(3);
+        if (s1 == 0) {
             sb.append(excep1_templete);
-        } else {
+        }else if(s1 == 1){
             sb.append(excep2_templete);
+        } else {
+            sb.append(excep3_templete);
         }
         return sb.toString();
     }
@@ -67,6 +69,52 @@ public class LogFile {
 
     public static final String excep1_templete = "Caused by: java.net.ConnectException: Connection timed out";
     public static final String excep2_templete = "javax.ws.rs.NotFoundException: Could not find resource for full path: http://localhost:7027/shukugang/api/ucenter/optional/shares/add";
+    public static final String excep3_templete = "2017-07-25 09:26:26 [ERROR] RefererInvocationHandler invoke Error: uri=motan://10.0.251.65:0/com.csf.service.datasupply.service.IStockService requestId=1573855939042737492 interface=com.csf.service.datasupply.service.IStockService method=fetchStockShareHistory(java.lang.String,java.lang.Integer)\n" +
+            "com.weibo.api.motan.exception.MotanFrameworkException: error_message: encode error: isResponse=true, status: 503, error_code: 20002,r=null\n" +
+            "        at com.weibo.api.motan.protocol.rpc.DefaultRpcCodec.encode(DefaultRpcCodec.java:67)\n" +
+            "        at com.weibo.api.motan.transport.netty.NettyEncoder.encode(NettyEncoder.java:54)\n" +
+            "        at org.jboss.netty.handler.codec.oneone.OneToOneEncoder.handleDownstream(OneToOneEncoder.java:66)\n" +
+            "        at org.jboss.netty.channel.DefaultChannelPipeline.sendDownstream(DefaultChannelPipeline.java:591)\n" +
+            "        at org.jboss.netty.channel.DefaultChannelPipeline$DefaultChannelHandlerContext.sendDownstream(DefaultChannelPipeline.java:776)\n" +
+            "        at org.jboss.netty.channel.SimpleChannelHandler.writeRequested(SimpleChannelHandler.java:304)\n" +
+            "        at org.jboss.netty.channel.SimpleChannelHandler.handleDownstream(SimpleChannelHandler.java:266)\n" +
+            "        at org.jboss.netty.channel.DefaultChannelPipeline.sendDownstream(DefaultChannelPipeline.java:591)\n" +
+            "        at org.jboss.netty.channel.DefaultChannelPipeline.sendDownstream(DefaultChannelPipeline.java:582)\n" +
+            "        at org.jboss.netty.channel.Channels.write(Channels.java:611)\n" +
+            "        at org.jboss.netty.channel.Channels.write(Channels.java:578)\n" +
+            "        at org.jboss.netty.channel.AbstractChannel.write(AbstractChannel.java:251)\n" +
+            "        at com.weibo.api.motan.transport.netty.NettyChannelHandler.processRequest(NettyChannelHandler.java:153)\n" +
+            "        at com.weibo.api.motan.transport.netty.NettyChannelHandler.access$000(NettyChannelHandler.java:47)\n" +
+            "        at com.weibo.api.motan.transport.netty.NettyChannelHandler$1.run(NettyChannelHandler.java:116)\n" +
+            "        at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n" +
+            "        at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n" +
+            "        at java.lang.Thread.run(Thread.java:745)\n" +
+            "Caused by: java.lang.NumberFormatException: For input string: \"\"\n" +
+            "        at java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)\n" +
+            "        at java.lang.Long.parseLong(Long.java:601)\n" +
+            "        at java.lang.Long.parseLong(Long.java:631)\n" +
+            "        at com.csf.service.datasupply.service.StockService.lambda$20(StockService.java:1283)\n" +
+            "        at com.csf.service.datasupply.service.StockService$$Lambda$15/1707709186.accept(Unknown Source)\n" +
+            "        at java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)\n" +
+            "        at java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:175)\n" +
+            "        at java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1374)\n" +
+            "        at java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:512)\n" +
+            "        at java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:502)\n" +
+            "        at java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)\n" +
+            "        at java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)\n" +
+            "        at java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)\n" +
+            "        at java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:418)\n" +
+            "        at com.csf.service.datasupply.service.StockService.lambda$18(StockService.java:1279)\n" +
+            "        at com.csf.service.datasupply.service.StockService$$Lambda$13/1783251923.apply(Unknown Source)\n" +
+            "        at com.google.common.collect.Lists$TransformingRandomAccessList.get(Lists.java:572)\n" +
+            "        at java.util.AbstractList$Itr.next(AbstractList.java:358)\n" +
+            "        at com.caucho.hessian.io.CollectionSerializer.writeObject(CollectionSerializer.java:115)\n" +
+            "        at com.caucho.hessian.io.Hessian2Output.writeObject(Hessian2Output.java:465)\n" +
+            "        at com.weibo.api.motan.serialize.Hessian2Serialization.serialize(Hessian2Serialization.java:42)\n" +
+            "        at com.weibo.api.motan.codec.AbstractCodec.serialize(AbstractCodec.java:42)\n" +
+            "        at com.weibo.api.motan.protocol.rpc.DefaultRpcCodec.encodeResponse(DefaultRpcCodec.java:237)\n" +
+            "        at com.weibo.api.motan.protocol.rpc.DefaultRpcCodec.encode(DefaultRpcCodec.java:61)\n" +
+            "        ... 17 more";
 
     private static List<String> urls = new ArrayList<>();
 
