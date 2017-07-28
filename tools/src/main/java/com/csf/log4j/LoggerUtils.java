@@ -15,12 +15,12 @@ public class LoggerUtils {
     private static final SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
     private static final String pattern = "[%d{yyyy-MM-dd HH:mm:ss,SSS}] %p %l : %m%n";
     private static final String encoding = "UTF-8";
-    private static final String subfix = ".log";
+    private static final String subfix = "_error.log";
     private static final String ERROR_LOG = "errorLog";
     private static String log_path = null;
 
 
-    public static Logger getLogger(Class<?> tClass) {
+    public static Logger getMyLogger(Class<?> tClass) {
         Logger logger = Logger.getLogger(tClass);
         setLogPath(logger);
         logger.removeAllAppenders();
@@ -36,6 +36,33 @@ public class LoggerUtils {
         fp.activateOptions();
 
         logger.addAppender(fp);
+        return logger;
+    }
+
+
+    public static Logger getLogger(Class<?> tClass) {
+        Logger logger = Logger.getLogger(tClass);
+        Appender appender = logger.getParent().getAppender(ERROR_LOG);
+        if (appender instanceof FileAppender) {
+            try {
+                FileAppender ap = ((FileAppender) appender);
+                String file = ap.getFile();
+                if (StringUtils.isBlank(file)) {
+                    file = String.join("", "logs/", getToday(), subfix);
+                } else {
+                    File f = new File(file);
+                    if (f.isDirectory()) {
+                        file = getToday() + subfix;
+                    } else {
+                        file = String.join("", f.getParent(), File.separator, getToday(), subfix);
+                    }
+                }
+
+                ap.setFile(file);
+            } catch (Exception e) {
+                logger.warn(ERROR_LOG + " file path is error or missing .");
+            }
+        }
         return logger;
     }
 
@@ -57,10 +84,10 @@ public class LoggerUtils {
                     try {
                         File f = new File(logPath);
                         log_path = f.getParent();
-                        if("".equals(log_path)){ //当前目录
+                        if ("".equals(log_path)) { //当前目录
                             return;
                         }
-                        log_path = log_path + "/";
+                        log_path = log_path + File.separator;
                         return;
                     } catch (Exception e) {
                         logger.warn(ERROR_LOG + " file path is error or missing .");

@@ -8,14 +8,14 @@ import org.apache.log4j.Logger;
 
 public class Log4jTest {
 
-    private static final Logger log = LoggerUtils.getLogger(Log4jTest.class);
+    private static final Logger log = Logger.getLogger(Log4jTest.class);
 
     public static void main(String[] args) {
 
         log.debug("debug -----      debug xxxxx");
         log.info( " info -----      info  xxxxx");
         log.warn( " warn -----      warn  xxxxx");
-        log.error("error -----      error xxxxx");
+        log.error("error -----      error error " +System.currentTimeMillis());
         System.out.println("out");
     }
 
