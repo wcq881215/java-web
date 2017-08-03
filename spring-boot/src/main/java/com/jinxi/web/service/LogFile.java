@@ -14,14 +14,14 @@ import java.util.Random;
 public class LogFile {
 
     private static Random random = new Random();
-    private static final SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS");
+    private static final SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss,SSS");
 
     public static void main(String[] args) throws IOException, InterruptedException {
         BufferedWriter br = new BufferedWriter(new FileWriter("D:\\share\\logstash\\run2.log"));
         boolean flag = true;
         int i =0;
         while (flag){
-            Thread.sleep(20);
+            Thread.sleep(200);
             br.write(creatInfo(i));
             br.flush();
             i++;
@@ -120,9 +120,9 @@ public class LogFile {
 
     static {
         urls.add("/ucenter/optional/shares/add");
-        urls.add("/csf/index/realtime/state");
         urls.add("/stock/realtime/state");
         urls.add("/hq/stock/time/share/daily");
+        urls.add("/csf/index/realtime/state");
         urls.add("/csf/index/capital/flows/ranking");
         urls.add("/csf/index/capital/flows/details");
         urls.add("/financeData/queryMarket");
