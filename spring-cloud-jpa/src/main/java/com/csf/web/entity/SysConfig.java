@@ -1,4 +1,4 @@
-package com.jinxi.web.entity;
+package com.csf.web.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -10,13 +10,20 @@ import java.io.Serializable;
 @Table(name = "sys_config")
 public class SysConfig implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column
     private String _key;
+    @Column
     private String name;
+    @Column
     private String value;
+    @Column
     private String comment;
+    @Column
     private Boolean state;
 
     public Long getId() {
