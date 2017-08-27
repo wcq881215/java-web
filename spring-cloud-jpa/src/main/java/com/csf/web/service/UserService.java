@@ -24,10 +24,12 @@ public class UserService {
     private SysConfigDao sysConfigDao;
 
 
+    //test
     public List<User> findAll() {
         return userDao.findAll();
     }
 
+    //test
     public List<User> findByName(String name,String pasword)
     {
         List<User> userList1 = userDao.findByUsername(name);
@@ -37,6 +39,12 @@ public class UserService {
         return userList1;
     }
 
+    public User login(String name,String pasword)
+    {
+        return userDao.findByUsernameAndPassword(name,pasword);
+    }
+
+    //test
     public void saveUser(SysConfig conf)
     {
         sysConfigDao.save(conf);
