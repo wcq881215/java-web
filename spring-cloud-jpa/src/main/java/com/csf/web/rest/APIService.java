@@ -1,8 +1,8 @@
 package com.csf.web.rest;
 
-import com.csf.web.JsonUtils;
 import com.csf.web.dto.APIStatus;
 import com.csf.web.dto.BaseDto;
+import com.csf.web.util.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;

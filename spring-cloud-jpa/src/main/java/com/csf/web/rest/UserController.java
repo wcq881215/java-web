@@ -25,21 +25,21 @@ public class UserController extends  APIService{
     }
 
     @RequestMapping("/query")
-    public List<User> query(String username,String password) {
-        return userService.findByName(username,password);
+    public User query(String username,String password) {
+        return userService.findByName(username);
     }
 
-    @RequestMapping("/save")
-    public String save() {
-        SysConfig conf = new SysConfig();
-        conf.setName("test");
-        conf.set_key("cfg_key");
-        conf.setComment("test");
-        conf.setState(true);
-        conf.setValue("-- val --");
-        userService.saveUser(conf);
-        System.out.println("================success============");
-        return "success";
-    }
+//    @RequestMapping("/save")
+//    public String save() {
+//        SysConfig conf = new SysConfig();
+//        conf.setName("test");
+//        conf.set_key("cfg_key");
+//        conf.setComment("test");
+//        conf.setState(true);
+//        conf.setValue("-- val --");
+//        userService.saveUser(conf);
+//        System.out.println("================success============");
+//        return "success";
+//    }
 
 }

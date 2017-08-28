@@ -16,26 +16,14 @@ import java.util.List;
 
 @Service
 @Transactional
-public class UserService {
+public class SysConfigService {
+
 
     @Autowired
-    private UserDao userDao;
+    private SysConfigDao sysConfigDao;
 
-    //test
-    public List<User> findAll() {
-        return userDao.findAll();
-    }
-
-    public User findByName(String name) {
-        return userDao.findByUsername(name);
-    }
-
-    public User login(String name, String pasword) {
-        return userDao.findByUsernameAndPassword(name, pasword);
-    }
-
-    public void saveUser(User user) {
-        userDao.save(user);
+    public void saveConfig(SysConfig conf) {
+        sysConfigDao.save(conf);
     }
 
 

@@ -17,6 +17,6 @@ public interface UserDao extends JpaRepository<User, Long> {
     @Query(value = "select * from app_user u where u.username=?1 and u.password=?2", nativeQuery = true)
     User findByUsernameAndPassword(String username,String password);
 
-    List<User> findByUsername(String username);
+    User findByUsername(String username);
 
 }
