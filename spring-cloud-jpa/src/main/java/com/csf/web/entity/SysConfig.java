@@ -7,7 +7,7 @@ import java.io.Serializable;
  * Created by changqi.wu on 17-7-30.
  */
 @Entity
-@Table(name = "sys_config")
+@Table(name = "sys_cfg_setting")
 public class SysConfig implements Serializable {
 
     private static final long serialVersionUID = 1L;
