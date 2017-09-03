@@ -16,11 +16,11 @@ public class Device {
 
     @Id
     private Long id;
-    @Id
+    @Column
     private String sn;
-    @Column
+    @Column(name = "_name")
     private String name;
-    @Column
+    @Column(name = "_desc")
     private String desc;
     @Column
     private String type;
