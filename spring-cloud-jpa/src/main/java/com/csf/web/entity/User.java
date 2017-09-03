@@ -23,9 +23,11 @@ public class User {
     @Column
     private String phone;
     @Column
-    private String department;
+    private String role;
     @Column
-    private String position;
+    private String device;
+    @Column
+    private String s_time;
     @Column
     private Boolean state;
 
@@ -62,20 +64,28 @@ public class User {
         this.phone = phone;
     }
 
-    public String getDepartment() {
-        return department;
+    public String getRole() {
+        return role;
     }
 
-    public void setDepartment(String department) {
-        this.department = department;
+    public void setRole(String role) {
+        this.role = role;
     }
 
-    public String getPosition() {
-        return position;
+    public String getDevice() {
+        return device;
     }
 
-    public void setPosition(String position) {
-        this.position = position;
+    public void setDevice(String device) {
+        this.device = device;
+    }
+
+    public String getS_time() {
+        return s_time;
+    }
+
+    public void setS_time(String s_time) {
+        this.s_time = s_time;
     }
 
     public Boolean getState() {

@@ -20,12 +20,17 @@ public class UserController extends  APIService{
     private UserService userService;
 
     @RequestMapping("/list")
-    public List<User> query() {
+    public List<User> list() {
         return userService.findAll();
     }
 
+    @RequestMapping("/login")
+    public User login(String username,String password) {
+        return userService.login(username,password);
+    }
+
     @RequestMapping("/query")
-    public User query(String username,String password) {
+    public User query(String username) {
         return userService.findByName(username);
     }
 
