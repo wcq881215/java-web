@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 /**
  * Created by changqi.wu on 17-8-27.
@@ -24,10 +26,10 @@ public class UserActionController extends APIService{
     private UserService userService;
 
     @RequestMapping("/login")
-    public String login(String username, String password) {
+    public String login(String username, String password) throws UnsupportedEncodingException {
         User user = userService.login(username, password);
         if(user == null){
-            return failure(APIStatus.un_check);
+            return resp(APIStatus.un_check);
         }
         HttpSession session = request.getSession();
         session.setAttribute(OAConstants.SESSION_USER,user);
@@ -37,7 +39,7 @@ public class UserActionController extends APIService{
         cookie = new Cookie(OAConstants.COOKIE_USER_PASSWORD,password);
         cookie.setMaxAge(30*24*3600);
         response.addCookie(cookie);
-        cookie = new Cookie(OAConstants.COOKIE_USER, JsonUtils.toJson(user));
+        cookie = new Cookie(OAConstants.COOKIE_USER, URLEncoder.encode(JsonUtils.toJson(user),"utf-8"));
         response.addCookie(cookie);
         cookie.setMaxAge(30*24*3600);
         response.addCookie(cookie);

@@ -9,7 +9,7 @@
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <link rel="stylesheet" href="css/amazeui.min.css"/>
     <link rel="stylesheet" href="css/style.css"/>
-    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery-1.10.2.js"></script>
     <script type="text/javascript" src="js/amazeui.min.js"></script>
 </head>
 <body style="background: rgb(50, 149, 251);">
@@ -47,18 +47,15 @@
             alert("请输入密码");
             return;
         }
-
-        $.ajax(
-
-            url:"/user/login",
-            type:"post",
-            dataType:"json",
-            param:{username:username,password:password},
-
-            success:function (data) {
-                alert('success' +data);
+        $.ajax({
+            type : "get",
+            url : "${pageContext.request.contextPath}/web/user/login",
+            dataType : 'json',
+            data : 'username='+username+"&password="+password,
+            success : function(json) {
+               location.href="${pageContext.request.contextPath}/page/home";
             }
-        );
+        });
     }
 </script>
 </html>

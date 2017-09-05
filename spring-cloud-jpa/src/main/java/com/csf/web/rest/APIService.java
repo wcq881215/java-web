@@ -26,7 +26,12 @@ public class APIService {
         return JsonUtils.toJson(dto);
     }
 
-    public String failure() {
+    public String resp(APIStatus status) {
+        BaseDto dto = BaseDto.newDto(status);
+        return JsonUtils.toJson(dto);
+    }
+
+    public static String failure() {
         BaseDto dto = BaseDto.newDto(APIStatus.failure);
         return JsonUtils.toJson(dto);
     }
