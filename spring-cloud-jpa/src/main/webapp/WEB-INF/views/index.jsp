@@ -18,7 +18,7 @@
     <div class="coupon-wrap">
         <img src="images/default_photo.png" alt="logo" class="logo">
 
-
+        <form enctype="multipart/form-data"></form>
         <div class="am-tabs-bd">
 
             <div class="am-tab-panel am-fade am-in am-active" id="tab1">

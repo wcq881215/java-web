@@ -21,6 +21,8 @@ public class User {
     @Column
     private String password;
     @Column
+    private String mobno;
+    @Column
     private String phone;
     @Column
     private String role;
@@ -94,5 +96,13 @@ public class User {
 
     public void setState(Boolean state) {
         this.state = state;
+    }
+
+    public String getMobno() {
+        return mobno;
+    }
+
+    public void setMobno(String mobno) {
+        this.mobno = mobno;
     }
 }

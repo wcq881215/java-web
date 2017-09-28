@@ -37,8 +37,8 @@ public class IndexController extends APIService{
         return "admin/".concat(page);
     }
 
-    @RequestMapping(value="/page/${scope}/{page}",method = {RequestMethod.GET,RequestMethod.POST})
-    public String userPage(@PathVariable String scope,@PathVariable String page) {
+    @RequestMapping(value="/page/{scope}/{page}",method = {RequestMethod.GET,RequestMethod.POST})
+    public String userPage(@PathVariable("scope") String scope,@PathVariable("page") String page) {
 
         StringBuffer sb = new StringBuffer();
         if (scope != null) {

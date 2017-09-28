@@ -21,6 +21,7 @@ public class ErrorFilter {
     @ResponseBody
     public String jsonErrorHandler(HttpServletRequest request, Exception e) throws Exception {
 //        return ResponseEntity.ok("ok");
+        e.printStackTrace();
         return APIService.failure();
     }
 
