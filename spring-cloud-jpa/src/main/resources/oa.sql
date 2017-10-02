@@ -49,15 +49,16 @@ CREATE TABLE app_device (
   id         INT AUTO_INCREMENT,
   sn   VARCHAR(30)  NOT NULL  COMMENT 'sn',
   _name   VARCHAR(32) NOT NULL  COMMENT '设备名称',
-  _desc        VARCHAR(15) NOT NULL  COMMENT '简介',
-  type   VARCHAR(15) NOT NULL  COMMENT '类别',
+  _desc        text NOT NULL  COMMENT '简介',
+  type   VARCHAR(30) NOT NULL  COMMENT '类别',
   number   INT COMMENT '数量',
   price DOUBLE (12,2) COMMENT '单价',
   state  BOOLEAN COMMENT '状态 0 不可用 1可用',
+  time TIMESTAMP COMMENT '发布时间'
   PRIMARY KEY (id)
 )ENGINE = InnoDB  DEFAULT CHARSET = utf8;
 
-INSERT  INTO  app_device (sn,_name,_desc,type,number,price,state) VALUES ('1111222333','机床螺丝','xxxxxx NB','螺丝',1000,0.1,1);
+INSERT  INTO  app_device (sn,_name,_desc,type,number,price,state,time) VALUES ('1111222333','机床螺丝','xxxxxx NB','螺丝',1000,0.1,1,now());
 
 
 DROP TABLE IF EXISTS app_device_img;

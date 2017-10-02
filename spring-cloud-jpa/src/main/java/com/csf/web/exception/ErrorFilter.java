@@ -1,6 +1,8 @@
 package com.csf.web.exception;
 
+import com.csf.web.dto.BaseDto;
 import com.csf.web.rest.APIService;
+import com.csf.web.util.JsonUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,24 +16,22 @@ import javax.servlet.http.HttpServletRequest;
  */
 @ControllerAdvice
 public class ErrorFilter {
-    public static final String DEFAULT_ERROR_VIEW = "error";
-
 
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
-    public String jsonErrorHandler(HttpServletRequest request, Exception e) throws Exception {
-//        return ResponseEntity.ok("ok");
+    public BaseDto jsonErrorHandler(HttpServletRequest request, Exception e) throws Exception {
         e.printStackTrace();
-        return APIService.failure();
+//        return JsonUtils.toJson(APIService.ajaxFailure());
+        return APIService.ajaxFailure();
     }
 
-//
+
 //    @ExceptionHandler(value = Exception.class)
 //    public ModelAndView htmlErrorHandler(HttpServletRequest request, Exception e) throws Exception {
 //        ModelAndView mav = new ModelAndView();
 //        mav.addObject("exception", e);
 //        mav.addObject("url", request.getRequestURL());
-//        mav.setViewName(DEFAULT_ERROR_VIEW);
+//        mav.setViewName(APIService.error_page);
 //        return mav;
 //    }
 }

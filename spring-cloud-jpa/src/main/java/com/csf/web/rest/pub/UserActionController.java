@@ -2,6 +2,7 @@ package com.csf.web.rest.pub;
 
 import com.csf.web.constants.OAConstants;
 import com.csf.web.dto.APIStatus;
+import com.csf.web.dto.BaseDto;
 import com.csf.web.entity.User;
 import com.csf.web.rest.APIService;
 import com.csf.web.service.UserService;
@@ -26,10 +27,10 @@ public class UserActionController extends APIService{
     private UserService userService;
 
     @RequestMapping("/login")
-    public String login(String username, String password) throws UnsupportedEncodingException {
+    public BaseDto login(String username, String password) throws UnsupportedEncodingException {
         User user = userService.login(username, password);
         if(user == null){
-            return resp(APIStatus.un_check);
+            return ajaxResp(APIStatus.un_check);
         }
         HttpSession session = request.getSession();
         session.setAttribute(OAConstants.SESSION_USER,user);
@@ -43,17 +44,17 @@ public class UserActionController extends APIService{
         response.addCookie(cookie);
         cookie.setMaxAge(30*24*3600);
         response.addCookie(cookie);
-        return success(user);
+        return ajaxSuccess(user);
     }
 
     @RequestMapping("/register")
-    public String register(User user) {
+    public BaseDto register(User user) {
         if(user == null){
-            return failure("-1","参数错误");
+            return ajaxFailure("-1","参数错误");
         }
         user = userService.findByName(user.getUsername());
         if(user != null){
-            return failure("-1","用户已存在");
+            return ajaxFailure("-1","用户已存在");
         }
 
         userService.saveUser(user);
@@ -70,7 +71,7 @@ public class UserActionController extends APIService{
         response.addCookie(cookie);
         cookie.setMaxAge(30*24*3600);
         response.addCookie(cookie);
-        return success(user);
+        return ajaxSuccess(user);
     }
 
 }

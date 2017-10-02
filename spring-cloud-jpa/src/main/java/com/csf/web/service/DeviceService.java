@@ -1,8 +1,14 @@
 package com.csf.web.service;
 
+import com.csf.web.entity.Device;
 import com.csf.web.entity.User;
+import com.csf.web.repository.DeviceDao;
 import com.csf.web.repository.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,23 +23,21 @@ import java.util.List;
 public class DeviceService {
 
     @Autowired
-    private UserDao userDao;
+    private DeviceDao deviceDao;
 
-    //test
-    public List<User> findAll() {
-        return userDao.findAll();
+    public Page<Device> findAll(Integer page, Integer pageSize) {
+        Sort sort = new Sort(Sort.Direction.DESC, "time");
+        Pageable pageable = new PageRequest(page, pageSize, sort);
+        return deviceDao.findAll(pageable);
     }
 
-    public User findByName(String name) {
-        return userDao.findByUsername(name);
+    public List<Device> findByNameLike(String name) {
+        return deviceDao.findByNameLike(name);
     }
 
-    public User login(String name, String pasword) {
-        return userDao.findByUsernameAndPassword(name, pasword);
-    }
 
-    public void saveUser(User user) {
-        userDao.save(user);
+    public void saveDevice(Device device) {
+        deviceDao.save(device);
     }
 
 

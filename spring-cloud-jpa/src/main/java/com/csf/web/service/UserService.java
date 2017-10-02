@@ -21,7 +21,6 @@ public class UserService {
     @Autowired
     private UserDao userDao;
 
-    //test
     public List<User> findAll() {
         return userDao.findAll();
     }

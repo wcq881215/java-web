@@ -1,9 +1,8 @@
 package com.csf.web.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by changqi.wu on 2017/8/8.
@@ -30,7 +29,19 @@ public class Device {
     private Double price;
     @Column
     private Boolean state;
+    @Column
+    private Date time;
 
+    @OneToMany(mappedBy="did")
+    private List<DeviceImg> imgs;
+
+    public List<DeviceImg> getImgs() {
+        return imgs;
+    }
+
+    public void setImgs(List<DeviceImg> imgs) {
+        this.imgs = imgs;
+    }
 
     public Long getId() {
         return id;
@@ -94,5 +105,13 @@ public class Device {
 
     public void setState(Boolean state) {
         this.state = state;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
     }
 }

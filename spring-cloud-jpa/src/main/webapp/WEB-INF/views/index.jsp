@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="css/amazeui.min.css"/>
     <link rel="stylesheet" href="css/style.css"/>
     <script type="text/javascript" src="js/jquery-1.10.2.js"></script>
-    <script type="text/javascript" src="js/amazeui.min.js"></script>
+
 </head>
 <body style="background: rgb(50, 149, 251);">
 
@@ -33,29 +33,37 @@
     <div class="receive-btn" onclick="receiveCoupon()" style="background: rgb(255, 255,255); color:#565656">登录</div>
     <div align="center" style="margin-top:2px;"><p style="color: #FFFFFF">新用户注册</p></div>
 
+
 </div>
 </body>
 <script type="text/javascript">
+
     function receiveCoupon() {
         var username = $('#username').val();
         var password = $('#password').val();
-        if(username == ''){
+        if (username == '') {
             alert("请输入用户名");
             return;
         }
-        if(password == ''){
+        if (password == '') {
             alert("请输入密码");
             return;
         }
         $.ajax({
-            type : "get",
-            url : "${pageContext.request.contextPath}/web/user/login",
-            dataType : 'json',
-            data : 'username='+username+"&password="+password,
-            success : function(json) {
-               location.href="${pageContext.request.contextPath}/page/home";
+            type: "get",
+            url: "${pageContext.request.contextPath}/web/user/login",
+            dataType: 'json',
+            data: 'username=' + username + "&password=" + password,
+            success: function (json) {
+                if (json.code != '200') {
+                    alert(json.msg);
+                    return;
+                }
+                location.href = "${pageContext.request.contextPath}/page/admin/home";
             }
         });
+
+
     }
 </script>
 </html>
