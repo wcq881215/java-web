@@ -14,15 +14,25 @@ CREATE TABLE sys_config (
 )ENGINE = InnoDB  DEFAULT CHARSET = utf8;
 
 INSERT INTO sys_config(_key,name,value,state,comment) VALUES ('cfg_app_name','系统名称','移动OA','1','系统名称');
+INSERT INTO sys_config(_key,name,value,state,comment) VALUES ('cfg_dept','管理员','管理员','1','部门分类');
+INSERT INTO sys_config(_key,name,value,state,comment) VALUES ('cfg_dept','技术员','技术员','1','部门分类');
+INSERT INTO sys_config(_key,name,value,state,comment) VALUES ('cfg_dept','内勤','内勤','1','部门分类');
+INSERT INTO sys_config(_key,name,value,state,comment) VALUES ('cfg_dept','售后服务','售后服务','1','部门分类');
+INSERT INTO sys_config(_key,name,value,state,comment) VALUES ('cfg_dept','生产部','生产部','1','部门分类');
+
+
 
 DROP TABLE IF EXISTS app_user;
 CREATE TABLE app_user (
   id         INT AUTO_INCREMENT,
   username   VARCHAR(15)  NOT NULL  COMMENT '用户名',
   password   VARCHAR(32) NOT NULL  COMMENT '密码',
+  name   VARCHAR(32) NOT NULL  COMMENT '姓名',
   mobno   VARCHAR(50) NOT NULL  COMMENT '手机识别号',
   phone        VARCHAR(15) NOT NULL  COMMENT '手机',
-  role   VARCHAR(15) NOT NULL  COMMENT '部门',
+  role   VARCHAR(15) NOT NULL  COMMENT '角色',
+  dept   VARCHAR(50) NOT NULL  COMMENT '部门',
+  team   VARCHAR(50) NOT NULL  COMMENT '科室',
   device   VARCHAR(100) COMMENT '购买设备号',
   s_time   DATE COMMENT '购买设备时间',
   state  BOOLEAN COMMENT '用户状态 0 不可用 1可用',
@@ -85,4 +95,71 @@ CREATE TABLE app_location (
 )ENGINE = InnoDB  DEFAULT CHARSET = utf8;
 
 INSERT  INTO  app_location(mid,longitude,latitude,time) VALUES('adfdf-fdfe-fdf-erer-efd',121.628719618,31.1963795,now());
+
+
+DROP TABLE IF EXISTS app_message;
+CREATE TABLE app_message (
+  id         INT AUTO_INCREMENT,
+  pid        INT  NOT NULL  COMMENT '发布人',
+  title      VARCHAR(100)    COMMENT '标题',
+  content    text   COMMENT '内容',
+  dept   VARCHAR (50)    COMMENT '部门',
+  team   VARCHAR (50)    COMMENT '科室',
+  uid    int  COMMENT '用户ID',
+  time   TIMESTAMP COMMENT '发布时间',
+  state  BOOLEAN COMMENT '状态 0 不可用 1可用',
+  PRIMARY KEY (id)
+)ENGINE = InnoDB  DEFAULT CHARSET = utf8;
+
+INSERT  INTO  app_message(pid,title,content,time,state) VALUES(1,'关于国庆放假通知','本公司严格按照国务院规定，今年（2017年）从10月1日起到10月8号，共八天假期！请相关部门负责人做好工作安排',now(),1);
+
+
+DROP TABLE IF EXISTS app_order;
+CREATE TABLE app_order (
+  id         INT AUTO_INCREMENT,
+  pid        INT  NOT NULL  COMMENT '发布人',
+  sn        INT  NOT NULL  COMMENT '设备编号',
+  device      VARCHAR(100)    COMMENT '设备名称',
+  type    VARCHAR(100)   COMMENT '型号',
+  number   int    COMMENT '数量',
+  price   double (12,2)    COMMENT '单价',
+  total    double (12,2)   COMMENT '总价',
+  remark    VARCHAR(100)   COMMENT '补充说明',
+  address    double (12,2)   COMMENT '送货地址',
+  stime    VARCHAR (20)   COMMENT '服务时间',
+  logistics    VARCHAR (20)   COMMENT '物流公司',
+  driver    VARCHAR (20)   COMMENT '物流司机',
+  logphone    VARCHAR (20)   COMMENT '司机联系电话',
+  time   TIMESTAMP COMMENT '发布时间',
+  state  CHAR (2) DEFAULT '1'  COMMENT '状态 0 无效 1 - 2 -3 -4 -5 ... -> over',
+  PRIMARY KEY (id)
+)ENGINE = InnoDB  DEFAULT CHARSET = utf8;
+
+DROP TABLE IF EXISTS app_order_notify;
+CREATE TABLE app_order_notify (
+  id         INT AUTO_INCREMENT,
+  order_id   INT COMMENT '工单ID',
+  title      VARCHAR(100)    COMMENT '标题',
+  content    text   COMMENT '内容',
+  dept   VARCHAR (50)    COMMENT '部门',
+  team   VARCHAR (50)    COMMENT '科室',
+  uid    int  COMMENT '用户ID',
+  time   TIMESTAMP COMMENT '发布时间',
+  state  VARCHAR (10) DEFAULT '0' COMMENT '状态 0等待处理 1处理中 2处理完毕',
+  PRIMARY KEY (id)
+)ENGINE = InnoDB  DEFAULT CHARSET = utf8;
+
+
+DROP TABLE IF EXISTS app_maintain;
+CREATE TABLE app_maintain (
+  id         INT AUTO_INCREMENT,
+  title      VARCHAR(100)    COMMENT '标题',
+  `desc`   VARCHAR (100)    COMMENT '简介',
+  content    text   COMMENT '内容',
+  time   TIMESTAMP COMMENT '发布时间',
+  state  tinyint DEFAULT 1 COMMENT '状态 0不可用 1可用',
+  PRIMARY KEY (id)
+)ENGINE = InnoDB  DEFAULT CHARSET = utf8;
+
+
 

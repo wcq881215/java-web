@@ -23,6 +23,7 @@ public class ResponseFilter  implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        logger.info("do response filter");
         HttpServletRequest request = (HttpServletRequest)servletRequest;
 
         filterChain.doFilter(servletRequest, servletResponse);

@@ -1,12 +1,19 @@
 package com.csf.web.rest;
 
+import com.csf.web.constants.OAConstants;
 import com.csf.web.dto.APIStatus;
 import com.csf.web.dto.BaseDto;
+import com.csf.web.entity.User;
+import com.csf.web.util.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 /**
@@ -84,7 +91,44 @@ public class APIService {
     }
 
 
-    /*****request  ****/
+    /*****request  end****/
+
+    /******** public method *******/
+
+    public void store(HttpSession session, HttpServletResponse response, User user, String role){
+        session(session,user,role);
+        cookie(response,user,role);
+    }
+
+    public void session(HttpSession session,User user, String role){
+        session.setAttribute(OAConstants.SESSION_USER,user);
+        session.setAttribute("role", role);
+    }
+
+    public void cookie(HttpServletResponse response, User user, String role){
+        Cookie cookie = new Cookie(OAConstants.COOKIE_USER_NAME,user.getUsername());
+        cookie.setMaxAge(30*24*3600);
+        response.addCookie(cookie);
+        cookie = new Cookie(OAConstants.COOKIE_USER_PASSWORD,user.getPassword());
+        cookie.setMaxAge(30*24*3600);
+        response.addCookie(cookie);
+
+        try {
+            cookie = new Cookie(OAConstants.COOKIE_USER, URLEncoder.encode(JsonUtils.toJson(user),"utf-8"));
+            response.addCookie(cookie);
+            cookie.setMaxAge(30*24*3600);
+            response.addCookie(cookie);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        cookie = new Cookie(OAConstants.COOKIE_USER_ROLE, role);
+        cookie.setMaxAge(30 * 24 * 3600);
+        response.addCookie(cookie);
+    }
+
+
+    /******** public method *******/
 
 
     public static final String error_page = "/error";

@@ -8,6 +8,8 @@ public class OAConstants {
 
     public static final String COOKIE_USER_NAME = "cookie_user_name";
 
+    public static final String COOKIE_USER_ROLE = "cookie_user_role";
+
     public static final String COOKIE_USER_PASSWORD = "scookie_user_pwd";
 
     public static final String COOKIE_USER_TYPE = "cookie_user_type";

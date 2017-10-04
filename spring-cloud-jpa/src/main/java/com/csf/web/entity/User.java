@@ -21,6 +21,8 @@ public class User {
     @Column
     private String password;
     @Column
+    private String name;
+    @Column
     private String mobno;
     @Column
     private String phone;
@@ -104,5 +106,13 @@ public class User {
 
     public void setMobno(String mobno) {
         this.mobno = mobno;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

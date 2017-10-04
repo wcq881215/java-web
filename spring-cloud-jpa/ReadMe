@@ -1,0 +1,11 @@
+
+#entiry date format
+@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+
+#close firewall (just only)
+systemctl stop firewalld.service
+
+#back by left <
+javascript:history.go(-1)
+
+

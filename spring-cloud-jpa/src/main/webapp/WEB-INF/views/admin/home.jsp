@@ -39,7 +39,7 @@
         </a>
     </li>
     <li>
-        <a href="search.html">
+        <a href="/web/device/more">
             <img src="/images/icon1.jpg"/>
             <p>最新产品</p>
         </a>
@@ -51,7 +51,7 @@
         </a>
     </li>
     <li>
-        <a href="yhq.html">
+        <a href="/web/maintain/more">
             <img src="/images/icon3.jpg"/>
             <p>常规设备保养技巧</p>
         </a>
@@ -61,49 +61,10 @@
 <div data-am-widget="titlebar" class="am-titlebar am-titlebar-default title">
     <h2 class="am-titlebar-title ">保养指南</h2>
     <nav class="am-titlebar-nav">
-        <a href="#more" class="">更多 &raquo;</a>
+        <a href="/web/maintain/more" class="">更多 &raquo;</a>
     </nav>
 </div>
-<div data-am-widget="intro" class="am-intro am-cf am-intro-default" style="margin-left:10px;">
-
-    <div class="am-g am-intro-bd">
-        <a href=" ">
-            <div class="am-intro-right am-u-sm-9">
-                <h2>专业石材的清洁与保养方法</h2>
-                <p>不同磨损的石材翻新养护方法：1、修补破损及中缝补胶（无缝处理）...</p>
-                <div class="text" style=" margin-right:20px;">
-                    <span class="fl">2017-5-23</span>
-                    <span style="float:right; margin-right:10px;">查看详情</span>
-                </div>
-            </div>
-        </a>
-    </div>
-
-    <div class="am-g am-intro-bd">
-        <a href=" ">
-            <div class="am-intro-right am-u-sm-9">
-                <h2>专业石材的清洁与保养方法</h2>
-                <p>不同磨损的石材翻新养护方法：1、修补破损及中缝补胶（无缝处理）...</p>
-                <div class="text" style=" margin-right:20px;">
-                    <span class="fl">2017-5-23</span>
-                    <span style="float:right; margin-right:10px;">查看详情</span>
-                </div>
-            </div>
-        </a>
-    </div>
-
-    <div class="am-g am-intro-bd">
-        <a href=" ">
-            <div class="am-intro-right am-u-sm-9">
-                <h2>专业石材的清洁与保养方法</h2>
-                <p>不同磨损的石材翻新养护方法：1、修补破损及中缝补胶（无缝处理）...</p>
-                <div class="text" style=" margin-right:20px;">
-                    <span class="fl">2017-5-23</span>
-                    <span style="float:right; margin-right:10px;">查看详情</span>
-                </div>
-            </div>
-        </a>
-    </div>
+<div data-am-widget="intro" id="maintain-gallery" class="am-intro am-cf am-intro-default" style="margin-left:10px;">
 
 
 </div>
@@ -122,43 +83,15 @@
 
 
 <div class="h50"></div>
-<div data-am-widget="navbar" class="am-navbar am-cf am-navbar-default footer " id="">
-    <ul class="am-navbar-nav am-cf am-avg-sm-4">
-        <li>
-            <a href="${sessionScope.role}/main" class="">
-                <span class=""><img src="/images/nav.png"/></span>
-                <span class="am-navbar-label" style="color:#43b3f4;">首页</span>
-            </a>
-        </li>
-        <li>
-            <a href="${sessionScope.role}/work" class="">
-                <span class=""><img src="/images/nav8.png"/></span>
-                <span class="am-navbar-label">工作</span>
-            </a>
-        </li>
-        <li>
-            <a href="${sessionScope.role}/message" class="">
-                <span class=""><img src="/images/nav2.png"/></span>
-                <span class="am-navbar-label">消息</span>
-            </a>
-        </li>
 
-        <li>
-            <a href="${sessionScope.role}/my" class="">
-                <span class=""><img src="/images/nav4.png"/></span>
-                <span class="am-navbar-label">我的</span>
-            </a>
-        </li>
-
-    </ul>
-</div>
-
+<%@include  file="../footer.jsp" %>
 
 </body>
 
 <script type="text/javascript">
-    init();
-    function init() {
+    initDevice();
+    initMaint();
+    function initDevice() {
         $.ajax({
             type: 'post',
             url: '/web/device/new',
@@ -167,6 +100,19 @@
             success: function (html) {
                 console.log(html);
                 $('#products-gallery').html(html);
+            }
+        });
+    }
+
+    function initMaint() {
+        $.ajax({
+            type: 'post',
+            url: '/web/maintain/new',
+            data: {},
+            dataType: 'html',
+            success: function (html) {
+                console.log(html);
+                $('#maintain-gallery').html(html);
             }
         });
     }

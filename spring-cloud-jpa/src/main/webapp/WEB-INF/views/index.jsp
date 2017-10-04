@@ -7,18 +7,18 @@
     <meta name="description" content="正大海工"/>
     <meta name="keywords" content="正大海工"/>
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <link rel="stylesheet" href="css/amazeui.min.css"/>
-    <link rel="stylesheet" href="css/style.css"/>
-    <script type="text/javascript" src="js/jquery-1.10.2.js"></script>
+    <link rel="stylesheet" href="/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <script type="text/javascript" src="/js/jquery-1.10.2.js"></script>
 
 </head>
 <body style="background: rgb(50, 149, 251);">
 
 <div class="page zShow" id="couponDetail" refresh="0" style="background: rgb(50, 149, 251); margin-top:120px;">
     <div class="coupon-wrap">
-        <img src="images/default_photo.png" alt="logo" class="logo">
+        <img src="/images/default_photo.png" alt="logo" class="logo">
 
-        <form enctype="multipart/form-data"></form>
+        <form id="userform" method="post" action="/user/login">
         <div class="am-tabs-bd">
 
             <div class="am-tab-panel am-fade am-in am-active" id="tab1">
@@ -27,6 +27,7 @@
                     <input type="password" name="password" id="password" placeholder="输入用户密码" class="tab-input"/></li>
             </div>
         </div>
+        </form>
     </div>
 
 
@@ -49,19 +50,21 @@
             alert("请输入密码");
             return;
         }
-        $.ajax({
-            type: "get",
-            url: "${pageContext.request.contextPath}/web/user/login",
-            dataType: 'json',
-            data: 'username=' + username + "&password=" + password,
-            success: function (json) {
-                if (json.code != '200') {
-                    alert(json.msg);
-                    return;
-                }
-                location.href = "${pageContext.request.contextPath}/page/admin/home";
-            }
-        });
+        $('#userform').submit();
+
+        <%--$.ajax({--%>
+            <%--type: "get",--%>
+            <%--url: "${pageContext.request.contextPath}/web/user/login",--%>
+            <%--dataType: 'json',--%>
+            <%--data: 'username=' + username + "&password=" + password,--%>
+            <%--success: function (json) {--%>
+                <%--if (json.code != '200') {--%>
+                    <%--alert(json.msg);--%>
+                    <%--return;--%>
+                <%--}--%>
+                <%--location.href = "${pageContext.request.contextPath}/page/admin/home";--%>
+            <%--}--%>
+        <%--});--%>
 
 
     }

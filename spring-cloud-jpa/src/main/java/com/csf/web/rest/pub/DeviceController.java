@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -34,22 +35,23 @@ public class DeviceController extends APIService {
     }
 
     @RequestMapping("/list")
-    public String listDevice(Integer page,Integer pageSize) {
-        if(page == null){
+    @ResponseBody
+    public BaseDto listDevice(Integer page, Integer pageSize) {
+        if (page == null) {
             page = 0;
         }
-        if(pageSize == null){
+        if (pageSize == null) {
             pageSize = 20;
         }
-        page(deviceService.findAll(page,pageSize));
-        return "device/ajaxHtml";
+        return BaseDto.newDto(deviceService.findAll(page, pageSize));
     }
+
 
     @RequestMapping("/detail/{id}")
-    public BaseDto detailDevice(@PathVariable("id") Integer id) {
-
-        return ajaxSuccess("");
+    public String detailDevice(@PathVariable("id") Long id) {
+        Device device = deviceService.findById(id);
+        attr("device", device);
+        return "/device/detail";
     }
-
 
 }

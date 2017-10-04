@@ -36,6 +36,11 @@ public class DeviceService {
     }
 
 
+    public Device findById(Long id) {
+        return deviceDao.findOne(id);
+    }
+
+
     public void saveDevice(Device device) {
         deviceDao.save(device);
     }

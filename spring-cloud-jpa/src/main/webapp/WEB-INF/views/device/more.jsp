@@ -11,6 +11,13 @@
     <link rel="stylesheet" href="/css/style.css"/>
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script type="text/javascript" src="/js/amazeui.min.js"></script>
+    <script type="text/javascript" src="/mobile/jquery.mobile-1.4.5.min.js"></script>
+    <style>
+        .ui-loader h1{
+            font-size: 12px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 
@@ -18,111 +25,91 @@
 <header data-am-widget="header" class="am-header am-header-default header"
         style="width:100%;position:fixed; z-index:1000;top:0;left:0;">
     <div class="am-header-left am-header-nav">
-        <a href="#left-link" class="">
+        <a href="javascript:history.go(-1)" class="">
             <i class="am-header-icon am-icon-angle-left"></i>
         </a>
     </div>
-    <h1 class="am-header-title"><a href="#title-link" class="" style="color: #333;">已完成工单列表</a></h1>
+    <h1 class="am-header-title"><a href="javascript:void(0)" class="" style="color: #333;">设备列表</a></h1>
     <div class="am-header-right am-header-nav">
         <a href="#right-link" class=""> </a>
     </div>
 </header>
 
+<div id="products-gallery" class="am-gallery am-avg-sm-2 am-avg-md-3 am-avg-lg-4 am-gallery-default product"
+     style="margin-top: 50px;background: #fafafa;width: 100%;text-align: center;">
 
-<div class="c-comment" style=" margin-top:70px;">
-    <span class="c-comment-num">订单编号：13422101114</span>
 
 </div>
-<div class="c-comment-list" style="border: 0;">
-    <a class="o-con" href="">
-
-        <div class="o-con-txt">
-            <p>一体式红外线桥式全自动切割机
-                ZDH-500</p>
-
-        </div>
-
-
-    </a>
-    <div class="c-com-btn" style="margin-top:10px;">
-        <a href=" ">总结解决方案</a>
-
-    </div>
-
-</div>
-<div class="clear"></div>
-
-<div class="c-comment">
-    <span class="c-comment-num">订单编号：13422101114</span>
-
-</div>
-<div class="c-comment-list" style="border: 0;">
-    <a class="o-con" href="">
-
-        <div class="o-con-txt">
-            <p>一体式红外线桥式全自动切割机
-                ZDH-500</p>
-
-        </div>
-
-
-    </a>
-    <div class="c-com-btn" style="margin-top:10px;">
-        <a href=" ">总结解决方案</a>
-
-    </div>
-
-</div>
-<div class="clear"></div>
-
-
-<div class="c-comment">
-    <span class="c-comment-num">订单编号：13422101114</span>
-
-</div>
-<div class="c-comment-list" style="border: 0;">
-    <a class="o-con" href="">
-
-        <div class="o-con-txt">
-            <p>一体式红外线桥式全自动切割机
-                ZDH-500</p>
-
-        </div>
-
-
-    </a>
-    <div class="c-com-btn" style="margin-top:10px;">
-        <a href=" ">总结解决方案</a>
-
-    </div>
-
-</div>
-<div class="clear"></div>
-
-
-<div class="c-comment">
-    <span class="c-comment-num">订单编号：13422101114</span>
-
-</div>
-<div class="c-comment-list" style="border: 0;">
-    <a class="o-con" href="">
-
-        <div class="o-con-txt">
-            <p>一体式红外线桥式全自动切割机
-                ZDH-500</p>
-
-        </div>
-
-
-    </a>
-    <div class="c-com-btn" style="margin-top:10px;">
-        <a href=" ">总结解决方案</a>
-
-    </div>
-
-</div>
-<div class="clear"></div>
 
 
 </body>
+
+
+<script type="text/javascript">
+
+    var page = 0;
+    var pageSize = 4;
+    var ajaxFlag = true;
+
+    init();
+
+    $(document).on("scrollstart", function () {
+        init();
+    });
+
+    function init() {
+        if(!ajaxFlag){
+            return;
+        }
+        $.ajax({
+            type: 'post',
+            url: '/web/device/list',
+            data: {
+                page: page,
+                pageSize: pageSize
+            },
+            dataType: 'json',
+            success: function (json) {
+                console.log(json);
+                var htm = createHtmlNoData();
+                if (json.obj.numberOfElements > 0) {
+                    page++;
+                    htm = createHtml(json);
+                    $('.ui-loader').hide();
+                }else{
+                    ajaxFlag = false;
+                }
+                $('#products-gallery').append(htm);
+            }
+        });
+    }
+
+    function createHtmlNoData() {
+        return "<div>没有数据了</div>";
+    }
+
+    function createHtml(json) {
+        var html = "<ul data-am-widget='gallery' id='products-gallery' class='am-gallery am-avg-sm-2 am-avg-md-3 am-avg-lg-4 am-gallery-default product am-no-layout'>";
+        var array = json.obj.content;
+        for (var i in array) {
+            var data = array[i];
+            html += "<li>";
+            html += "<div class='am-gallery-item'>";
+            html += "<a href='/web/device/detail/" + data.id + "' class=''>";
+            html += "<img src='" + data.imgs[0].src + "' alt='" + data.name + "'/>";
+            html += "<h3 class='am-gallery-title'>" + data.name + "</h3>";
+            html += "<div class='am-gallery-desc'>";
+            html += "<em>查看详情</em>";
+            html += "</div>";
+            html += "</a>";
+            html += "</div>";
+            html += "</li>";
+        }
+        html += "</ul>";
+        return html;
+    }
+
+
+</script>
+
 </html>

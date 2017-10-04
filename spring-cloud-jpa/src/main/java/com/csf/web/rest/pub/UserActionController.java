@@ -1,27 +1,25 @@
 package com.csf.web.rest.pub;
 
-import com.csf.web.constants.OAConstants;
 import com.csf.web.dto.APIStatus;
 import com.csf.web.dto.BaseDto;
 import com.csf.web.entity.User;
+import com.csf.web.entity.UserRole;
 import com.csf.web.rest.APIService;
 import com.csf.web.service.UserService;
-import com.csf.web.util.JsonUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 /**
  * Created by changqi.wu on 17-8-27.
  */
 @RestController
 @RequestMapping("/web/user")
-public class UserActionController extends APIService{
+public class UserActionController extends APIService {
 
     @Autowired
     private UserService userService;
@@ -29,48 +27,60 @@ public class UserActionController extends APIService{
     @RequestMapping("/login")
     public BaseDto login(String username, String password) throws UnsupportedEncodingException {
         User user = userService.login(username, password);
-        if(user == null){
+        if (user == null) {
             return ajaxResp(APIStatus.un_check);
         }
+        String role = UserRole.getRole(user.getRole()); //获取role
         HttpSession session = request.getSession();
-        session.setAttribute(OAConstants.SESSION_USER,user);
-        Cookie cookie = new Cookie(OAConstants.COOKIE_USER_NAME,username);
-        cookie.setMaxAge(30*24*3600);
-        response.addCookie(cookie);
-        cookie = new Cookie(OAConstants.COOKIE_USER_PASSWORD,password);
-        cookie.setMaxAge(30*24*3600);
-        response.addCookie(cookie);
-        cookie = new Cookie(OAConstants.COOKIE_USER, URLEncoder.encode(JsonUtils.toJson(user),"utf-8"));
-        response.addCookie(cookie);
-        cookie.setMaxAge(30*24*3600);
-        response.addCookie(cookie);
+
+        store(session, response, user, role);
+
+        /****存cookie end***/
+
         return ajaxSuccess(user);
     }
 
     @RequestMapping("/register")
     public BaseDto register(User user) {
-        if(user == null){
-            return ajaxFailure("-1","参数错误");
+        if (user == null) {
+            return ajaxFailure("-1", "参数错误");
         }
         user = userService.findByName(user.getUsername());
-        if(user != null){
-            return ajaxFailure("-1","用户已存在");
+        if (user != null) {
+            return ajaxFailure("-1", "用户已存在");
+        }
+        userService.saveUser(user);
+
+        store(request.getSession(), response, user, UserRole.CUSTOMER.getRole());
+        return ajaxSuccess(user);
+    }
+
+    @RequestMapping("/update")
+    public BaseDto update(Long id, String name, String password, String phone) {
+        if (id == null) {
+            return ajaxFailure("-1", "参数错误");
+        }
+        User user = userService.findById(id);
+        if (user == null) {
+            return ajaxFailure("-1", "用户不存在");
+        }
+
+        if (StringUtils.isNotBlank(name)) {
+            user.setName(name);
+        }
+        if (StringUtils.isNotBlank(password)) {
+            user.setPassword(password);
+        }
+        if (StringUtils.isNotBlank(phone)) {
+            user.setPhone(phone);
         }
 
         userService.saveUser(user);
 
-        HttpSession session = request.getSession();
-        session.setAttribute(OAConstants.SESSION_USER,user);
-        Cookie cookie = new Cookie(OAConstants.COOKIE_USER_NAME,user.getUsername());
-        cookie.setMaxAge(30*24*3600);
-        response.addCookie(cookie);
-        cookie = new Cookie(OAConstants.COOKIE_USER_PASSWORD,user.getPassword());
-        cookie.setMaxAge(30*24*3600);
-        response.addCookie(cookie);
-        cookie = new Cookie(OAConstants.COOKIE_USER, JsonUtils.toJson(user));
-        response.addCookie(cookie);
-        cookie.setMaxAge(30*24*3600);
-        response.addCookie(cookie);
+        String role = UserRole.getRole(user.getRole()); //获取role
+
+        store(request.getSession(), response, user, role);
+
         return ajaxSuccess(user);
     }
 

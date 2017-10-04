@@ -3,7 +3,7 @@
 <c:forEach var="data" items="${dataList}">
     <li>
         <div class="am-gallery-item">
-            <a href="/device/detail.html?id=${data.id}" class="">
+            <a href="/web/device/detail/${data.id}" class="">
                 <img src="${data.imgs[0].src}" alt="${data.name}"/>
                 <h3 class="am-gallery-title">${data.name}</h3>
                 <div class="am-gallery-desc">

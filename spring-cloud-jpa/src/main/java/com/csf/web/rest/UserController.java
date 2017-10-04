@@ -36,36 +36,20 @@ public class UserController extends APIService {
     private LocationService locationService;
 
     @RequestMapping("/login")
-    public String  login(String username, String password) {
+    public String login(String username, String password) {
         User user = userService.login(username, password);
-        if(user == null){
+        if (user == null) {
             return webResp(APIStatus.un_check);
         }
+
+        String role = UserRole.getRole(user.getRole()); //获取role
         //存session
         HttpSession session = request.getSession();
-        session.setAttribute(OAConstants.SESSION_USER,user);
-        /***存cookie**/
-        Cookie cookie = new Cookie(OAConstants.COOKIE_USER_NAME,username);
-        cookie.setMaxAge(30*24*3600);
-        response.addCookie(cookie);
-        cookie = new Cookie(OAConstants.COOKIE_USER_PASSWORD,password);
-        cookie.setMaxAge(30*24*3600);
-        response.addCookie(cookie);
-        cookie = new Cookie(OAConstants.COOKIE_USER_TYPE,user.getRole());
-        cookie.setMaxAge(30*24*3600);
-        response.addCookie(cookie);
-        try {
-            cookie = new Cookie(OAConstants.COOKIE_USER, URLEncoder.encode(JsonUtils.toJson(user),"utf-8"));
-            response.addCookie(cookie);
-            cookie.setMaxAge(30*24*3600);
-            response.addCookie(cookie);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        /****存cookie end***/
-        String role = UserRole.getRole(user.getRole()); //跳转到相应角色页面
-        session.setAttribute("role",role);
-        return "forward:/"+role+"/home";
+
+        store(session,response,user,role);
+        /****存session,cookie end***/
+
+        return "forward:/" + role + "/home";//跳转到相应角色页面
     }
 
     @RequestMapping("/query")
@@ -73,9 +57,9 @@ public class UserController extends APIService {
         return BaseDto.newDto(userService.findByName(username));
     }
 
-//    @RequestMapping(value = "/location/post",method = RequestMethod.POST)
+    //    @RequestMapping(value = "/location/post",method = RequestMethod.POST)
     @RequestMapping(value = "/location/post")
-    public BaseDto postLocation(String mid,Double longitude,Double latitude) {
+    public BaseDto postLocation(String mid, Double longitude, Double latitude) {
         Location location = new Location();
         location.setLatitude(latitude);
         location.setLongitude(longitude);
@@ -89,6 +73,15 @@ public class UserController extends APIService {
         User u = new User();
         u.setMobno(mid);
         return BaseDto.newDto(locationService.getUserLocation(u));
+    }
+
+    @RequestMapping("/exit")
+    public String queryLocation() {
+        HttpSession session = request.getSession();
+        if (session != null) {
+            session.invalidate();
+        }
+        return "/index";
     }
 
 //    @RequestMapping("/save")

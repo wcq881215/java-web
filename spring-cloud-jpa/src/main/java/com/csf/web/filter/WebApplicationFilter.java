@@ -16,6 +16,7 @@ public class WebApplicationFilter extends WebMvcConfigurerAdapter {
         // addPathPatterns 用于添加拦截规则
         // excludePathPatterns 用户排除拦截
         registry.addInterceptor(new MyFilter()).addPathPatterns("/**");
+        registry.addInterceptor(new EncodingFilter()).addPathPatterns("/**");
         super.addInterceptors(registry);
     }
 }

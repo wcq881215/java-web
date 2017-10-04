@@ -4,6 +4,7 @@ li, dl, dt, dd, form, a, fieldset, input, th, td,i
 html{ height: 100%;}
 body{ font-family: "微软雅黑"; font-size:1.6rem; height: 100%; background: #fafafa;}
 ul, ol{list-style: none;}
+.hide{display: none !important;}
 a{color: black;text-decoration: none;}
 a:hover{text-decoration: none;}
 img{max-width: 100%; width: auto; height: auto; vertical-align: top; border: 0;}

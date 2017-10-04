@@ -28,7 +28,12 @@
         history.go(-1);
     }
 
-    $.DialogByZ.Alert({Title: "提示", Content: "${message}", BtnL: "确定", FunL: back});
+    var message = "${message}";
+    if(message == ''){
+        message = "操作有误";
+    }
+
+    $.DialogByZ.Alert({Title: "提示", Content: message, BtnL: "确定", FunL: back});
 
 </script>
 
