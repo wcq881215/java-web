@@ -129,7 +129,7 @@ CREATE TABLE app_order (
   stime    VARCHAR (20)   COMMENT '服务时间',
   logistics    VARCHAR (20)   COMMENT '物流公司',
   driver    VARCHAR (20)   COMMENT '物流司机',
-  logphone    VARCHAR (20)   COMMENT '司机联系电话',
+  logphone    VARCHAR (20)   COMMENT '司机联系电话',+
   time   TIMESTAMP COMMENT '发布时间',
   state  CHAR (2) DEFAULT '1'  COMMENT '状态 0 无效 1 - 2 -3 -4 -5 ... -> over',
   PRIMARY KEY (id)

@@ -11,9 +11,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class TechnicianController extends APIService{
 
     @RequestMapping("/home")
-    public String home(){
-        return "";
+    public String home() {
+        return "/technician/home";
     }
+
+    @RequestMapping("/work")
+    public String work() {
+        return "/technician/work";
+    }
+
+    @RequestMapping("/message")
+    public String message() {
+        return "/technician/message";
+    }
+
+    @RequestMapping("/my")
+    public String my() {
+        return "/technician/my";
+    }
+
+
 
 
 }
