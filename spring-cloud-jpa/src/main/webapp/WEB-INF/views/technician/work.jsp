@@ -46,7 +46,7 @@
     <li>
         <a href="/technician/upload.html">
             <img src="/images/fw.png"/>
-            <p>上传解决方案</p>
+            <p>上传技术方案</p>
         </a>
     </li>
 

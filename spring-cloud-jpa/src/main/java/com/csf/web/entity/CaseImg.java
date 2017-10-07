@@ -1,14 +1,15 @@
 package com.csf.web.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by changqi.wu on 2017/8/8.
  */
 @Entity
-@Table(name = "app_device_img")
-public class DeviceImg {
+@Table(name = "app_case_img")
+public class CaseImg implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -16,9 +17,11 @@ public class DeviceImg {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column
-    private Long did;
+    private Long cid;
     @Column
     private String src;
+    @Column
+    private String path;
     @Column
     private String alt;
     @Column
@@ -35,12 +38,12 @@ public class DeviceImg {
         this.id = id;
     }
 
-    public Long getDid() {
-        return did;
+    public Long getCid() {
+        return cid;
     }
 
-    public void setDid(Long did) {
-        this.did = did;
+    public void setCid(Long cid) {
+        this.cid = cid;
     }
 
     public String getSrc() {
@@ -73,5 +76,13 @@ public class DeviceImg {
 
     public void setState(Boolean state) {
         this.state = state;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }

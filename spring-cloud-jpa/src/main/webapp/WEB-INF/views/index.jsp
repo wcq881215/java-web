@@ -1,4 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%
+    String idfa = request.getParameter("device");
+    System.out.println("===================reqeust from mobile device :: " + idfa);
+
+    idfa = request.getHeader("device");
+    System.out.println("===================reqeust header from mobile device :: " + idfa);
+%>
+
+
 <!DOCTYPE html>
 <html>
 <head>

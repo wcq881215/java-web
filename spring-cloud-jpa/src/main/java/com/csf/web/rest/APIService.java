@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -130,6 +131,14 @@ public class APIService {
 
     /******** public method *******/
 
+    protected StringBuffer getServer(HttpServletRequest request) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(request.getScheme()).append("://").append(request.getServerName()).append(":").append(request.getServerPort()).append(request.getContextPath());
+        return sb;
+    }
+
+    protected static final SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+    protected static final SimpleDateFormat dsf = new SimpleDateFormat("yyyyMMdd");
 
     public static final String error_page = "/error";
 

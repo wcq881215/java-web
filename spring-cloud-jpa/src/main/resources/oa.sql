@@ -61,14 +61,14 @@ CREATE TABLE app_device (
   _name   VARCHAR(32) NOT NULL  COMMENT '设备名称',
   _desc        text NOT NULL  COMMENT '简介',
   type   VARCHAR(30) NOT NULL  COMMENT '类别',
-  number   INT COMMENT '数量',
+  `number`   INT COMMENT '数量',
   price DOUBLE (12,2) COMMENT '单价',
   state  BOOLEAN COMMENT '状态 0 不可用 1可用',
-  time TIMESTAMP COMMENT '发布时间'
+  time TIMESTAMP COMMENT '发布时间',
   PRIMARY KEY (id)
 )ENGINE = InnoDB  DEFAULT CHARSET = utf8;
 
-INSERT  INTO  app_device (sn,_name,_desc,type,number,price,state,time) VALUES ('1111222333','机床螺丝','xxxxxx NB','螺丝',1000,0.1,1,now());
+INSERT  INTO  app_device (sn,_name,_desc,type,`number`,price,state,time) VALUES ('1111222333','机床螺丝','xxxxxx NB','螺丝',1000,0.1,1,now());
 
 
 DROP TABLE IF EXISTS app_device_img;
@@ -121,7 +121,7 @@ CREATE TABLE app_order (
   sn        INT  NOT NULL  COMMENT '设备编号',
   device      VARCHAR(100)    COMMENT '设备名称',
   type    VARCHAR(100)   COMMENT '型号',
-  number   int    COMMENT '数量',
+  `number`   int    COMMENT '数量',
   price   double (12,2)    COMMENT '单价',
   total    double (12,2)   COMMENT '总价',
   remark    VARCHAR(100)   COMMENT '补充说明',
@@ -162,4 +162,24 @@ CREATE TABLE app_maintain (
 )ENGINE = InnoDB  DEFAULT CHARSET = utf8;
 
 
+DROP TABLE IF EXISTS app_case;
+CREATE TABLE app_case (
+  id         INT AUTO_INCREMENT,
+  title      VARCHAR(100)    COMMENT '标题',
+  content    text   COMMENT '内容',
+  time   TIMESTAMP COMMENT '发布时间',
+  state  tinyint DEFAULT 1 COMMENT '状态 0不可用 1可用',
+  PRIMARY KEY (id)
+)ENGINE = InnoDB  DEFAULT CHARSET = utf8;
 
+DROP TABLE IF EXISTS app_case_img;
+CREATE TABLE app_case_img (
+  id         INT AUTO_INCREMENT,
+  cid   INT (30)  NOT NULL  COMMENT 'case id',
+  src   VARCHAR(50) NOT NULL  COMMENT '图片url',
+  path   VARCHAR(50) NOT NULL  COMMENT '图片路径',
+  alt        VARCHAR(50)   COMMENT 'alt 原始文件名称',
+  upload   DATE COMMENT '上传时间',
+  state  BOOLEAN COMMENT '状态 0 不可用 1可用',
+  PRIMARY KEY (id)
+)ENGINE = InnoDB  DEFAULT CHARSET = utf8;

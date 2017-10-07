@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.Cookie;
@@ -53,12 +54,13 @@ public class UserController extends APIService {
     }
 
     @RequestMapping("/query")
+    @ResponseBody
     public BaseDto query(String username) {
         return BaseDto.newDto(userService.findByName(username));
     }
 
-    //    @RequestMapping(value = "/location/post",method = RequestMethod.POST)
     @RequestMapping(value = "/location/post")
+    @ResponseBody
     public BaseDto postLocation(String mid, Double longitude, Double latitude) {
         Location location = new Location();
         location.setLatitude(latitude);
@@ -69,6 +71,7 @@ public class UserController extends APIService {
     }
 
     @RequestMapping("/location/query")
+    @ResponseBody
     public BaseDto queryLocation(String mid) {
         User u = new User();
         u.setMobno(mid);

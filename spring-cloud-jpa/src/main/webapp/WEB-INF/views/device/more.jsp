@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="/css/amazeui.min.css"/>
     <link rel="stylesheet" href="/css/style.css"/>
     <script type="text/javascript" src="/js/jquery.min.js"></script>
-    <script type="text/javascript" src="/js/amazeui.min.js"></script>
     <script type="text/javascript" src="/mobile/jquery.mobile-1.4.5.min.js"></script>
     <style>
         .ui-loader h1{
@@ -89,13 +88,13 @@
     }
 
     function createHtml(json) {
-        var html = "<ul data-am-widget='gallery' id='products-gallery' class='am-gallery am-avg-sm-2 am-avg-md-3 am-avg-lg-4 am-gallery-default product am-no-layout'>";
+        var html = "<ul id='products-gallery' class='am-gallery am-avg-sm-2 am-avg-md-3 am-avg-lg-4 am-gallery-default product am-no-layout'>";
         var array = json.obj.content;
         for (var i in array) {
             var data = array[i];
             html += "<li>";
             html += "<div class='am-gallery-item'>";
-            html += "<a href='/web/device/detail/" + data.id + "' class=''>";
+            html += "<a  target='_top' href='/web/device/detail/" + data.id + "' class=''>";
             html += "<img src='" + data.imgs[0].src + "' alt='" + data.name + "'/>";
             html += "<h3 class='am-gallery-title'>" + data.name + "</h3>";
             html += "<div class='am-gallery-desc'>";

@@ -1,17 +1,16 @@
 package com.csf.web.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
- * Created by changqi.wu on 17-10-5.
+ * Created by changqi.wu on 2017/8/8.
  */
-
 @Entity
-@Table(name = "app_maintain")
-public class Maintenance {
+@Table(name = "app_case")
+public class Case implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -21,14 +20,14 @@ public class Maintenance {
     @Column
     private String title;
     @Column
-    private String desc;
-    @Column
     private String content;
     @Column
     private Boolean state;
     @Column
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date time;
+
+    @OneToMany(mappedBy = "cid")
+    private List<CaseImg> imgs;
 
     public Long getId() {
         return id;
@@ -44,14 +43,6 @@ public class Maintenance {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getDesc() {
-        return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
     }
 
     public String getContent() {
@@ -76,5 +67,13 @@ public class Maintenance {
 
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    public List<CaseImg> getImgs() {
+        return imgs;
+    }
+
+    public void setImgs(List<CaseImg> imgs) {
+        this.imgs = imgs;
     }
 }

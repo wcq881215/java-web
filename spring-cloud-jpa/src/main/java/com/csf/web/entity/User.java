@@ -1,9 +1,6 @@
 package com.csf.web.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created by changqi.wu on 2017/8/8.
@@ -15,6 +12,7 @@ public class User {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column
     private String username;
