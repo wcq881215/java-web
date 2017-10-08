@@ -10,6 +10,7 @@ import com.csf.web.entity.UserRole;
 import com.csf.web.service.LocationService;
 import com.csf.web.service.UserService;
 import com.csf.web.util.JsonUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,7 +48,7 @@ public class UserController extends APIService {
         //存session
         HttpSession session = request.getSession();
 
-        store(session,response,user,role);
+        store(session, response, user, role);
         /****存session,cookie end***/
 
         return "forward:/" + role + "/home";//跳转到相应角色页面
@@ -67,6 +68,21 @@ public class UserController extends APIService {
         location.setLongitude(longitude);
         location.setMid(mid);
         locationService.saveUserLocation(location);
+        return BaseDto.newDto(APIStatus.success);
+    }
+
+    @RequestMapping(value = "/device/post")
+    @ResponseBody
+    public BaseDto postDevice(String mid, Long uid) {
+        if (StringUtils.isBlank(mid) || uid == null) {
+            return BaseDto.newDto(APIStatus.param_error);
+        }
+        User user = userService.findById(uid);
+        if (user == null) {
+            return BaseDto.newDto(APIStatus.param_error);
+        }
+        user.setMobno(mid);
+        userService.saveUser(user);
         return BaseDto.newDto(APIStatus.success);
     }
 

@@ -6,7 +6,8 @@ package com.csf.web.dto;
 public enum APIStatus {
     success("200", "success"),
     un_check("-1", "用户或密码错误"),
-    failure("500", "service unavailable");
+    failure("500", "service unavailable"),
+    param_error("400", "参数错误");
 
     private String code;
     private String msg;

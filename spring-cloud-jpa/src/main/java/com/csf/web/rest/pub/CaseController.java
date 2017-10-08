@@ -4,11 +4,15 @@ import com.csf.web.dto.APIStatus;
 import com.csf.web.dto.BaseDto;
 import com.csf.web.entity.Case;
 import com.csf.web.entity.CaseImg;
+import com.csf.web.entity.Device;
 import com.csf.web.entity.Image;
 import com.csf.web.service.CaseService;
+import com.csf.web.util.DateUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -48,18 +52,64 @@ public class CaseController extends FileUploadService {
         if (cid == null) {
             return BaseDto.newDto(APIStatus.failure);
         }
-        System.out.println(type + "  -- " + cid + "  -- " + img);
-        Image image = saveImage(img, type, request);
-        CaseImg im = new CaseImg();
-        im.setUpload(image.getTime());
-        im.setState(true);
-        im.setSrc(image.getUrl());
-        im.setCid(cid);
-        im.setAlt(alt);
-        im.setPath(image.getPath());
-        caseService.saveCaseImg(im);
+        if (StringUtils.isBlank(img)) {
+            return BaseDto.newDto("");
+        }
+        String imgs[] = img.split("##@##");
+        String types[] = type.split("##@##");
+        String alts[] = alt.split("##@##");
+        for (int i = 0; i < imgs.length; i++) {
+            String imag = imgs[i];
+            Image image = saveImage(imag, types[i], request);
+            CaseImg im = new CaseImg();
+            im.setUpload(image.getTime());
+            im.setState(true);
+            im.setSrc(image.getUrl());
+            im.setCid(cid);
+            im.setAlt(alts[i]);
+            im.setPath(image.getPath());
+            caseService.saveCaseImg(im);
+        }
+
 
         return BaseDto.newDto("");
+    }
+
+    @RequestMapping("/list")
+    @ResponseBody
+    public BaseDto listDevice(Integer page, Integer pageSize, String key, String period, String type, String sort) {
+        if (page == null) {
+            page = 0;
+        }
+        if (pageSize == null) {
+            pageSize = 20;
+        }
+        Date start = null;
+        if (StringUtils.isNotBlank(period)) {
+            if ("week".equals(period)) { //一周
+                start = DateUtils.getLastDay(-7);
+            } else if ("three".equals(period)) {//三个月
+                start = DateUtils.getDateByMongth(-3);
+            } else if ("half".equals(period)) {//半年
+                start = DateUtils.getDateByMongth(-6);
+            } else if ("year".equals(period)) {//一年
+                start = DateUtils.getDateByMongth(-12);
+            }
+        }
+
+        if (StringUtils.isBlank(sort)) {
+            sort = "time";
+        }
+
+        return BaseDto.newDto(caseService.search(page, pageSize, key, start, type, sort));
+    }
+
+
+    @RequestMapping("/detail/{id}")
+    public String detailDevice(@PathVariable("id") Long id) {
+        Case _case = caseService.findById(id);
+        attr("data", _case);
+        return "/technician/detail";
     }
 
     @RequestMapping("/ssi")

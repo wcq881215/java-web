@@ -15,8 +15,30 @@
     <link rel="stylesheet" href="/css/style.css"/>
     <link rel="stylesheet" href="/css/ssi-uploader.min.css"/>
     <style type="text/css">
-        #ssi-uploadBtn {
 
+        .file {
+            position: relative;
+            display: inline-block;
+            border-radius: 4px;
+            padding: 0px;
+            overflow: hidden;
+            color: #1E88C7;
+            text-decoration: none;
+            text-indent: 0;
+            line-height: 20px;
+        }
+
+        .file input {
+            position: absolute;
+            font-size: 100px;
+            right: 0;
+            top: 0;
+            opacity: 0;
+        }
+
+        .img-space img {
+            width: 80px;
+            height: 80px;
         }
 
     </style>
@@ -26,7 +48,7 @@
 <header data-am-widget="header" class="am-header am-header-default header"
         style="width:100%;position:fixed; z-index:1000;top:0;left:0;">
     <div class="am-header-left am-header-nav">
-        <a href="#left-link" class="">
+        <a href="javascript:history.go(-1)" class="">
             <i class="am-header-icon am-icon-angle-left"></i>
         </a>
     </div>
@@ -44,12 +66,18 @@
             <textarea placeholder="填写设备的故障与解决方案 " id="content" name="content" class="tab-input"
                       style="height:300px;"></textarea>
 
-            <input type="file" class="span6" id="tick_img" multiple
-                   name="tick_img" placeholder="上传图片"/>
+
+            <div class="img-space"
+                 style=" background:#f2f2f2; border-color:#939393; height:auto; width:100%; margin-bottom:20px;z-index:-1000">
+                <a href="javascript:void(0)" class="file">
+                    <input type="file" name="file" id="select_file">
+                    <img src="/images/img.png" onclick="">
+                </a>
+
+            </div>
 
             <br><br>
             <button type="button" onclick="addCase()" class="tab-btn">确认</button>
-
 
         </div>
 
@@ -60,26 +88,28 @@
 <script type="text/javascript" src="/js/jquery.min.js"></script>
 <script type="text/javascript" src="/js/amazeui.min.js"></script>
 <script type="text/javascript" src="/js/ssi-uploader.min.js"></script>
+
 <script type="text/javascript">
 
-    var caseid = "<%=uuid%>";
-
-    $(document).ready(function () {
-         $('#tick_img').ssi_uploader({
-            url: '/web/case/image',
-            data: {
-                id: caseid
-            },
-            preview: true,
-            maxNumberOfFiles: 10,
-            allowed: ['jpg', 'gif', 'png'],
-        });
-
-        $('.ssi-InputLabel button').text("上传图片");
-        $('#ssi-DropZoneBack').text("");
-
+    $(".file").on("change", "input[type='file']", function () {
+        var file = this.files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                var txt = event.target.result;
+                var img = document.createElement("img");
+                img.src = txt;
+                img.alt = file.name;
+                img.title = file.type;
+                $('.img-space').append(img);
+            };
+        }
+        reader.readAsDataURL(file);
     });
 
+</script>
+
+<script type="text/javascript">
 
     function addCase() {
         var title = $('#title').val();
@@ -92,59 +122,79 @@
             alert("请输入内容");
             return false;
         }
-//        $.ajax({
-//            url: '/web/case/add',
-//            type: 'POST',
-//            data: {
-//                title: title,
-//                content: content,
-//            },
-//            success: function (json) {
-//                if (json.code == '200') {
-//                    console.log(json)
-//                    caseid = json.obj.id;
-//                    uploadImg();
-//
-//                } else {
-//                    alert(json.msg);
-//                }
-//            }
-//        });
 
 
-        var formData = new FormData();
-        formData.append("file",$("#tick_img")[0].files[0]);
-        formData.append("title",title);
-        formData.append("content",content);
         $.ajax({
-            url : '/web/case/image',
-            type : 'POST',
-            data : formData,
-            //不去处理发送的数据
-            processData : false,
-            //不去设置Content-Type请求头
-            contentType : false,
-            beforeSend:function(){
-                console.log("正在进行，请稍候");
+            url: '/web/case/add',
+            type: 'POST',
+            data: {
+                title: title,
+                content: content
             },
-            success : function(responseStr) {
-                if(responseStr.code=='200'){
-                    console.log("成功"+responseStr);
-                }else{
-                    console.log("失败");
+            success: function (json) {
+                if (json.code == '200') {
+                    var cid = json.obj.id;
+                    var img = "";
+                    var fname = "";
+                    var type = "";
+                    $('.img-space > img').each(function () {
+                        img += $(this).attr("src") + "##@##";
+                        fname += $(this).attr("alt")+ "##@##";
+                        type += $(this).attr("title")+ "##@##";
+                    });
+
+                    $.ajax({
+                        url: '/web/case/image',
+                        type: 'POST',
+                        data: {
+                            cid: cid,
+                            img: img,
+                            type:type,
+                            alt:fname
+                        }, success: function (json) {
+                            console.log("upload " + fname + " image ");
+                            alert("上传成功");
+                            location.href = "${sessionScope.role}/work"
+                        }
+                    });
+
+                } else {
+                    alert(json.msg);
                 }
-            },
-            error : function(responseStr) {
-                console.log("error");
             }
         });
+
+
+//        var formData = new FormData();
+//        formData.append("file",$("#tick_img")[0].files[0]);
+//        formData.append("title",title);
+//        formData.append("content",content);
+//        $.ajax({
+//            url : '/web/case/image',
+//            type : 'POST',
+//            data : formData,
+//            //不去处理发送的数据
+//            processData : false,
+//            //不去设置Content-Type请求头
+//            contentType : false,
+//            beforeSend:function(){
+//                console.log("正在进行，请稍候");
+//            },
+//            success : function(responseStr) {
+//                if(responseStr.code=='200'){
+//                    console.log("成功"+responseStr);
+//                }else{
+//                    console.log("失败");
+//                }
+//            },
+//            error : function(responseStr) {
+//                console.log("error");
+//            }
+//        });
 
         return true;
     }
 
-    function uploadImg() {
-        $('#ssi-uploadBtn').click();
-    }
 
 </script>
 </body>

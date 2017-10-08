@@ -1,11 +1,11 @@
 package com.csf.web.service;
 
+import com.csf.web.dto.PageDto;
 import com.csf.web.entity.Case;
 import com.csf.web.entity.CaseImg;
-import com.csf.web.entity.Device;
 import com.csf.web.repository.CaseDao;
 import com.csf.web.repository.CaseImgDao;
-import com.csf.web.repository.DeviceDao;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,6 +35,29 @@ public class CaseService {
         Sort sort = new Sort(Sort.Direction.DESC, "time");
         Pageable pageable = new PageRequest(page, pageSize, sort);
         return caseDao.findAll(pageable);
+    }
+
+
+    public PageDto search(Integer page, Integer pageSize, String key, Date start, String type, String desc) {
+        PageDto dto = new PageDto(page,pageSize);
+        Integer offset = page * pageSize;
+        if (StringUtils.isBlank(key)) {
+            key = "";
+        }
+        key = "%" + key + "%";
+
+        Sort sort = new Sort(Sort.Direction.DESC, desc);
+        Pageable pageable = new PageRequest(page, pageSize, sort);
+
+
+
+        Long total = caseDao.searchNo(key, start);
+        dto.setTotal(total);
+        if (total > 0) {
+            List<Case> data = caseDao.search(key, start, pageable);
+            dto.setData(data);
+        }
+        return dto;
     }
 
 
