@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -49,7 +50,14 @@ public class CaseService {
         Sort sort = new Sort(Sort.Direction.DESC, desc);
         Pageable pageable = new PageRequest(page, pageSize, sort);
 
-
+        if(start == null){
+            Sort st = new Sort(Sort.Direction.ASC, "time");
+            Pageable pb = new PageRequest(0, 1, st);
+            Page<Case> datas = caseDao.findAll(pb);
+            if(datas !=null && !CollectionUtils.isEmpty(datas.getContent())){
+                start = datas.getContent().get(0).getTime();
+            }
+        }
 
         Long total = caseDao.searchNo(key, start);
         dto.setTotal(total);

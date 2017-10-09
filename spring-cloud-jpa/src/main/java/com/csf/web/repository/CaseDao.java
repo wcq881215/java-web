@@ -16,10 +16,10 @@ import java.util.List;
 public interface CaseDao extends JpaRepository<Case, Long> {
 
 
-    @Query(value = "from Case c where (c.title like :key or c.content like :key) and c.time > :start ")
+    @Query(value = "from Case c where (c.title like :key or c.content like :key) and c.time >= :start ")
     List<Case> search(@Param("key") String key, @Param("start") Date start, Pageable pageable);
 
-    @Query(value = "select  count(*) from Case c where (c.title like :key or c.content like :key) and c.time > :start ")
+    @Query(value = "select  count(*) from Case c where (c.title like :key or c.content like :key) and c.time >= :start ")
     Long searchNo(@Param("key") String key, @Param("start") Date start);
 
 

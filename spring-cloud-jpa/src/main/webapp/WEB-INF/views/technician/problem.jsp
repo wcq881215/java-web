@@ -34,18 +34,18 @@
 
 
 <div class="cate-search" style="position: relative; top: 0; border-bottom: 0; margin-top:50px;">
-    <input type="text" class="cate-input" placeholder="输入关键词进行搜索">
+    <input type="text" class="cate-input" id="key" placeholder="输入关键词进行搜索">
     <input type="button" class="cate-btn">
 </div>
 <div align="center">
     <select style="width:150px;  " id="period">
-        <option value="1">按时间筛选</option>
-        <option value="2">一周</option>
-        <option value="3">三月</option>
-        <option value="3">半年</option>
-        <option value="3">一年</option>
+        <option value="">按时间筛选</option>
+        <option value="week">一周</option>
+        <option value="three">三月</option>
+        <option value="half">半年</option>
+        <option value="year">一年</option>
     </select>
-    <select style="width:150px">
+    <select style="width:150px" id="type">
         <option value="1">类别筛选</option>
         <option value="2">配件</option>
         <option value="3">系统</option>
@@ -53,70 +53,16 @@
 
     </select>
 
-    <select style="width:150px">
-        <option value="1">排序方式</option>
-        <option value="2">按时间</option>
-        <option value="3">类型</option>
+    <select style="width:150px" id="sort">
+        <option value="">排序方式</option>
+        <option value="time">按时间</option>
+        <option value="time">类型</option>
     </select>
 </div>
 
 <div id="data-gallery">
 
-    <div class="c-comment-list" style="border: 0;">
-        <a class="o-con" href="">
-            <div class="o-con-txt">
-                <p>问题标题问题标题问题标题问题标题问题标题</p>
-            </div>
-        </a>
 
-    </div>
-    <div class="c-com-btn">
-        <a href="">查看详情</a>
-
-    </div>
-    <div class="clear"></div>
-
-    <div class="c-comment-list" style="border: 0;">
-        <a class="o-con" href="">
-            <div class="o-con-txt">
-                <p>问题标题问题标题问题标题问题标题问题标题</p>
-            </div>
-        </a>
-
-    </div>
-    <div class="c-com-btn">
-        <a href="">查看详情</a>
-
-    </div>
-    <div class="clear"></div>
-
-    <div class="c-comment-list" style="border: 0;">
-        <a class="o-con" href="">
-            <div class="o-con-txt">
-                <p>问题标题问题标题问题标题问题标题问题标题</p>
-            </div>
-        </a>
-
-    </div>
-    <div class="c-com-btn">
-        <a href="">查看详情</a>
-
-    </div>
-    <div class="clear"></div>
-
-    <div class="c-comment-list" style="border: 0;">
-        <a class="o-con" href="">
-            <div class="o-con-txt">
-                <p>问题标题问题标题问题标题问题标题问题标题</p>
-            </div>
-        </a>
-
-    </div>
-    <div class="c-com-btn">
-        <a href="">查看详情</a>
-
-    </div>
-    <div class="clear"></div>
 </div>
 
 </body>
@@ -135,7 +81,9 @@
     });
 
     function init() {
+        var htm = createHtmlNoData();
         if (!ajaxFlag) {
+            $('#data-gallery').append(htm);
             return;
         }
         var period = $('#period').val();
@@ -143,11 +91,11 @@
         var type = $('#type').val();
         var sort = $('#sort').val();
         $.ajax({
-            type: 'post',
+            type: 'get',
             url: '/web/case/list',
             data: {
                 period: period,
-                key: page,
+                key: key,
                 type: type,
                 sort: sort,
                 page: page,
@@ -156,15 +104,17 @@
             dataType: 'json',
             success: function (json) {
                 console.log(json);
-                var htm = createHtmlNoData();
-                if (json.obj.numberOfElements > 0) {
+
+                if (json.code == "200") {
                     page++;
                     htm = createHtml(json);
+
+                    if (json.obj.last) {
+                        ajaxFlag = false;
+                    }
                     $('.ui-loader').hide();
-                } else {
-                    ajaxFlag = false;
                 }
-                $('#products-gallery').append(htm);
+                $('#data-gallery').append(htm);
             }
         });
     }
@@ -174,23 +124,23 @@
     }
 
     function createHtml(json) {
-        var html = "<ul id='products-gallery' class='am-gallery am-avg-sm-2 am-avg-md-3 am-avg-lg-4 am-gallery-default product am-no-layout'>";
-        var array = json.obj.content;
+        var html = "";
+        var array = json.obj.data;
         for (var i in array) {
             var data = array[i];
-            html += "<li>";
-            html += "<div class='am-gallery-item'>";
-            html += "<a  target='_top' href='/web/device/detail/" + data.id + "' class=''>";
-            html += "<img src='" + data.imgs[0].src + "' alt='" + data.name + "'/>";
-            html += "<h3 class='am-gallery-title'>" + data.name + "</h3>";
-            html += "<div class='am-gallery-desc'>";
-            html += "<em>查看详情</em>";
+            html += "<div class='c-comment-list' style='border: 0;'>";
+            html += " <a class='o-con' href='/web/case/detail/"+data.id+"'>";
+            html += " <div class='o-con-txt'>";
+            html += "<p>" + data.title + "</p>";
             html += "</div>";
             html += "</a>";
             html += "</div>";
-            html += "</li>";
+            html += "<div class='c-com-btn'>";
+            html += "<a href='/web/case/detail/"+data.id+"'>查看详情</a>";
+            html += "</div>";
+            html += "<div class='clear'></div>";
         }
-        html += "</ul>";
+
         return html;
     }
 
