@@ -1,5 +1,7 @@
 package com.csf.web.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -24,10 +26,23 @@ public class Case implements Serializable {
     @Column
     private Boolean state;
     @Column
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date time;
 
     @OneToMany(mappedBy = "cid")
     private List<CaseImg> imgs;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "uid")
+    private User user;//发布人
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Long getId() {
         return id;

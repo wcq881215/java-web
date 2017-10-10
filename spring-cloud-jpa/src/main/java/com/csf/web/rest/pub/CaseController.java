@@ -10,6 +10,7 @@ import com.csf.web.service.CaseService;
 import com.csf.web.util.DateUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,7 +28,7 @@ import java.util.Map;
 /**
  * Created by changqi.wu on 17-10-6.
  */
-@RestController
+@Controller
 @RequestMapping("/web/case")
 public class CaseController extends FileUploadService {
 
@@ -35,6 +36,7 @@ public class CaseController extends FileUploadService {
     private CaseService caseService;
 
     @RequestMapping("/add")
+    @ResponseBody
     public BaseDto addTick(HttpServletRequest request, String title, String content) {
         Case _case = new Case();
         _case.setContent(content);
@@ -47,6 +49,7 @@ public class CaseController extends FileUploadService {
     }
 
     @RequestMapping("/image")
+    @ResponseBody
     public BaseDto uploadImg(String img, Long cid, String type, String alt,
                              HttpServletRequest request) {
         if (cid == null) {

@@ -129,14 +129,14 @@
         for (var i in array) {
             var data = array[i];
             html += "<div class='c-comment-list' style='border: 0;'>";
-            html += " <a class='o-con' href='/web/case/detail/"+data.id+"'>";
+            html += " <a class='o-con' target='_top' href='/web/case/detail/"+data.id+"'>";
             html += " <div class='o-con-txt'>";
             html += "<p>" + data.title + "</p>";
             html += "</div>";
             html += "</a>";
             html += "</div>";
             html += "<div class='c-com-btn'>";
-            html += "<a href='/web/case/detail/"+data.id+"'>查看详情</a>";
+            html += "<a target='_top' href='/web/case/detail/"+data.id+"'>查看详情</a>";
             html += "</div>";
             html += "<div class='clear'></div>";
         }

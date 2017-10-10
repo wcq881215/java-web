@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,10 +27,12 @@
     </div>
 </header>
 <div class="content" style="margin-top:50px;">
-    <h1>一体式红外线桥式全自动切割机故障处理</h1>
-    <div class="text"><span class="fl">2015-5-30</span><span class="fr">售后服务人员08</span></div>
-    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;设备故障处理的问题是坏了零件，坏了部件，这样那样子处理好。设备故障处理的问题是坏了零件，坏了部件，这样那样子处理好。设备故障处理的问题是坏了零件，坏了部件，这样那样子处理好。设备故障处理的问题是坏了零件，坏了部件，这样那样子处理好。设备故障处理的问题是坏了零件，坏了部件，这样那样子处理好。设备故障处理的问题是坏了零件，坏了部件，这样那样子处理好。设备故障处理的问题是坏了零件，坏了部件，这样那样子处理好。设备故障处理的问题是坏了零件，坏了部件，这样那样子处理好。</p>
-    <img src="images/p1.png"/>
+    <h1>${data.title}</h1>
+    <div class="text"><span class="fl">${data.time}</span><span class="fr">${data.user.name}</span></div>
+    <p>${data.content}</p>
+    <c:forEach items="${data.imgs}" var="img">
+        <img src="${img.src}"/>
+    </c:forEach>
 
 </div>
 
