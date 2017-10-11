@@ -183,3 +183,14 @@ CREATE TABLE app_case_img (
   state  BOOLEAN COMMENT '状态 0 不可用 1可用',
   PRIMARY KEY (id)
 )ENGINE = InnoDB  DEFAULT CHARSET = utf8;
+
+
+DROP TABLE IF EXISTS app_advice;
+CREATE TABLE app_advice (
+  id         INT AUTO_INCREMENT,
+  uid   INT (30)  NOT NULL  COMMENT 'submit user id',
+  content        text   COMMENT '建议内容',
+  time   DATE COMMENT '上传时间',
+  state  BOOLEAN COMMENT '状态 0 不可用 1可用',
+  PRIMARY KEY (id)
+)ENGINE = InnoDB  DEFAULT CHARSET = utf8;

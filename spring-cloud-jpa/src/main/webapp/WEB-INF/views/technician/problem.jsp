@@ -22,7 +22,7 @@
 <header data-am-widget="header" class="am-header am-header-default header"
         style="width:100%;position:fixed; z-index:1000;top:0;left:0;">
     <div class="am-header-left am-header-nav">
-        <a href="#left-link" class="">
+        <a href="javascript:history.go(-1)" class="">
             <i class="am-header-icon am-icon-angle-left"></i>
         </a>
     </div>

@@ -3,9 +3,9 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title>上传技术方案</title>
-    <meta name="description" content="上传技术方案"/>
-    <meta name="keywords" content="上传技术方案"/>
+    <title>售后解决方案</title>
+    <meta name="description" content="售后解决方案"/>
+    <meta name="keywords" content="售后解决方案"/>
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <link rel="stylesheet" href="/css/amazeui.min.css"/>
     <link rel="stylesheet" href="/css/style.css"/>
@@ -16,7 +16,7 @@
 <header data-am-widget="header" class="am-header am-header-default header"
         style="width:100%;position:fixed; z-index:1000;top:0;left:0;">
     <div class="am-header-left am-header-nav">
-        <a href="#left-link" class="">
+        <a href="javascript:history.go(-1)" class="">
             <i class="am-header-icon am-icon-angle-left"></i>
         </a>
     </div>

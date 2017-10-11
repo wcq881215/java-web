@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +18,7 @@
 <header data-am-widget="header" class="am-header am-header-default header"
         style="width:100%;position:fixed; z-index:1000;top:0;left:0;">
     <div class="am-header-left am-header-nav">
-        <a href="#left-link" class="">
+        <a href="javascript:history.go(-1)" class="">
             <i class="am-header-icon am-icon-angle-left"></i>
         </a>
     </div>
@@ -28,7 +29,7 @@
 </header>
 <div class="content" style="margin-top:50px;">
     <h1>${data.title}</h1>
-    <div class="text"><span class="fl">${data.time}</span><span class="fr">${data.user.name}</span></div>
+    <div class="text"><span class="fl"><fmt:formatDate pattern="yyyy-MM-dd"  value="${data.time}" /></span><span class="fr">${data.user.name}</span></div>
     <p>${data.content}</p>
     <c:forEach items="${data.imgs}" var="img">
         <img src="${img.src}"/>

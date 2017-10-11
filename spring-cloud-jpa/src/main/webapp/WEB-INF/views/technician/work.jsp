@@ -37,7 +37,7 @@
         </a>
     </li>
 
-    <li>
+    <li class="hide">
         <a href="/technician/deal.html">
             <img src="/images/yscx.png"/>
             <p>售后解决方案</p>

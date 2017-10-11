@@ -41,7 +41,7 @@
                         <option value="office">内勤</option>
                         <option value="service">售后服务</option>
                         <option value="produce">生产部</option>
-                        <option value="custom">购机客户</option>
+                        <option value="customer">购机客户</option>
                     </select>
 
                         <input type="password" name="password" id="password" value="111111" placeholder="输入用户密码" class="tab-input"/>

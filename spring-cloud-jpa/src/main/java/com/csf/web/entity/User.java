@@ -1,13 +1,14 @@
 package com.csf.web.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by changqi.wu on 2017/8/8.
  */
 @Entity
 @Table(name = "app_user")
-public class User {
+public class User implements Serializable{
 
     private static final long serialVersionUID = 1L;
 
