@@ -41,54 +41,72 @@ function setupWebViewJavascriptBridge(callback) {
 }
 
 // setupWebViewJavascriptBridge(function (bridge) {
-//     var uniqueId = 1
 //
-//     function log(message, data) {
-//         var log = document.getElementById('log')
-//         var el = document.createElement('div')
-//         el.className = 'logLine'
-//         el.innerHTML = uniqueId++ + '. ' + message + ':<br/>' + JSON.stringify(data)
-//         if (log.children.length) {
-//             log.insertBefore(el, log.children[0])
-//         }
-//         else {
-//             log.appendChild(el)
-//         }
-//     }
-//
-//     bridge.registerHandler('testJavascriptHandler', function (data, responseCallback) {
-//         log('ObjC called testJavascriptHandler with', data)
-//         var responseData = {'Javascript Says': 'Right back atcha!'}
-//         log('JS responding with', responseData)
+//     bridge.registerHandler('iosLoacaton', function (data, responseCallback) {
+//         console.log('data >>> ' + data)
+//         var responseData = {'code':"success"};
+//         log('js response >>> ', responseData)
 //         responseCallback(responseData)
 //     })
 //
-//     document.body.appendChild(document.createElement('br'))
-//
-//     var callbackButton = document.getElementById('buttons').appendChild(document.createElement('button'))
-//     callbackButton.innerHTML = 'Fire testObjcCallback'
-//     callbackButton.onclick = function (e) {
-//         e.preventDefault()
-//         log('JS calling handler "testObjcCallback"')
-//         bridge.callHandler('testObjcCallback', {'foo': 'bar'}, function (response) {
-//             log('JS got response', response)
-//         })
-//     }
 // })
 
-function iosLoacaton(mid, longitude, latitude) {
-    var data = {
-        "mid": mid,
-        "longitude": longitude,
-        "latitude": latitude
-    };
+setupWebViewJavascriptBridge(function (bridge) {
 
-    setupWebViewJavascriptBridge(function (bridge) {
-        bridge.callHandler('iosLoacaton', data, function (responseData) {
-            console.log("responseData" + responseData);
-            console.log("mid:mid:longitude:latitude" + mid + "   " + longitude + "  " + latitude);
-            getDeviceLocation(mid, longitude, latitude);
-        });
-    });
-}
+        bridge.registerHandler('getDeviceLocation', function (data, responseCallback) {
+            alert('调用js');
+            console.log('请求js  传值参数是：' + JSON.stringify(data))
+            var responseData = {'result': 'success'}
+            getDeviceLocation();
+    })
+
+})
+
+// setupWebViewJavascriptBridge(function (bridge) {
+//
+//     bridge.registerHandler('iosLoacaton', function (data, responseCallback) {
+//         console.log('请求js  传值参数是：' + JSON.stringify(data))
+//         var responseData = {'result': 'success'}
+//         // responseCallback(responseData)
+//     })
+//
+// var callbackButton = document.getElementById('buttons').appendChild(document.createElement('button'))
+// callbackButton.innerHTML = '签到'
+// callbackButton.onclick = function (e) {
+//     e.preventDefault()
+//
+//     bridge.callHandler('getDeviceLocation', {
+//         'mid': '1111111',
+//         'longitude': 12525.252,
+//         'latitude': 125.3254
+//     }, function (response) {
+//         //处理oc过来的回调
+//         console.log('收到oc过来的回调:' + JSON.stringify(response))
+//     })
+// }
+//
+// function iosLoacaton(){
+//     console.log('  iosLoacaton call ');
+// }
+//
+// })
+//
+// function iosLoacaton(mid, longitude, latitude) {
+// var data = {
+//     "mid": mid,
+//     "longitude": longitude,
+//     "latitude": latitude
+// };
+// setupWebViewJavascriptBridge(function (bridge) {
+//     bridge.callHandler('iosLoacaton', data, function (responseData) {
+//         console.log("responseData" + responseData);
+//         console.log("mid:mid:longitude:latitude" + mid + "   " + longitude + "  " + latitude);
+//         getDeviceLocation(mid, longitude, latitude);
+//     });
+// });
+// }
+//
+// function iosLoacaton(mid, longitude, latitude) {
+//     getDeviceLocation(mid, longitude, latitude);
+// }
 

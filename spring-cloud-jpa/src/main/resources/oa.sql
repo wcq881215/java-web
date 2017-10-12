@@ -126,6 +126,7 @@ CREATE TABLE app_order (
   total    double (12,2)   COMMENT '总价',
   remark    VARCHAR(100)   COMMENT '补充说明',
   address    double (12,2)   COMMENT '送货地址',
+  phone    VARCHAR (30)   COMMENT '联系电话',
   stime    VARCHAR (20)   COMMENT '服务时间',
   logistics    VARCHAR (20)   COMMENT '物流公司',
   driver    VARCHAR (20)   COMMENT '物流司机',

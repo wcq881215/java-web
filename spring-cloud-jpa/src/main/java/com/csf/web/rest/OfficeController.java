@@ -11,8 +11,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class OfficeController extends APIService{
 
     @RequestMapping("/home")
-    public String home(){
-        return "";
+    public String home() {
+        return "/office/home";
+    }
+
+    @RequestMapping("/work")
+    public String work() {
+        return "/office/work";
+    }
+
+    @RequestMapping("/message")
+    public String message() {
+        return "/office/message";
+    }
+
+    @RequestMapping("/my")
+    public String my() {
+        return "/office/my";
     }
 
 

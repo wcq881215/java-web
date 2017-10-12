@@ -40,13 +40,13 @@
         </a>
     </li>
     <li>
-        <a href="/customter/addDevice.html">
+        <a href="/customer/addDevice.html">
             <img src="/images/fw.png"/>
             <p>意向设备提交</p>
         </a>
     </li>
     <li>
-        <a href="/customer/advice.html">
+        <a href="/customer/advices.html">
             <img src="/images/az.png"/>
             <p>反馈建议</p>
         </a>

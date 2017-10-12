@@ -6,6 +6,10 @@
 
     idfa = request.getHeader("device");
     System.out.println("===================reqeust header from mobile device :: " + idfa);
+
+    Cookie cookie = new Cookie("cookie_mid",idfa);
+    cookie.setMaxAge(30*24*3600);
+    response.addCookie(cookie);
 %>
 
 

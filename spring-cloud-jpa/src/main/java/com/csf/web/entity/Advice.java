@@ -24,7 +24,7 @@ public class Advice implements Serializable {
     @Column
     private Boolean state;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.REFRESH }, optional = true)
     @JoinColumn(name = "uid")
     private User user;//发布人
 

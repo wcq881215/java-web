@@ -3,8 +3,10 @@ package com.csf.web.rest;
 import com.csf.web.constants.OAConstants;
 import com.csf.web.dto.BaseDto;
 import com.csf.web.entity.Advice;
+import com.csf.web.entity.Order;
 import com.csf.web.entity.User;
 import com.csf.web.service.AdviceService;
+import com.csf.web.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,9 @@ public class CustomerController extends APIService {
 
     @Autowired
     private AdviceService adviceService;
+
+    @Autowired
+    private OrderService orderService;
 
     @RequestMapping("/home")
     public String home() {
@@ -54,6 +59,26 @@ public class CustomerController extends APIService {
         adv.setUser(user);
         adv = adviceService.addAdvice(adv);
         return BaseDto.newDto(adv);
+    }
+
+    @RequestMapping("/purchar/device")
+    @ResponseBody
+    public BaseDto addDevice(String name,String type,String remark) {
+        Order order = new Order();
+        User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
+        order.setPid(user.getId());
+        order.setSn("11");//设备编号
+        order.setDevice(name);
+        order.setType(type);
+        order.setRemark(remark);
+        order = orderService.saveOrder(order);
+        return BaseDto.newDto(order);
+    }
+
+    @RequestMapping("/advice/list")
+    @ResponseBody
+    public BaseDto adviceList() {
+        return BaseDto.newDto(adviceService.findAll());
     }
 
 
