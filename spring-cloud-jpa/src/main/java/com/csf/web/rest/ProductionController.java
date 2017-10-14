@@ -8,25 +8,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("/production")
-public class ProductionController extends APIService{
+public class ProductionController extends APIService {
 
     @RequestMapping("/home")
     public String home() {
+        onclick(true, false, false, false);
         return "/production/home";
     }
 
     @RequestMapping("/work")
     public String work() {
+        onclick(false, true, false, false);
         return "/production/work";
     }
 
     @RequestMapping("/message")
     public String message() {
+        onclick(false, false, true, false);
         return "/production/message";
     }
 
     @RequestMapping("/my")
     public String my() {
+        onclick(false, false, false, true);
         return "/production/my";
     }
 

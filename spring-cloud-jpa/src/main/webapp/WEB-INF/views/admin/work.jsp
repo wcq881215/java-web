@@ -33,14 +33,14 @@
 <hr>
 <ul class="nav">
     <li>
-        <a href="订单录入.html">
+        <a href="/admin/newsAdd.html">
             <img src="/images/cx.png"/>
             <p>公司动态</p>
         </a>
     </li>
 
     <li>
-        <a href="订单查询.html">
+        <a href="/device/maintentceAdd.html">
             <img src="/images/yscx.png"/>
             <p>常见维修问题</p>
         </a>
@@ -63,7 +63,7 @@
 
 <ul class="member-nav">
 
-    <li><a href=" "><i class="am-icon-newspaper-o"></i><span>内容管理</span></a></li>
+    <li><a href="/admin/newsAdd.html"><i class="am-icon-newspaper-o"></i><span>内容管理</span></a></li>
     <li><a href=""><i class="am-icon-credit-card"></i><span>配件资费标准</span></a></li>
     <li><a href=""><i class="am-icon-credit-card"></i><span>报销费用标准</span></a></li>
 </ul>

@@ -98,7 +98,7 @@
     </li>
 
     <li>
-        <a href="订单查询.html">
+        <a href="/message/send.html">
             <img src="/images/az.png"/>
             <p>信息群发</p>
         </a>

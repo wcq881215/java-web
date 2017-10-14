@@ -7,9 +7,9 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title>上传技术方案</title>
-    <meta name="description" content="上传技术方案"/>
-    <meta name="keywords" content="上传技术方案"/>
+    <title>公司动态</title>
+    <meta name="description" content="公司动态"/>
+    <meta name="keywords" content="公司动态"/>
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <link rel="stylesheet" href="/css/amazeui.min.css"/>
     <link rel="stylesheet" href="/css/style.css"/>
@@ -52,7 +52,7 @@
             <i class="am-header-icon am-icon-angle-left"></i>
         </a>
     </div>
-    <h1 class="am-header-title"><a href="#title-link" class="" style="color: #333;">上传技术方案</a></h1>
+    <h1 class="am-header-title"><a href="#title-link" class="" style="color: #333;">公司动态</a></h1>
     <div class="am-header-right am-header-nav">
         <a href="#right-link" class=""> </a>
     </div>
@@ -63,7 +63,7 @@
     <div class="am-tabs-bd">
         <div class="am-tab-panel am-fade am-in am-active" id="tab1">
             <input type="text" placeholder="标题" id="title" name="title" class="tab-input"/>
-            <textarea placeholder="填写设备的故障与解决方案 " id="content" name="content" class="tab-input"
+            <textarea placeholder="发布公司动态内容 " id="content" name="content" class="tab-input"
                       style="height:300px;"></textarea>
 
 
@@ -77,7 +77,7 @@
             </div>
 
             <br><br>
-            <button type="button" onclick="addCase()" class="tab-btn">确认</button>
+            <button type="button" onclick="addNews()" class="tab-btn">确认</button>
 
         </div>
 
@@ -111,7 +111,7 @@
 
 <script type="text/javascript">
 
-    function addCase() {
+    function addNews() {
         var title = $('#title').val();
         var content = $('#content').val();
         if (title == '') {
@@ -125,7 +125,7 @@
 
 
         $.ajax({
-            url: '/web/case/add',
+            url: '/web/news/add',
             type: 'POST',
             data: {
                 title: title,
@@ -139,18 +139,18 @@
                     var type = "";
                     $('.img-space > img').each(function () {
                         img += $(this).attr("src") + "##@##";
-                        fname += $(this).attr("alt")+ "##@##";
-                        type += $(this).attr("title")+ "##@##";
+                        fname += $(this).attr("alt") + "##@##";
+                        type += $(this).attr("title") + "##@##";
                     });
 
                     $.ajax({
-                        url: '/web/case/image',
+                        url: '/web/news/image',
                         type: 'POST',
                         data: {
                             cid: cid,
                             img: img,
-                            type:type,
-                            alt:fname
+                            type: type,
+                            alt: fname
                         }, success: function (json) {
                             console.log("upload " + fname + " image ");
                             alert("上传成功");
@@ -163,34 +163,6 @@
                 }
             }
         });
-
-
-//        var formData = new FormData();
-//        formData.append("file",$("#tick_img")[0].files[0]);
-//        formData.append("title",title);
-//        formData.append("content",content);
-//        $.ajax({
-//            url : '/web/case/image',
-//            type : 'POST',
-//            data : formData,
-//            //不去处理发送的数据
-//            processData : false,
-//            //不去设置Content-Type请求头
-//            contentType : false,
-//            beforeSend:function(){
-//                console.log("正在进行，请稍候");
-//            },
-//            success : function(responseStr) {
-//                if(responseStr.code=='200'){
-//                    console.log("成功"+responseStr);
-//                }else{
-//                    console.log("失败");
-//                }
-//            },
-//            error : function(responseStr) {
-//                console.log("error");
-//            }
-//        });
 
         return true;
     }

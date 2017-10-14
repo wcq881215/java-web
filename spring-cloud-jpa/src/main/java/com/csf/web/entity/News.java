@@ -11,8 +11,8 @@ import java.util.List;
  * Created by changqi.wu on 2017/8/8.
  */
 @Entity
-@Table(name = "app_case")
-public class Case implements Serializable {
+@Table(name = "app_news")
+public class News implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

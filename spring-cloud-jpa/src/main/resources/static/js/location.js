@@ -40,73 +40,22 @@ function setupWebViewJavascriptBridge(callback) {
     }, 0)
 }
 
-// setupWebViewJavascriptBridge(function (bridge) {
-//
-//     bridge.registerHandler('iosLoacaton', function (data, responseCallback) {
-//         console.log('data >>> ' + data)
-//         var responseData = {'code':"success"};
-//         log('js response >>> ', responseData)
-//         responseCallback(responseData)
-//     })
-//
-// })
 
 setupWebViewJavascriptBridge(function (bridge) {
-
-        bridge.registerHandler('getDeviceLocation', function (data, responseCallback) {
-            alert('调用js');
+        // iosLoacaton这个注册的函数名就是我要native调用js时协商的函数名，也就是你文档里写的那2个接口名，在这里申请后，就不需要单独申明function了
+        bridge.registerHandler('iosLoacaton', function (data, responseCallback) {
+            // app native调用了协商的函数后，就会进入这个回调里面，你可以在这个回调里面做相应的事情，比如调用getDeviceLocation()
             console.log('请求js  传值参数是：' + JSON.stringify(data))
+            
             var responseData = {'result': 'success'}
-            getDeviceLocation();
+            responseCallback(responseData); // 这个是你接到我的调用，然后想回传给我的响应数据
+            if(data){
+                getDeviceLocation(data.mid,data.longitude,data.latitude);
+            }
+            // 做其他的事情
     })
 
 })
 
-// setupWebViewJavascriptBridge(function (bridge) {
-//
-//     bridge.registerHandler('iosLoacaton', function (data, responseCallback) {
-//         console.log('请求js  传值参数是：' + JSON.stringify(data))
-//         var responseData = {'result': 'success'}
-//         // responseCallback(responseData)
-//     })
-//
-// var callbackButton = document.getElementById('buttons').appendChild(document.createElement('button'))
-// callbackButton.innerHTML = '签到'
-// callbackButton.onclick = function (e) {
-//     e.preventDefault()
-//
-//     bridge.callHandler('getDeviceLocation', {
-//         'mid': '1111111',
-//         'longitude': 12525.252,
-//         'latitude': 125.3254
-//     }, function (response) {
-//         //处理oc过来的回调
-//         console.log('收到oc过来的回调:' + JSON.stringify(response))
-//     })
-// }
-//
-// function iosLoacaton(){
-//     console.log('  iosLoacaton call ');
-// }
-//
-// })
-//
-// function iosLoacaton(mid, longitude, latitude) {
-// var data = {
-//     "mid": mid,
-//     "longitude": longitude,
-//     "latitude": latitude
-// };
-// setupWebViewJavascriptBridge(function (bridge) {
-//     bridge.callHandler('iosLoacaton', data, function (responseData) {
-//         console.log("responseData" + responseData);
-//         console.log("mid:mid:longitude:latitude" + mid + "   " + longitude + "  " + latitude);
-//         getDeviceLocation(mid, longitude, latitude);
-//     });
-// });
-// }
-//
-// function iosLoacaton(mid, longitude, latitude) {
-//     getDeviceLocation(mid, longitude, latitude);
-// }
+
 

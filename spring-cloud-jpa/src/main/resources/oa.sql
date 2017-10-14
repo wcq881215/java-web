@@ -2,6 +2,7 @@ CREATE DATABASE IF NOT EXISTS oa  DEFAULT CHARSET utf8  COLLATE utf8_general_ci;
 
 USE oa;
 
+-- 配置
 DROP TABLE IF EXISTS sys_config;
 CREATE TABLE sys_config (
   id     INT AUTO_INCREMENT,
@@ -21,7 +22,7 @@ INSERT INTO sys_config(_key,name,value,state,comment) VALUES ('cfg_dept','售后
 INSERT INTO sys_config(_key,name,value,state,comment) VALUES ('cfg_dept','生产部','生产部','1','部门分类');
 
 
-
+-- 用户
 DROP TABLE IF EXISTS app_user;
 CREATE TABLE app_user (
   id         INT AUTO_INCREMENT,
@@ -53,7 +54,7 @@ INSERT INTO `oa`.`app_user`(`id`, `username`, `password`, `mobno`, `phone`, `rol
 INSERT INTO `oa`.`app_user`(`id`, `username`, `password`, `mobno`, `phone`, `role`, `device`, `s_time`, `state`) VALUES (5, 'produce', '111111', 'adfdf-fdfe-fdf-erer-444', '13524625212', '生产部', NULL, NULL, 1);
 INSERT INTO `oa`.`app_user`(`id`, `username`, `password`, `mobno`, `phone`, `role`, `device`, `s_time`, `state`) VALUES (6, 'custom', '111111', 'adfdf-fdfe-fdf-erer-555', '13524625212', '购机客户', '1111222333', '2017-09-03', 1);
 
-
+-- 设备
 DROP TABLE IF EXISTS app_device;
 CREATE TABLE app_device (
   id         INT AUTO_INCREMENT,
@@ -70,7 +71,7 @@ CREATE TABLE app_device (
 
 INSERT  INTO  app_device (sn,_name,_desc,type,`number`,price,state,time) VALUES ('1111222333','机床螺丝','xxxxxx NB','螺丝',1000,0.1,1,now());
 
-
+-- 设备图片
 DROP TABLE IF EXISTS app_device_img;
 CREATE TABLE app_device_img (
   id         INT AUTO_INCREMENT,
@@ -84,6 +85,7 @@ CREATE TABLE app_device_img (
 
 INSERT  INTO  app_device_img(did,src,alt,upload,state) VALUES(1,'http://www.baidu.com/img/bd_logo1.png','baidu',now(),1);
 
+-- 定位信息
 DROP TABLE IF EXISTS app_location;
 CREATE TABLE app_location (
   id         INT AUTO_INCREMENT,
@@ -96,7 +98,7 @@ CREATE TABLE app_location (
 
 INSERT  INTO  app_location(mid,longitude,latitude,time) VALUES('adfdf-fdfe-fdf-erer-efd',121.628719618,31.1963795,now());
 
-
+-- 消息
 DROP TABLE IF EXISTS app_message;
 CREATE TABLE app_message (
   id         INT AUTO_INCREMENT,
@@ -154,18 +156,20 @@ CREATE TABLE app_order_notify (
 DROP TABLE IF EXISTS app_maintain;
 CREATE TABLE app_maintain (
   id         INT AUTO_INCREMENT,
+  uid   INT (30)  NOT NULL  COMMENT 'submit user id',
   title      VARCHAR(100)    COMMENT '标题',
-  `desc`   VARCHAR (100)    COMMENT '简介',
+  `_desc`   VARCHAR (100)    COMMENT '简介',
   content    text   COMMENT '内容',
   time   TIMESTAMP COMMENT '发布时间',
   state  tinyint DEFAULT 1 COMMENT '状态 0不可用 1可用',
   PRIMARY KEY (id)
 )ENGINE = InnoDB  DEFAULT CHARSET = utf8;
 
-
+-- 技术方案
 DROP TABLE IF EXISTS app_case;
 CREATE TABLE app_case (
   id         INT AUTO_INCREMENT,
+  uid   INT (30)  NOT NULL  COMMENT 'submit user id',
   title      VARCHAR(100)    COMMENT '标题',
   content    text   COMMENT '内容',
   time   TIMESTAMP COMMENT '发布时间',
@@ -173,6 +177,7 @@ CREATE TABLE app_case (
   PRIMARY KEY (id)
 )ENGINE = InnoDB  DEFAULT CHARSET = utf8;
 
+-- 技术方案
 DROP TABLE IF EXISTS app_case_img;
 CREATE TABLE app_case_img (
   id         INT AUTO_INCREMENT,
@@ -185,13 +190,38 @@ CREATE TABLE app_case_img (
   PRIMARY KEY (id)
 )ENGINE = InnoDB  DEFAULT CHARSET = utf8;
 
-
+-- 反馈建议
 DROP TABLE IF EXISTS app_advice;
 CREATE TABLE app_advice (
   id         INT AUTO_INCREMENT,
   uid   INT (30)  NOT NULL  COMMENT 'submit user id',
   content        text   COMMENT '建议内容',
   time   DATE COMMENT '上传时间',
+  state  BOOLEAN COMMENT '状态 0 不可用 1可用',
+  PRIMARY KEY (id)
+)ENGINE = InnoDB  DEFAULT CHARSET = utf8;
+
+-- 公司动态
+DROP TABLE IF EXISTS app_news;
+CREATE TABLE app_news (
+  id         INT AUTO_INCREMENT,
+  uid   INT (30)  NOT NULL  COMMENT 'submit user id',
+  title      VARCHAR(100)    COMMENT '标题',
+  content    text   COMMENT '内容',
+  time   TIMESTAMP COMMENT '发布时间',
+  state  tinyint DEFAULT 1 COMMENT '状态 0不可用 1可用',
+  PRIMARY KEY (id)
+)ENGINE = InnoDB  DEFAULT CHARSET = utf8;
+
+-- 公司动态 图片
+DROP TABLE IF EXISTS app_news_img;
+CREATE TABLE app_news_img (
+  id         INT AUTO_INCREMENT,
+  cid   INT (30)  NOT NULL  COMMENT 'case id',
+  src   VARCHAR(50) NOT NULL  COMMENT '图片url',
+  path   VARCHAR(50) NOT NULL  COMMENT '图片路径',
+  alt        VARCHAR(50)   COMMENT 'alt 原始文件名称',
+  upload   DATE COMMENT '上传时间',
   state  BOOLEAN COMMENT '状态 0 不可用 1可用',
   PRIMARY KEY (id)
 )ENGINE = InnoDB  DEFAULT CHARSET = utf8;

@@ -20,7 +20,7 @@ public class Maintenance {
     private Long id;
     @Column
     private String title;
-    @Column
+    @Column(name = "_desc")
     private String desc;
     @Column
     private String content;
@@ -29,6 +29,18 @@ public class Maintenance {
     @Column
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date time;
+
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = true)
+    @JoinColumn(name = "uid")
+    private User user;//发布人
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Long getId() {
         return id;

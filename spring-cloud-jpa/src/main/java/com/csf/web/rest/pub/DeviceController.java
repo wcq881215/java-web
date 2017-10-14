@@ -1,7 +1,10 @@
 package com.csf.web.rest.pub;
 
+import com.csf.web.constants.OAConstants;
 import com.csf.web.dto.BaseDto;
 import com.csf.web.entity.Device;
+import com.csf.web.entity.Maintenance;
+import com.csf.web.entity.User;
 import com.csf.web.rest.APIService;
 import com.csf.web.service.DeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Date;
 
 /**
  * Created by changqi.wu on 17-8-30.

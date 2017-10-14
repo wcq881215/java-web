@@ -128,6 +128,39 @@ public class APIService {
         response.addCookie(cookie);
     }
 
+    /***********session***************/
+    public void onclick(boolean home,boolean work,boolean msg,boolean my){
+        HttpSession session = request.getSession();
+        if(home){
+            session.setAttribute("action_home_png","nav_home_focus.png");
+            session.setAttribute("action_work_png","nav_work.png");
+            session.setAttribute("action_msg_png","nav_msg.png");
+            session.setAttribute("action_my_png","nav_my.png");
+            return;
+        }
+        if(work){
+            session.setAttribute("action_home_png","nav_home.png");
+            session.setAttribute("action_work_png","nav_work_focus.png");
+            session.setAttribute("action_msg_png","nav_msg.png");
+            session.setAttribute("action_my_png","nav_my.png");
+            return;
+        }
+        if(msg){
+            session.setAttribute("action_home_png","nav_home.png");
+            session.setAttribute("action_work_png","nav_work.png");
+            session.setAttribute("action_msg_png","nav_msg_focus.png");
+            session.setAttribute("action_my_png","nav_my.png");
+            return;
+        }
+        if(my){
+            session.setAttribute("action_home_png","nav_home.png");
+            session.setAttribute("action_work_png","nav_work.png");
+            session.setAttribute("action_msg_png","nav_msg.png");
+            session.setAttribute("action_my_png","nav_my_focus.png");
+            return;
+        }
+    }
+
 
     /******** public method *******/
 

@@ -1,11 +1,9 @@
 package com.csf.web.rest.pub;
 
+import com.csf.web.constants.OAConstants;
 import com.csf.web.dto.APIStatus;
 import com.csf.web.dto.BaseDto;
-import com.csf.web.entity.Case;
-import com.csf.web.entity.CaseImg;
-import com.csf.web.entity.Device;
-import com.csf.web.entity.Image;
+import com.csf.web.entity.*;
 import com.csf.web.service.CaseService;
 import com.csf.web.util.DateUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -43,7 +41,8 @@ public class CaseController extends FileUploadService {
         _case.setTitle(title);
         _case.setState(true);
         _case.setTime(new Date());
-
+        User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
+        _case.setUser(user);
         _case = caseService.saveCase(_case);
         return BaseDto.newDto(_case);
     }

@@ -29,21 +29,25 @@ public class CustomerController extends APIService {
 
     @RequestMapping("/home")
     public String home() {
+        onclick(true, false, false, false);
         return "/customer/home";
     }
 
     @RequestMapping("/work")
     public String work() {
+        onclick(false, true, false, false);
         return "/customer/work";
     }
 
     @RequestMapping("/message")
     public String message() {
+        onclick(false, false, true, false);
         return "/customer/message";
     }
 
     @RequestMapping("/my")
     public String my() {
+        onclick(false, false, false, true);
         return "/customer/my";
     }
 
@@ -63,7 +67,7 @@ public class CustomerController extends APIService {
 
     @RequestMapping("/purchar/device")
     @ResponseBody
-    public BaseDto addDevice(String name,String type,String remark) {
+    public BaseDto addDevice(String name, String type, String remark) {
         Order order = new Order();
         User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
         order.setPid(user.getId());

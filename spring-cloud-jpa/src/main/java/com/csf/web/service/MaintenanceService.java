@@ -32,8 +32,8 @@ public class MaintenanceService {
     }
 
 
-    public void saveDevice(Maintenance device) {
-        maintenanceDao.save(device);
+    public void saveDevice(Maintenance maintenance) {
+        maintenanceDao.save(maintenance);
     }
 
 
