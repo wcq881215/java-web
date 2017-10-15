@@ -45,7 +45,7 @@
         <option value="half">半年</option>
         <option value="year">一年</option>
     </select>
-    <select style="width:150px" id="type">
+    <select style="width:150px" id="type" class="hide">
         <option value="1">类别筛选</option>
         <option value="2">配件</option>
         <option value="3">系统</option>
@@ -53,7 +53,7 @@
 
     </select>
 
-    <select style="width:150px" id="sort">
+    <select style="width:150px" id="sort" class="hide">
         <option value="">排序方式</option>
         <option value="time">按时间</option>
         <option value="time">类型</option>

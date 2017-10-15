@@ -58,6 +58,7 @@ public class MaintainController extends APIService {
     }
 
     @RequestMapping("/add")
+    @ResponseBody
     public BaseDto addMaintentce(String title, String content) {
         int lenth = 20;//简介长度
         lenth = lenth > content.length() ? content.length() : lenth;

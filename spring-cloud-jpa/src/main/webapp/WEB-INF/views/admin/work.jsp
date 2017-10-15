@@ -46,13 +46,13 @@
         </a>
     </li>
     <li>
-        <a href="订单查询.html">
+        <a href="/admin/service.html">
             <img src="/images/fw.png"/>
             <p>服务内容</p>
         </a>
     </li>
     <li>
-        <a href="订单查询.html">
+        <a href="/admin/video.html">
             <img src="/images/az.png"/>
             <p>安装教程</p>
         </a>

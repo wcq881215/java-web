@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by changqi.wu on 17-8-27.
@@ -82,6 +86,17 @@ public class UserActionController extends APIService {
         store(request.getSession(), response, user, role);
 
         return ajaxSuccess(user);
+    }
+
+
+    @RequestMapping("/type/list")
+    public BaseDto listType() {
+        UserRole[] roles = UserRole.values();
+        Map<String,String> rs = new HashMap<>();
+        for(UserRole role:roles){
+            rs.put(role.getRole(),role.getName());
+        }
+        return BaseDto.newDto(rs);
     }
 
 }

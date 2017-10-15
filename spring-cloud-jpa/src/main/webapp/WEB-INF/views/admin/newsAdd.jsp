@@ -1,8 +1,4 @@
-<%@ page import="java.util.UUID" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%
-    String uuid = UUID.randomUUID().toString().toLowerCase();
-%>
 <!DOCTYPE html>
 <html>
 <head>

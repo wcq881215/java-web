@@ -120,15 +120,19 @@ DROP TABLE IF EXISTS app_order;
 CREATE TABLE app_order (
   id         INT AUTO_INCREMENT,
   pid        INT  NOT NULL  COMMENT '发布人',
+  buser     VARCHAR(200)    COMMENT '业务员',
+  bphone     VARCHAR(200)    COMMENT '业务员联系方式',
   sn        INT  NOT NULL  COMMENT '设备编号',
   device      VARCHAR(100)    COMMENT '设备名称',
   type    VARCHAR(100)   COMMENT '型号',
   `number`   int    COMMENT '数量',
   price   double (12,2)    COMMENT '单价',
   total    double (12,2)   COMMENT '总价',
+  ext    VARCHAR(100)   COMMENT '定制信息',
   remark    VARCHAR(100)   COMMENT '补充说明',
   address    double (12,2)   COMMENT '送货地址',
   phone    VARCHAR (30)   COMMENT '联系电话',
+  stime    VARCHAR (20)   COMMENT '服务时间',
   stime    VARCHAR (20)   COMMENT '服务时间',
   logistics    VARCHAR (20)   COMMENT '物流公司',
   driver    VARCHAR (20)   COMMENT '物流司机',
@@ -206,7 +210,8 @@ DROP TABLE IF EXISTS app_news;
 CREATE TABLE app_news (
   id         INT AUTO_INCREMENT,
   uid   INT (30)  NOT NULL  COMMENT 'submit user id',
-  title      VARCHAR(100)    COMMENT '标题',
+  title      VARCHAR(200)    COMMENT '标题',
+  _desc      VARCHAR(200)    COMMENT '简介',
   content    text   COMMENT '内容',
   time   TIMESTAMP COMMENT '发布时间',
   state  tinyint DEFAULT 1 COMMENT '状态 0不可用 1可用',
@@ -218,9 +223,34 @@ DROP TABLE IF EXISTS app_news_img;
 CREATE TABLE app_news_img (
   id         INT AUTO_INCREMENT,
   cid   INT (30)  NOT NULL  COMMENT 'case id',
-  src   VARCHAR(50) NOT NULL  COMMENT '图片url',
-  path   VARCHAR(50) NOT NULL  COMMENT '图片路径',
-  alt        VARCHAR(50)   COMMENT 'alt 原始文件名称',
+  src   VARCHAR(500) NOT NULL  COMMENT '图片url',
+  path   VARCHAR(500) NOT NULL  COMMENT '图片路径',
+  alt        VARCHAR(200)   COMMENT 'alt 原始文件名称',
+  upload   DATE COMMENT '上传时间',
+  state  BOOLEAN COMMENT '状态 0 不可用 1可用',
+  PRIMARY KEY (id)
+)ENGINE = InnoDB  DEFAULT CHARSET = utf8;
+
+-- 安装视频教程
+DROP TABLE IF EXISTS app_video;
+CREATE TABLE app_video (
+  id         INT AUTO_INCREMENT,
+  uid   INT (30)  NOT NULL  COMMENT 'submit user id',
+  title      VARCHAR(200)    COMMENT '标题',
+  content    text   COMMENT '简介',
+  time   TIMESTAMP COMMENT '发布时间',
+  state  tinyint DEFAULT 1 COMMENT '状态 0不可用 1可用',
+  PRIMARY KEY (id)
+)ENGINE = InnoDB  DEFAULT CHARSET = utf8;
+
+-- 安装视频教程 视频
+DROP TABLE IF EXISTS app_video_src;
+CREATE TABLE app_video_src (
+  id         INT AUTO_INCREMENT,
+  vid   INT (30)  NOT NULL  COMMENT 'video id',
+  src   VARCHAR(500) NOT NULL  COMMENT '视频url',
+  path   VARCHAR(500) NOT NULL  COMMENT '图片路径',
+  alt        VARCHAR(200)   COMMENT 'alt 原始文件名称',
   upload   DATE COMMENT '上传时间',
   state  BOOLEAN COMMENT '状态 0 不可用 1可用',
   PRIMARY KEY (id)

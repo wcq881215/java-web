@@ -1,6 +1,7 @@
 package com.csf.web.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -35,6 +36,22 @@ public class News implements Serializable {
     @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = true)
     @JoinColumn(name = "uid")
     private User user;//发布人
+
+    @Column(name = "_desc")
+    private String desc;
+
+    public String getDesc() {
+        if(StringUtils.isNotBlank(content)){
+            int length = 10;
+            length = content.length()>length? length:content.length();
+            return content.substring(0,length);
+        }
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
 
     public User getUser() {
         return user;

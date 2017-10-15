@@ -33,14 +33,14 @@
 <hr>
 <ul class="nav">
     <li>
-        <a href="订单录入.html">
+        <a href="/order/addOrder.html">
             <img src="/images/cx.png"/>
             <p>订单录入</p>
         </a>
     </li>
 
     <li>
-        <a href="订单查询.html">
+        <a href="/order/query.html">
             <img src="/images/yscx.png"/>
             <p>订单查询</p>
         </a>
@@ -52,19 +52,19 @@
 <hr>
 <ul class="nav">
     <li>
-        <a href="订单查询.html">
+        <a href="/order/done.html">
             <img src="/images/fw.png"/>
             <p>安装查询</p>
         </a>
     </li>
     <li>
-        <a href="订单查询.html">
+        <a href="/order/maintentce.html">
             <img src="/images/az.png"/>
             <p>维修查询</p>
         </a>
     </li>
     <li>
-        <a href="订单查询.html">
+        <a href="/order/fix.html">
             <img src="/images/az.png"/>
             <p>设备保修</p>
         </a>
@@ -77,21 +77,21 @@
 <hr>
 <ul class="nav">
     <li>
-        <a href="订单查询.html">
+        <a href="/user/sale.html">
             <img src="/images/az.png"/>
             <p>购机客户查询</p>
         </a>
     </li>
 
     <li>
-        <a href="订单查询.html">
+        <a href="/contact/add.html">
             <img src="/images/az.png"/>
             <p>意向客户录入</p>
         </a>
     </li>
 
     <li>
-        <a href="订单查询.html">
+        <a href="/contact/query.html">
             <img src="/images/az.png"/>
             <p>意向客户查询</p>
         </a>

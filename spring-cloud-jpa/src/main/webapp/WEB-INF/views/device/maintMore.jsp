@@ -93,12 +93,12 @@
         for (var i in array) {
             var data = array[i];
             html += "<div class='am-g am-intro-bd'>";
-            html += "<a href='/web/maintain/detail/"+data.id+"'>";
+            html += "<a target='_top' href='/web/maintain/detail/"+data.id+"'>";
             html += " <div class='am-intro-right am-u-sm-9'>";
             html += "<h2>"+data.title+"</h2>";
             html += "<p>"+data.desc+"...</p>";
             html += "<div class='text' style=' margin-right:20px;'>";
-            html += "<span class='fl'>${data.time}</span>";
+            html += "<span class='fl'>"+data.time+"</span>";
             html += "<span style='float:right; margin-right:10px;'>查看详情</span>";
             html += "</div>";
             html += "</div>";

@@ -33,7 +33,7 @@
 
 <ul class="nav">
     <li>
-        <a href="search.html">
+        <a href="/news/more.html">
             <img src="/images/icon.jpg"/>
             <p>公司动态</p>
         </a>
@@ -45,7 +45,7 @@
         </a>
     </li>
     <li>
-        <a href="search.html">
+        <a href="/video/more.html">
             <img src="/images/icon2.jpg"/>
             <p>安装视频</p>
         </a>

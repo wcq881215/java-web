@@ -17,6 +17,10 @@ public class Order {
     @Column
     private Long pid;
     @Column
+    private String buser;
+    @Column
+    private String bphone;
+    @Column
     private String sn;
     @Column
     private String device;
@@ -29,6 +33,8 @@ public class Order {
     @Column
     private Double total;
     @Column
+    private String ext;
+    @Column
     private String remark;
     @Column
     private String address;
@@ -37,6 +43,9 @@ public class Order {
     @Column
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date stime;
+    @Column
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date dtime;
     @Column
     private String driver;
     @Column
@@ -182,5 +191,37 @@ public class Order {
 
     public void setSn(String sn) {
         this.sn = sn;
+    }
+
+    public String getExt() {
+        return ext;
+    }
+
+    public void setExt(String ext) {
+        this.ext = ext;
+    }
+
+    public Date getDtime() {
+        return dtime;
+    }
+
+    public void setDtime(Date dtime) {
+        this.dtime = dtime;
+    }
+
+    public String getBuser() {
+        return buser;
+    }
+
+    public void setBuser(String buser) {
+        this.buser = buser;
+    }
+
+    public String getBphone() {
+        return bphone;
+    }
+
+    public void setBphone(String bphone) {
+        this.bphone = bphone;
     }
 }

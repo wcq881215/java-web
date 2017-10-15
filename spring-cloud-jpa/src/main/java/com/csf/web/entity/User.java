@@ -8,7 +8,7 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "app_user")
-public class User implements Serializable{
+public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -28,12 +28,31 @@ public class User implements Serializable{
     @Column
     private String role;
     @Column
+    private String dept;
+    @Column
+    private String team;
+    @Column
     private String device;
     @Column
     private String s_time;
     @Column
     private Boolean state;
 
+    public String getDept() {
+        return dept;
+    }
+
+    public void setDept(String dept) {
+        this.dept = dept;
+    }
+
+    public String getTeam() {
+        return team;
+    }
+
+    public void setTeam(String team) {
+        this.team = team;
+    }
 
     public Long getId() {
         return id;

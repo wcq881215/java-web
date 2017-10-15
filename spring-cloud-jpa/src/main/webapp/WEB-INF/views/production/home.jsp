@@ -33,25 +33,25 @@
 
 <ul class="nav">
     <li>
-        <a href="search.html">
+        <a href="/news/more.html">
             <img src="/images/icon.jpg"/>
             <p>公司动态</p>
         </a>
     </li>
     <li>
-        <a href="search.html">
+        <a href="/web/device/more">
             <img src="/images/icon1.jpg"/>
             <p>最新产品</p>
         </a>
     </li>
     <li>
-        <a href="search.html">
+        <a href="/video/more.html">
             <img src="/images/icon2.jpg"/>
             <p>安装视频</p>
         </a>
     </li>
     <li>
-        <a href="yhq.html">
+        <a href="/web/maintain/more">
             <img src="/images/icon3.jpg"/>
             <p>常规设备保养技巧</p>
         </a>

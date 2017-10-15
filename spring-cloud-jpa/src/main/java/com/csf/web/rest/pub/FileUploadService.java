@@ -39,7 +39,7 @@ public class FileUploadService extends APIService {
             String subfix = fileName.substring(fileName.lastIndexOf(".")).toLowerCase();
             File f = new File(parent, name + subfix);
             files.transferTo(f);
-            String src = getServerUrl(request).append(file_path).append(dsf.format(tody)).append("/" + f.getName()).toString();
+            String src = getServerUrl(request).append(file_path).append("/").append(dsf.format(tody)).append("/").append(f.getName()).toString();
             urlMap.put("file", fileName);
             urlMap.put("src", src);
             urlMap.put("url", f.getPath());
