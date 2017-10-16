@@ -31,6 +31,10 @@ public class DeviceService {
         return deviceDao.findAll(pageable);
     }
 
+    public List<Device> findAll() {
+        return deviceDao.findAll();
+    }
+
     public List<Device> findByNameLike(String name) {
         return deviceDao.findByNameLike(name);
     }

@@ -120,8 +120,10 @@ DROP TABLE IF EXISTS app_order;
 CREATE TABLE app_order (
   id         INT AUTO_INCREMENT,
   pid        INT  NOT NULL  COMMENT '发布人',
+  proxy        INT   COMMENT '办事处',
   buser     VARCHAR(200)    COMMENT '业务员',
   bphone     VARCHAR(200)    COMMENT '业务员联系方式',
+  did         INT   COMMENT '设备Id',
   sn        INT  NOT NULL  COMMENT '设备编号',
   device      VARCHAR(100)    COMMENT '设备名称',
   type    VARCHAR(100)   COMMENT '型号',
@@ -130,13 +132,14 @@ CREATE TABLE app_order (
   total    double (12,2)   COMMENT '总价',
   ext    VARCHAR(100)   COMMENT '定制信息',
   remark    VARCHAR(100)   COMMENT '补充说明',
-  address    double (12,2)   COMMENT '送货地址',
+  cust    VARCHAR (300)   COMMENT '客户',
+  stime    VARCHAR (20)   COMMENT '下单时间',
+  dtime    VARCHAR (20)   COMMENT '送货时间',
+  address    VARCHAR (500)   COMMENT '送货地址',
   phone    VARCHAR (30)   COMMENT '联系电话',
-  stime    VARCHAR (20)   COMMENT '服务时间',
-  stime    VARCHAR (20)   COMMENT '服务时间',
   logistics    VARCHAR (20)   COMMENT '物流公司',
   driver    VARCHAR (20)   COMMENT '物流司机',
-  logphone    VARCHAR (20)   COMMENT '司机联系电话',+
+  logphone    VARCHAR (20)   COMMENT '司机联系电话',
   time   TIMESTAMP COMMENT '发布时间',
   state  CHAR (2) DEFAULT '1'  COMMENT '状态 0 无效 1 - 2 -3 -4 -5 ... -> over',
   PRIMARY KEY (id)
@@ -255,3 +258,22 @@ CREATE TABLE app_video_src (
   state  BOOLEAN COMMENT '状态 0 不可用 1可用',
   PRIMARY KEY (id)
 )ENGINE = InnoDB  DEFAULT CHARSET = utf8;
+
+
+-- 办事处信息
+DROP TABLE IF EXISTS app_proxy;
+CREATE TABLE app_proxy (
+  id         INT AUTO_INCREMENT,
+  pname   VARCHAR (300)  NOT NULL  COMMENT '办事处',
+  address      VARCHAR(200)    COMMENT '地址',
+  phone    VARCHAR(50)   COMMENT '联系电话',
+  leader    VARCHAR(50)   COMMENT '负责人',
+  lmobile    VARCHAR(50)   COMMENT '负责人电话',
+  groups    VARCHAR(200)  DEFAULT '浙江正大集团有限公司'   COMMENT '所属公司',
+  time   TIMESTAMP COMMENT '发布时间',
+  state  tinyint DEFAULT 1 COMMENT '状态 0不可用 1可用',
+  PRIMARY KEY (id)
+)ENGINE = InnoDB  DEFAULT CHARSET = utf8;
+INSERT INTO app_proxy(pname,address,phone,leader,lmobile,groups,state,time) VALUES ('临海办事处','浙江省临海市小芝镇虎山南路261号','0576-85771016','办事员','13524652541','浙江正大集团有限公司',1,now());
+INSERT INTO app_proxy(pname,address,phone,leader,lmobile,groups,state,time) VALUES ('台州办事处','浙江省台州办事处','0576-85771017','办事员2','135246525xxx','浙江正大集团有限公司',1,now());
+

@@ -33,8 +33,11 @@
     <ul class="am-tabs-nav am-nav am-nav-tabs">
 
         <p> 办事处信息</p>
-        <p style="color: #A4A4A4">区域：${sessionScope.session_user.team} 负责人：李嘉云 电话：${sessionScope.session_user.phone}<br>
-            所属公司：浙江正大集团有限公司 </p>
+        <select name="proxy" id="proxy" onchange="queryPorxyInfo()">
+
+
+        </select>
+        <p class="hide" id="proxy_inf" style="color: #A4A4A4"></p>
     </ul>
     <div class="am-tabs-bd">
 
@@ -52,34 +55,13 @@
                 下单时间：<input type="date" name="stime" id="stime" placeholder="" class="tab-input"/>
                 交货时间：<input type="date" name="dtime" id="dtime" placeholder="" class="tab-input"/></li>
 
-            <li class="hide">添加设备信息 <span style=" font-size:24px; color:#00A6FF"> &#43;  </span><br>
-                <select>
-                    <option value="1">请选择设备型号</option>
-                    <option value="2">设备名称</option>
-                    <option value="3">设备名称</option>
-                </select>
-                <select>
-                    <option value="1">请选择数量</option>
-                    <option value="2">1台</option>
-                    <option value="3">2台</option>
-                    <option value="3">3台</option>
-                    <option value="3">4台</option>
-                    <option value="3">5台</option>
-
-                </select>
-
-                <select>
-                    <option value="1">请选择一台重量</option>
-                    <option value="2">50KG</option>
-                    <option value="3">70kg</option>
-                    <option value="3">90kg</option>
-
-                </select>
-
-                <p style="color: #404040">设备所属区域：临海地区 <br>负责人：李嘉云 &nbsp;&nbsp;&nbsp; &nbsp; 电话：13422101114<br>
-                    所属公司：浙江正大集团有限公司 </p>
-
-                <br>
+            <li class="">添加设备信息 <span style=" font-size:24px; color:#00A6FF" onclick="showDevice()"> &#43;  </span><br>
+                <div id="" class="device-info hide">
+                    <select name="device-name">
+                        <option value="">请选择设备型号</option>
+                    </select>
+                    <input type="text" name="dnumber" id="dnumber" placeholder="请输入数量" class="tab-input"/>
+                </div>
             </li>
 
             <textarea placeholder="填写定制信息" id="selfInf" name="selfInf" class="tab-input"></textarea>
@@ -96,16 +78,85 @@
 
 <script type="text/javascript">
 
+    $(document).ready(function () {
+        queryPorxy();
+        queryDevice();
+    });
+
+    function showDevice() {
+        var device_inf_div = $('.device-info');
+        if (device_inf_div.hasClass('hide')) {
+            device_inf_div.removeClass('hide');
+            return;
+        }
+
+        // $('.device-info').parent().append(device_inf_div);
+    }
+
+    function addDevice() {
+
+    }
+
+    function queryDevice() {
+        $.ajax({
+            type: 'get',
+            url: '/web/device/list/select',
+            data: {},
+            dataType: 'html',
+            success: function (html) {
+                html = $("select[name='device-name']").html() + html;
+                console.log(html);
+                $("select[name='device-name']").html(html);
+            }
+        });
+    }
+
+    function queryPorxy() {
+        $.ajax({
+            type: 'get',
+            url: '/web/proxy/list',
+            data: {},
+            dataType: 'html',
+            success: function (html) {
+                console.log(html);
+                $('#proxy').html(html);
+                queryPorxyInfo();
+            }
+        });
+    }
+
+    function queryPorxyInfo() {
+        var pxid = $('#proxy').val();
+        $.ajax({
+            type: 'get',
+            url: '/web/proxy/find',
+            data: {
+                id: pxid
+            },
+            dataType: 'json',
+            success: function (json) {
+                if (json.code == '200') {
+                    $('#proxy_inf').html('区域：' + json.obj.pname + '负责人：' + json.obj.leader + ' 电话：' + json.obj.lmobile + ' <br> 所属公司：' + json.obj.groups);
+                    $('#proxy_inf').removeClass('hide');
+                }
+            }
+        });
+    }
+
     function addOrder() {
         var buser = $('#buser').val();
         var bphone = $('#bphone').val();
         var cust = $('#cust').val();
         var cphone = $('#cphone').val();
         var caddress = $('#caddress').val();
-        var stime = $('#stime').val();
-        var dtime = $('#dtime').val();
+        var stime = $('#stime').val().toString();
+        var dtime = $('#dtime').val().toString();
         var selfInf = $('#selfInf').val();
         var remark = $('#remark').val();
+
+        var proxy = $('#proxy').val();
+        var device = $("select[name='device-name']").val();
+        var dnumber = $('#dnumber').val();
 
 
         if (buser == '') {
@@ -135,23 +186,38 @@
             return false;
         }
 
+        if (device == '') {
+            alert("请添加设备信息");
+            return false;
+        }
+
+        if (dnumber == '') {
+            alert("请添加设备数量");
+            return false;
+        }
+
         $.ajax({
             url: '/web/order/add',
             type: 'POST',
             data: {
-                title: title,
-                content: content
+                buser:buser,
+                bphone:bphone,
+                cust:cust,
+                phone:cphone,
+                address:caddress,
+                stime:stime,
+                dtime:dtime,
+                ext:selfInf,
+                remark:remark,
+                proxy:proxy,
+                did:device,
+                number:dnumber
             },
             success: function (json) {
                 if (json.code == '200') {
-//                    $('.img-space > img').each(function () {
-//                        img += $(this).attr("src") + "##@##";
-//                        fname += $(this).attr("alt") + "##@##";
-//                        type += $(this).attr("title") + "##@##";
-//                    });
                     alert('提交成功');
+                    location.href='/${sessionScope.role}/work';
                     return;
-
                 } else {
                     alert(json.msg);
                 }

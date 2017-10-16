@@ -64,8 +64,9 @@
 <ul class="member-nav">
 
     <li><a href="/admin/newsAdd.html"><i class="am-icon-newspaper-o"></i><span>内容管理</span></a></li>
-    <li><a href=""><i class="am-icon-credit-card"></i><span>配件资费标准</span></a></li>
-    <li><a href=""><i class="am-icon-credit-card"></i><span>报销费用标准</span></a></li>
+    <li><a href="/device/addDevice.html"><i class="am-icon-credit-card"></i><span>配件资费标准</span></a></li>
+    <li><a href="/proxy/addProxy.html"><i class="am-icon-credit-card"></i><span>办事处信息</span></a></li>
+    <li style="display: none;"><a href=""><i class="am-icon-credit-card"></i><span>报销费用标准</span></a></li>
 </ul>
 <div class="h50"></div>
 

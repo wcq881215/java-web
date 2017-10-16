@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by changqi.wu on 17-8-30.
@@ -57,6 +58,13 @@ public class DeviceController extends APIService {
         Device device = deviceService.findById(id);
         attr("device", device);
         return "/device/detail";
+    }
+
+    @RequestMapping("/list/select")
+    public String selectDevice() {
+        List<Device> data = deviceService.findAll();
+        attr("data", data);
+        return "/device/list";
     }
 
 }

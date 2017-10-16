@@ -11,6 +11,7 @@ import java.util.Date;
 @Entity
 @Table(name = "app_order")
 public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -22,6 +23,8 @@ public class Order {
     private String bphone;
     @Column
     private String sn;
+    @Column
+    private Long did;
     @Column
     private String device;
     @Column
@@ -37,15 +40,15 @@ public class Order {
     @Column
     private String remark;
     @Column
+    private String cust;
+    @Column
     private String address;
     @Column
     private String phone;
     @Column
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date stime;
+    private String stime;
     @Column
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date dtime;
+    private String dtime;
     @Column
     private String driver;
     @Column
@@ -53,9 +56,37 @@ public class Order {
     @Column
     private String logphone;
     @Column
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date time;
     @Column
     private String state;
+    @Column
+    private Long proxy;
+
+
+    public Long getDid() {
+        return did;
+    }
+
+    public void setDid(Long did) {
+        this.did = did;
+    }
+
+    public String getCust() {
+        return cust;
+    }
+
+    public void setCust(String cust) {
+        this.cust = cust;
+    }
+
+    public Long getProxy() {
+        return proxy;
+    }
+
+    public void setProxy(Long proxy) {
+        this.proxy = proxy;
+    }
 
     public Long getId() {
         return id;
@@ -137,11 +168,11 @@ public class Order {
         this.phone = phone;
     }
 
-    public Date getStime() {
+    public String getStime() {
         return stime;
     }
 
-    public void setStime(Date stime) {
+    public void setStime(String stime) {
         this.stime = stime;
     }
 
@@ -201,11 +232,11 @@ public class Order {
         this.ext = ext;
     }
 
-    public Date getDtime() {
+    public String getDtime() {
         return dtime;
     }
 
-    public void setDtime(Date dtime) {
+    public void setDtime(String dtime) {
         this.dtime = dtime;
     }
 
