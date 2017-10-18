@@ -45,12 +45,12 @@
             <p>常见维修问题</p>
         </a>
     </li>
-    <li>
-        <a href="/admin/service.html">
-            <img src="/images/fw.png"/>
-            <p>服务内容</p>
-        </a>
-    </li>
+    <%--<li>--%>
+        <%--<a href="/admin/service.html">--%>
+            <%--<img src="/images/fw.png"/>--%>
+            <%--<p>服务内容</p>--%>
+        <%--</a>--%>
+    <%--</li>--%>
     <li>
         <a href="/admin/video.html">
             <img src="/images/az.png"/>
@@ -63,8 +63,8 @@
 
 <ul class="member-nav">
 
-    <li><a href="/admin/newsAdd.html"><i class="am-icon-newspaper-o"></i><span>内容管理</span></a></li>
-    <li><a href="/device/addDevice.html"><i class="am-icon-credit-card"></i><span>配件资费标准</span></a></li>
+    <li><a href="/device/addDevice.html"><i class="am-icon-newspaper-o"></i><span>录入设备信息</span></a></li>
+    <li class="hide"><a href="/device/addDevice.html"><i class="am-icon-credit-card"></i><span>配件资费标准</span></a></li>
     <li><a href="/proxy/addProxy.html"><i class="am-icon-credit-card"></i><span>办事处信息</span></a></li>
     <li style="display: none;"><a href=""><i class="am-icon-credit-card"></i><span>报销费用标准</span></a></li>
 </ul>

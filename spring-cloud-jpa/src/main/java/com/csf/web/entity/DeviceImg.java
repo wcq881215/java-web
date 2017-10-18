@@ -22,6 +22,8 @@ public class DeviceImg {
     @Column
     private String alt;
     @Column
+    private String path;
+    @Column
     private Date upload;
     @Column
     private Boolean state;
@@ -73,5 +75,13 @@ public class DeviceImg {
 
     public void setState(Boolean state) {
         this.state = state;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }

@@ -54,14 +54,35 @@ INSERT INTO `oa`.`app_user`(`id`, `username`, `password`, `mobno`, `phone`, `rol
 INSERT INTO `oa`.`app_user`(`id`, `username`, `password`, `mobno`, `phone`, `role`, `device`, `s_time`, `state`) VALUES (5, 'produce', '111111', 'adfdf-fdfe-fdf-erer-444', '13524625212', '生产部', NULL, NULL, 1);
 INSERT INTO `oa`.`app_user`(`id`, `username`, `password`, `mobno`, `phone`, `role`, `device`, `s_time`, `state`) VALUES (6, 'custom', '111111', 'adfdf-fdfe-fdf-erer-555', '13524625212', '购机客户', '1111222333', '2017-09-03', 1);
 
+
+
+-- 办事处信息
+DROP TABLE IF EXISTS app_proxy;
+CREATE TABLE app_proxy (
+  id         INT AUTO_INCREMENT,
+  pname   VARCHAR (300)  NOT NULL  COMMENT '办事处',
+  address      VARCHAR(200)    COMMENT '地址',
+  phone    VARCHAR(50)   COMMENT '联系电话',
+  leader    VARCHAR(50)   COMMENT '负责人',
+  lmobile    VARCHAR(50)   COMMENT '负责人电话',
+  groups    VARCHAR(200)  DEFAULT '浙江正大集团有限公司'   COMMENT '所属公司',
+  time   TIMESTAMP COMMENT '发布时间',
+  state  tinyint DEFAULT 1 COMMENT '状态 0不可用 1可用',
+  PRIMARY KEY (id)
+)ENGINE = InnoDB  DEFAULT CHARSET = utf8;
+INSERT INTO app_proxy(pname,address,phone,leader,lmobile,groups,state,time) VALUES ('临海办事处','浙江省临海市小芝镇虎山南路261号','0576-85771016','办事员','13524652541','浙江正大集团有限公司',1,now());
+INSERT INTO app_proxy(pname,address,phone,leader,lmobile,groups,state,time) VALUES ('台州办事处','浙江省台州办事处','0576-85771017','办事员2','135246525xxx','浙江正大集团有限公司',1,now());
+
+
+
 -- 设备
 DROP TABLE IF EXISTS app_device;
 CREATE TABLE app_device (
   id         INT AUTO_INCREMENT,
-  sn   VARCHAR(30)  NOT NULL  COMMENT 'sn',
-  _name   VARCHAR(32) NOT NULL  COMMENT '设备名称',
+  sn   VARCHAR(50)  NOT NULL  COMMENT 'sn',
+  _name   VARCHAR(200) NOT NULL  COMMENT '设备名称',
   _desc        text NOT NULL  COMMENT '简介',
-  type   VARCHAR(30) NOT NULL  COMMENT '类别',
+  type   VARCHAR(100) NOT NULL  COMMENT '类别',
   `number`   INT COMMENT '数量',
   price DOUBLE (12,2) COMMENT '单价',
   state  BOOLEAN COMMENT '状态 0 不可用 1可用',
@@ -71,19 +92,43 @@ CREATE TABLE app_device (
 
 INSERT  INTO  app_device (sn,_name,_desc,type,`number`,price,state,time) VALUES ('1111222333','机床螺丝','xxxxxx NB','螺丝',1000,0.1,1,now());
 
+-- 设备
+DROP TABLE IF EXISTS app_device_detail;
+CREATE TABLE app_device_detail (
+  id         INT AUTO_INCREMENT,
+  sn   VARCHAR(50)  NOT NULL  COMMENT 'sn',
+  _name   VARCHAR(200) NOT NULL  COMMENT '设备名称',
+  _desc        text NOT NULL  COMMENT '简介',
+  type   VARCHAR(100) NOT NULL  COMMENT '类别',
+  pid   INT (30)  NOT NULL  COMMENT 'proxy id',
+  `number`   INT COMMENT '数量',
+  price DOUBLE (12,2) COMMENT '单价',
+  state  BOOLEAN COMMENT '状态 0 不可用 1可用',
+  time TIMESTAMP COMMENT '发布时间',
+  PRIMARY KEY (id)
+)ENGINE = InnoDB  DEFAULT CHARSET = utf8;
+
+INSERT  INTO  app_device_detail (sn,_name,_desc,type,pid,`number`,price,state,time) VALUES ('NH11222333','机床螺丝','xxxxxx NB','螺丝',1,1000,0.1,1,now());
+
+
 -- 设备图片
 DROP TABLE IF EXISTS app_device_img;
 CREATE TABLE app_device_img (
   id         INT AUTO_INCREMENT,
   did   INT (30)  NOT NULL  COMMENT 'device id',
-  src   VARCHAR(50) NOT NULL  COMMENT '图片路径',
+  src   VARCHAR(50) NOT NULL  COMMENT '图片url',
+  path   VARCHAR(50) NOT NULL  COMMENT '图片路径',
   alt        VARCHAR(50)   COMMENT 'alt',
   upload   DATE COMMENT '上传时间',
   state  BOOLEAN COMMENT '状态 0 不可用 1可用',
   PRIMARY KEY (id)
 )ENGINE = InnoDB  DEFAULT CHARSET = utf8;
 
-INSERT  INTO  app_device_img(did,src,alt,upload,state) VALUES(1,'http://www.baidu.com/img/bd_logo1.png','baidu',now(),1);
+INSERT INTO `oa`.`app_device_img`(`id`, `did`, `src`, `alt`, `upload`, `state`) VALUES (1, 1, '/images/p.png', '全自动切割机 ZDH-500', '2017-09-02', 1);
+INSERT INTO `oa`.`app_device_img`(`id`, `did`, `src`, `alt`, `upload`, `state`) VALUES (2, 2, '/images/p1.png', '十四圆头抛光机 ZD-1200', '2017-10-02', 1);
+INSERT INTO `oa`.`app_device_img`(`id`, `did`, `src`, `alt`, `upload`, `state`) VALUES (3, 3, '/images/p2.png', '瓷砖机 ZDC-1200 ', '2017-10-02', 1);
+INSERT INTO `oa`.`app_device_img`(`id`, `did`, `src`, `alt`, `upload`, `state`) VALUES (4, 4, '/images/p3.png', '全自动切割机 ZDH-500', '2017-10-02', 1);
+INSERT INTO `oa`.`app_device_img`(`id`, `did`, `src`, `alt`, `upload`, `state`) VALUES (5, 5, '/images/p3.png', '全自动切割机 ZDH-500', '2017-10-03', 1);
 
 -- 定位信息
 DROP TABLE IF EXISTS app_location;
@@ -114,7 +159,7 @@ CREATE TABLE app_message (
 )ENGINE = InnoDB  DEFAULT CHARSET = utf8;
 
 INSERT  INTO  app_message(pid,title,content,time,state) VALUES(1,'关于国庆放假通知','本公司严格按照国务院规定，今年（2017年）从10月1日起到10月8号，共八天假期！请相关部门负责人做好工作安排',now(),1);
-
+INSERT INTO app_message(pid,title,content,time,state) values (3,'订单编号13422101114客户李先生订购的设备已经发货','订单编号13422101114客户李先生订购的设备已经发货',now(),1);
 
 DROP TABLE IF EXISTS app_order;
 CREATE TABLE app_order (
@@ -258,22 +303,4 @@ CREATE TABLE app_video_src (
   state  BOOLEAN COMMENT '状态 0 不可用 1可用',
   PRIMARY KEY (id)
 )ENGINE = InnoDB  DEFAULT CHARSET = utf8;
-
-
--- 办事处信息
-DROP TABLE IF EXISTS app_proxy;
-CREATE TABLE app_proxy (
-  id         INT AUTO_INCREMENT,
-  pname   VARCHAR (300)  NOT NULL  COMMENT '办事处',
-  address      VARCHAR(200)    COMMENT '地址',
-  phone    VARCHAR(50)   COMMENT '联系电话',
-  leader    VARCHAR(50)   COMMENT '负责人',
-  lmobile    VARCHAR(50)   COMMENT '负责人电话',
-  groups    VARCHAR(200)  DEFAULT '浙江正大集团有限公司'   COMMENT '所属公司',
-  time   TIMESTAMP COMMENT '发布时间',
-  state  tinyint DEFAULT 1 COMMENT '状态 0不可用 1可用',
-  PRIMARY KEY (id)
-)ENGINE = InnoDB  DEFAULT CHARSET = utf8;
-INSERT INTO app_proxy(pname,address,phone,leader,lmobile,groups,state,time) VALUES ('临海办事处','浙江省临海市小芝镇虎山南路261号','0576-85771016','办事员','13524652541','浙江正大集团有限公司',1,now());
-INSERT INTO app_proxy(pname,address,phone,leader,lmobile,groups,state,time) VALUES ('台州办事处','浙江省台州办事处','0576-85771017','办事员2','135246525xxx','浙江正大集团有限公司',1,now());
 

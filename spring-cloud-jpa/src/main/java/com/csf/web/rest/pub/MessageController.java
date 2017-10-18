@@ -1,5 +1,6 @@
 package com.csf.web.rest.pub;
 
+import com.csf.web.constants.OAConstants;
 import com.csf.web.dto.APIStatus;
 import com.csf.web.dto.BaseDto;
 import com.csf.web.entity.Location;
@@ -30,12 +31,26 @@ public class MessageController extends APIService {
     private MessageService messageService;
 
     @RequestMapping("/add")
+    @ResponseBody
 //    public BaseDto addMsg(Long pid,String title,String content,String dept,String team,Long uid){
     public BaseDto addMsg(Message message) {
         message.setTime(new Date());
         message.setState(true);
         message = messageService.saveMsg(message);
         return BaseDto.newDto(message);
+    }
+
+    @RequestMapping("/my")
+    @ResponseBody
+    public BaseDto queryMsg(Integer page,Integer pageSize){
+        if(page == null){
+            page = 0;
+        }
+        if(pageSize == null){
+            pageSize = 30;
+        }
+        User u = (User)request.getSession().getAttribute(OAConstants.SESSION_USER);
+        return BaseDto.newDto(messageService.queryUserMsg(page,pageSize,u));
     }
 
 }

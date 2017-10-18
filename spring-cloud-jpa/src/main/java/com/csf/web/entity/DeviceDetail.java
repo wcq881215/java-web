@@ -8,8 +8,8 @@ import java.util.List;
  * Created by changqi.wu on 2017/8/8.
  */
 @Entity
-@Table(name = "app_device")
-public class Device {
+@Table(name = "app_device_detail")
+public class DeviceDetail {
 
     private static final long serialVersionUID = 1L;
 
@@ -28,7 +28,7 @@ public class Device {
     @JoinColumn(name = "pid")
     private Proxy proxy;//办事处
     @Column
-    private Integer number;
+    private Long number;
     @Column
     private Double price;
     @Column
@@ -87,11 +87,11 @@ public class Device {
         this.type = type;
     }
 
-    public Integer getNumber() {
+    public Long getNumber() {
         return number;
     }
 
-    public void setNumber(Integer number) {
+    public void setNumber(Long number) {
         this.number = number;
     }
 

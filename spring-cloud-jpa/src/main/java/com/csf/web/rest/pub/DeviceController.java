@@ -1,12 +1,14 @@
 package com.csf.web.rest.pub;
 
 import com.csf.web.constants.OAConstants;
+import com.csf.web.dto.APIStatus;
 import com.csf.web.dto.BaseDto;
-import com.csf.web.entity.Device;
-import com.csf.web.entity.Maintenance;
-import com.csf.web.entity.User;
+import com.csf.web.entity.*;
 import com.csf.web.rest.APIService;
 import com.csf.web.service.DeviceService;
+import com.csf.web.service.ProxyService;
+import com.csf.web.util.ParamCheck;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 
@@ -23,10 +26,12 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/web/device")
-public class DeviceController extends APIService {
+public class DeviceController extends FileUploadService {
 
     @Autowired
     private DeviceService deviceService;
+    @Autowired
+    private ProxyService proxyService;
 
     @RequestMapping("/new")
     public String listLateDevice() {
@@ -67,4 +72,60 @@ public class DeviceController extends APIService {
         return "/device/list";
     }
 
+    @RequestMapping("/add")
+    @ResponseBody
+    public BaseDto addDevice(String sn,
+                             String _name,
+                             String type,
+                             Long proxy,
+                             Integer number,
+                             Double price,
+                             String _desc) {
+        Device device = new Device();
+        if (ParamCheck.uncheck(sn, _name, type, proxy, number, price, _desc)) {
+            return BaseDto.newDto(APIStatus.param_error);
+        }
+        Proxy p = proxyService.findOne(proxy);
+        if (p == null) {
+            return BaseDto.newDto(APIStatus.param_error);
+        }
+        device.setDesc(_desc);
+        device.setName(_name);
+        device.setNumber(number);
+        device.setPrice(price);
+        device.setProxy(p);
+        device.setSn(sn);
+        device.setState(true);
+        device.setTime(new Date());
+        device.setType(type);
+        deviceService.saveDevice(device);
+        return BaseDto.newDto(device);
+    }
+
+    @RequestMapping("/image")
+    @ResponseBody
+    public BaseDto uploadImg(String img, Long did, String type, String alt,
+                             HttpServletRequest request) {
+        if (ParamCheck.uncheck(img, did, type, alt)) {
+            return BaseDto.newDto(APIStatus.param_error);
+        }
+        String imgs[] = img.split("##@##");
+        String types[] = type.split("##@##");
+        String alts[] = alt.split("##@##");
+        for (int i = 0; i < imgs.length; i++) {
+            String imag = imgs[i];
+            Image image = saveImage(imag, types[i], request);
+            DeviceImg im = new DeviceImg();
+            im.setUpload(image.getTime());
+            im.setState(true);
+            im.setSrc(image.getUrl());
+            im.setDid(did);
+            im.setAlt(alts[i]);
+            im.setPath(image.getPath());
+            deviceService.saveDeviceImg(im);
+        }
+
+
+        return BaseDto.newDto("");
+    }
 }

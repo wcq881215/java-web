@@ -1,8 +1,10 @@
 package com.csf.web.service;
 
 import com.csf.web.entity.Device;
+import com.csf.web.entity.DeviceImg;
 import com.csf.web.entity.User;
 import com.csf.web.repository.DeviceDao;
+import com.csf.web.repository.DeviceImgDao;
 import com.csf.web.repository.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,6 +26,8 @@ public class DeviceService {
 
     @Autowired
     private DeviceDao deviceDao;
+    @Autowired
+    private DeviceImgDao deviceImgDao;
 
     public Page<Device> findAll(Integer page, Integer pageSize) {
         Sort sort = new Sort(Sort.Direction.DESC, "time");
@@ -45,8 +49,13 @@ public class DeviceService {
     }
 
 
-    public void saveDevice(Device device) {
-        deviceDao.save(device);
+    public Device saveDevice(Device device) {
+        return deviceDao.save(device);
+    }
+
+    public DeviceImg saveDeviceImg(DeviceImg img) {
+
+        return deviceImgDao.save(img);
     }
 
 

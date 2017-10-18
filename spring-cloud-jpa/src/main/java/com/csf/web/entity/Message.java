@@ -1,5 +1,7 @@
 package com.csf.web.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -13,8 +15,9 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column
-    private Long pid;
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = true)
+    @JoinColumn(name = "pid")
+    private User user;//发布人
     @Column
     private String title;
     @Column
@@ -26,6 +29,7 @@ public class Message {
     @Column
     private Long uid;
     @Column
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date time;
     @Column
     private Boolean state;
@@ -38,12 +42,12 @@ public class Message {
         this.id = id;
     }
 
-    public Long getPid() {
-        return pid;
+    public User getUser() {
+        return user;
     }
 
-    public void setPid(Long pid) {
-        this.pid = pid;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getTitle() {

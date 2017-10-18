@@ -28,7 +28,7 @@
 
     <li><a href="/admin/sendMsg.html"><i class="am-icon-newspaper-o"></i><span>短信群发</span></a></li>
 
-    <li><a href="/admin/send.html"><i class="am-icon-bell-o"></i><span>信息推送</span></a></li>
+    <li><a href="/admin/myMsg.html"><i class="am-icon-bell-o"></i><span>我的消息</span></a></li>
 </ul>
 <br>
 
