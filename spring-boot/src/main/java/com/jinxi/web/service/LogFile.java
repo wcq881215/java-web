@@ -65,7 +65,7 @@ public class LogFile {
         return sb.toString();
     }
 
-    public static final String info_templete = "INFO ${0} com.csf.frame.interceptors.LoggingInterceptor     (38) -  Request uri [ ${1} ] cost time ${2} ms";
+    public static final String info_templete = "${0} INFO com.csf.frame.interceptors.LoggingInterceptor     (38) -  Request uri [ ${1} ] cost time ${2} ms";
 
     public static final String excep1_templete = "Caused by: java.net.ConnectException: Connection timed out";
     public static final String excep2_templete = "javax.ws.rs.NotFoundException: Could not find resource for full path: http://localhost:7027/shukugang/api/ucenter/optional/shares/add";
@@ -119,9 +119,9 @@ public class LogFile {
     private static List<String> urls = new ArrayList<>();
 
     static {
-        urls.add("/ucenter/optional/shares/add");
-        urls.add("/stock/realtime/state");
-        urls.add("/hq/stock/time/share/daily");
+        urls.add("/ucenter/optional/shares/add防守打法");
+        urls.add("/stock/realtime/state发顺丰");
+        urls.add("/hq/stock/time/share/daily发送");
         urls.add("/csf/index/realtime/state");
         urls.add("/csf/index/capital/flows/ranking");
         urls.add("/csf/index/capital/flows/details");
