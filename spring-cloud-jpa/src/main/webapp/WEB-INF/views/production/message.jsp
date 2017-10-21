@@ -26,9 +26,9 @@
 
 <ul class="member-nav" style="margin-top:50px;">
 
-    <li><a href="/admin/sendMsg.html"><i class="am-icon-newspaper-o"></i><span>短信群发</span></a></li>
+    <li class="hide"><a href="/message/sendMsg.html"><i class="am-icon-newspaper-o"></i><span>短信群发</span></a></li>
 
-    <li><a href="/admin/send.html"><i class="am-icon-bell-o"></i><span>我的消息</span></a></li>
+    <li><a href="/message/myMsg.html"><i class="am-icon-bell-o"></i><span>我的消息</span></a></li>
 </ul>
 <br>
 

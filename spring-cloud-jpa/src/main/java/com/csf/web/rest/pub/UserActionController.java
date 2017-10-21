@@ -9,6 +9,7 @@ import com.csf.web.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
@@ -92,11 +93,21 @@ public class UserActionController extends APIService {
     @RequestMapping("/type/list")
     public BaseDto listType() {
         UserRole[] roles = UserRole.values();
-        Map<String,String> rs = new HashMap<>();
-        for(UserRole role:roles){
-            rs.put(role.getRole(),role.getName());
+        Map<String, String> rs = new HashMap<>();
+        for (UserRole role : roles) {
+            rs.put(role.getRole(), role.getName());
         }
         return BaseDto.newDto(rs);
+    }
+
+    @RequestMapping("/list")
+    public BaseDto listUser(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "30") Integer pageSize) {
+        return BaseDto.newDto(userService.findAll(page, pageSize));
+    }
+
+    @RequestMapping("/list/inner")
+    public BaseDto listInnerUser(String key,@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "30") Integer pageSize) {
+        return BaseDto.newDto(userService.findAllInner(key,page, pageSize));
     }
 
 }

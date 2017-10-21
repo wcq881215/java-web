@@ -30,6 +30,9 @@ public class MessageController extends APIService {
     @Autowired
     private MessageService messageService;
 
+    @Autowired
+    private UserService userService;
+
     @RequestMapping("/add")
     @ResponseBody
 //    public BaseDto addMsg(Long pid,String title,String content,String dept,String team,Long uid){
@@ -38,6 +41,31 @@ public class MessageController extends APIService {
         message.setState(true);
         message = messageService.saveMsg(message);
         return BaseDto.newDto(message);
+    }
+
+    @RequestMapping("/send")
+    @ResponseBody
+    public BaseDto groupSendMsg(String title,String content,String dept,String team,String uids){
+        User user = (User)request.getSession().getAttribute(OAConstants.SESSION_USER);
+        if(StringUtils.isNotBlank(uids)){
+            String[] uid = uids.split(",");
+            for(String sid : uid){
+                Long id = Long.valueOf(sid);
+                User u = userService.findById(id);
+                Message message = new Message();
+                message.setTime(new Date());
+                message.setState(true);
+                message.setTitle(title);
+                message.setContent(content);
+                message.setDept(u.getDept());
+                message.setTeam(u.getTeam());
+                message.setUser(user);
+                message.setUid(id);
+                message = messageService.saveMsg(message);
+            }
+        }
+
+        return BaseDto.newDto(APIStatus.success);
     }
 
     @RequestMapping("/my")

@@ -25,7 +25,7 @@
 
 
 <ul class="member-nav" style="margin-top:50px;">
-    <li><a href="/message/send.html"><i class="am-icon-bell-o"></i><span>我的消息</span></a></li>
+    <li><a href="/message/myMsg.html"><i class="am-icon-bell-o"></i><span>我的消息</span></a></li>
 </ul>
 <br>
 

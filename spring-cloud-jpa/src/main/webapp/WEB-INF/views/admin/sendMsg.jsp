@@ -37,6 +37,15 @@
             height: 80px;
         }
 
+        .member-nav {
+            padding: 0px;
+            padding-left: 15px;
+        }
+
+        textarea.tab-input {
+            min-height: 300px;
+        }
+
     </style>
 
 </head>
@@ -55,14 +64,28 @@
 </header>
 
 
-<div class="am-tabs qiehuan" data-am-tabs style="margin-top:50px; ">
+<div class="am-tabs qiehuan hide" id="user-content" data-am-tabs style="margin-top:50px; ">
+    <div class="search-input" style="">
+        <input type="text" id="key" name="key" placeholder="输入关键词查找"/>
+    </div>
+
+    <ul class="member-nav">
+
+    </ul>
+    <br><br>
+    <button type="button" onclick="sendMsg()" class="tab-btn">确  定</button>
+
+</div>
+
+<div class="am-tabs qiehuan" id="msg-content" data-am-tabs style="margin-top:50px; ">
     <div class="am-tabs-bd">
         <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+            <input type="text" placeholder="标题" id="title" name="title" class="tab-input"/>
             <textarea placeholder="消息内容" id="content" name="content" class="tab-input"
                       style="height:300px;"></textarea>
 
             <br><br>
-            <button type="button" onclick="addCase()" class="tab-btn">确认</button>
+            <button type="button" onclick="selectUser()" class="tab-btn">下一步</button>
 
         </div>
 
@@ -72,10 +95,89 @@
 
 <script type="text/javascript" src="/js/jquery.min.js"></script>
 <script type="text/javascript" src="/js/amazeui.min.js"></script>
+<script type="text/javascript" src="/mobile/jquery.mobile-1.4.5.min.js"></script>
+
 
 <script type="text/javascript">
 
-    function addCase() {
+    var page = 0;
+    var pageSize = 4;
+    var ajaxFlag = true;
+
+    $(".search-input").on("input", "input[type='text']", function () {
+        ajaxFlag = true;
+        page = 0;
+        init(function (json) {
+            var htm = createHtmlNoData();
+            if (json.obj.numberOfElements > 0) {
+                htm = createHtml(json);
+                $('.ui-loader').hide();
+            } else {
+                ajaxFlag = false;
+            }
+            $('.member-nav').html(htm);
+        });
+    });
+
+    $(document).on("scrollstart", function () {
+        init(function (json) {
+            appendData(json);
+        });
+    });
+
+    function appendData(json) {
+        var htm = createHtmlNoData();
+        if (json.obj.numberOfElements > 0) {
+            page++;
+            htm = createHtml(json);
+            $('.ui-loader').hide();
+        } else {
+            ajaxFlag = false;
+        }
+        $('.member-nav').append(htm);
+    }
+
+    function init(callback) {
+        var key = $('#key').val();
+        if (!ajaxFlag) {
+            return;
+        }
+        $.ajax({
+            type: 'get',
+            url: '/web/user/list/inner',
+            data: {
+                key: key,
+                page: page,
+                pageSize: pageSize
+            },
+            dataType: 'json',
+            success: function (json) {
+                console.log(json);
+                callback(json)
+            }
+        });
+    }
+
+    function createHtmlNoData() {
+//        return "<div>没有数据了</div>";
+        return "";
+    }
+
+
+    function createHtml(json) {
+        var html = "";
+        var array = json.obj.content;
+        for (var i in array) {
+            var data = array[i];
+            html += "<li>";
+            html += "<span>" + data.name + "&nbsp;" + data.dept + "&nbsp; 电话：" + data.phone + "</span>";
+            html += "<input style='float: right;right:20px;margin-top: 15px;' type='checkbox' name='user_ids' value='" + data.id + "' />";
+            html += "</li>";
+        }
+        return html;
+    }
+
+    function selectUser() {
         var title = $('#title').val();
         var content = $('#content').val();
         if (title == '') {
@@ -87,14 +189,37 @@
             return false;
         }
 
+        $('#msg-content').addClass("hide");
+        $('#user-content').removeClass("hide");
+
+        init(function (json) {
+            appendData(json);
+        });
+
+    }
+
+    function sendMsg() {
+        var title = $('#title').val();
+        var content = $('#content').val();
+        var uids = "";
+        $("input[name='user_ids']").each(function () {
+            if($(this.checked)){
+                uids += $(this).val() + ",";
+            }
+        })
+        console.log(">> uids :: " + uids);
         $.ajax({
-            url: '/web/msg/add',
-            type: 'POST',
-            data: {},
-            success: function (responseStr) {
-                if (responseStr.code == '200') {
+            url: '/web/msg/send',
+            type: 'get',
+            data: {
+                title:title,
+                content:content,
+                uids:uids
+            },
+            success: function (json) {
+                if (json.code == '200') {
                     alert('发送成功');
-                    location.href = "/${sessionScope.role}/msg";
+                    location.href = "/${sessionScope.role}/message";
                 } else {
                     alert('发送成功');
                 }
