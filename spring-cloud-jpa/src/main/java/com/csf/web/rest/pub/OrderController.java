@@ -33,14 +33,11 @@ public class OrderController extends APIService {
     @RequestMapping("/user/message")
     public BaseDto getUserOrderMsg() {
 
-
         return BaseDto.newDto(null);
     }
 
-
     @RequestMapping("/message/{id}")
     public String getUserOrderMsgDetail(@PathVariable("id") Long id) {
-
 
         return "";
     }
@@ -64,5 +61,25 @@ public class OrderController extends APIService {
         orderService.saveOrder(order);
         return BaseDto.newDto(order);
     }
+
+    @ResponseBody
+    @RequestMapping("/status/{status}")
+    public BaseDto query(@PathVariable("status")String status,Integer page,Integer pageSize) {
+        if(page == null){
+            page = 0;
+        }
+        if(pageSize == null){
+            pageSize = 30;
+        }
+        User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
+        if("-1".equals(status)){
+            return BaseDto.newDto(orderService.queryUserAllOrder(user,page,pageSize));
+        }else{
+
+            return BaseDto.newDto(orderService.queryUserStateOrder(user,status,page,pageSize));
+        }
+    }
+
+
 
 }

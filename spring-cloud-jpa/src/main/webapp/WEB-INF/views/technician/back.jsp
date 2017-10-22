@@ -55,13 +55,17 @@
 
 <script type="text/javascript" src="/js/jquery.min.js"></script>
 <script type="text/javascript" src="/js/amazeui.min.js"></script>
+<link type="text/css" rel="stylesheet" href="/mobile/zdialog.css"/>
+<script type="text/javascript" src="/mobile/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="/mobile/zdialog.js"></script>
+<script type="text/javascript" src="/js/alert.js?v=1.0"></script>
 <script type="text/javascript" src="/js/ssi-uploader.min.js"></script>
 <script type="text/javascript">
 
     var caseid = "<%=uuid%>";
 
     $(document).ready(function () {
-         $('#tick_img').ssi_uploader({
+        $('#tick_img').ssi_uploader({
             url: '/web/case/image',
             data: {
                 id: caseid
@@ -81,11 +85,11 @@
         var title = $('#title').val();
         var content = $('#content').val();
         if (title == '') {
-            alert("请输入标题");
+            alertMess("请输入标题");
             return false;
         }
         if (content == '') {
-            alert("请输入内容");
+            alertMess("请输入内容");
             return false;
         }
 //        $.ajax({
@@ -102,35 +106,35 @@
 //                    uploadImg();
 //
 //                } else {
-//                    alert(json.msg);
+//                    alertMess(json.msg);
 //                }
 //            }
 //        });
 
 
         var formData = new FormData();
-        formData.append("file",$("#tick_img")[0].files[0]);
-        formData.append("title",title);
-        formData.append("content",content);
+        formData.append("file", $("#tick_img")[0].files[0]);
+        formData.append("title", title);
+        formData.append("content", content);
         $.ajax({
-            url : '/web/case/image',
-            type : 'POST',
-            data : formData,
+            url: '/web/case/image',
+            type: 'POST',
+            data: formData,
             //不去处理发送的数据
-            processData : false,
+            processData: false,
             //不去设置Content-Type请求头
-            contentType : false,
-            beforeSend:function(){
+            contentType: false,
+            beforeSend: function () {
                 console.log("正在进行，请稍候");
             },
-            success : function(responseStr) {
-                if(responseStr.code=='200'){
-                    console.log("成功"+responseStr);
-                }else{
+            success: function (responseStr) {
+                if (responseStr.code == '200') {
+                    console.log("成功" + responseStr);
+                } else {
                     console.log("失败");
                 }
             },
-            error : function(responseStr) {
+            error: function (responseStr) {
                 console.log("error");
             }
         });

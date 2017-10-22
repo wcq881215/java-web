@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title>注册</title>
+    <title>个人资料</title>
     <meta name="description" content="正大海工"/>
     <meta name="keywords" content="正大海工"/>
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
@@ -11,11 +11,21 @@
     <link rel="stylesheet" href="/css/style.css"/>
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script type="text/javascript" src="/js/amazeui.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="/mobile/zdialog.css"/>
+    <script type="text/javascript" src="/mobile/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="/mobile/zdialog.js"></script>
+    <script type="text/javascript" src="/js/alert.js?v=1.0"></script>
+
+    <link type="text/css" rel="stylesheet" href="/mobile/zdialog.css"/>
+    <script type="text/javascript" src="/mobile/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="/mobile/zdialog.js"></script>
+    <script type="text/javascript" src="/js/alert.js?v=1.0"></script>
 
     <style>
-        .am-tab-panel{
+        .am-tab-panel {
             font-size: 14px;
         }
+
         .am-tab-panel li label {
             width: 93px;
             line-height: 35px;
@@ -51,10 +61,12 @@
 
             <div class="am-tab-panel am-fade am-in am-active" id="tab1">
                 <li>
-                    <label>用户ID：</label> <input type="text" readonly value="${sessionScope.session_user.id}" class="tab-input"/>
+                    <label>用户ID：</label> <input type="text" readonly value="${sessionScope.session_user.id}"
+                                                class="tab-input"/>
                     <input type="hidden" id="uid" value="${sessionScope.session_user.id}"/>
 
-                    <label>登陆用户名：</label> <input type="text" readonly value="${sessionScope.session_user.username}" class="tab-input"/>
+                    <label>登陆用户名：</label> <input type="text" readonly value="${sessionScope.session_user.username}"
+                                                 class="tab-input"/>
                     <label>用户姓名：</label> <input type="text" placeholder="姓名" name="name" id="name"
                                                 value="${sessionScope.session_user.name}" class="tab-input"/>
                     <label>用户电话：</label> <input type="text" placeholder="电话" name="phone" id="phone"
@@ -81,25 +93,25 @@
         var cfmpassword = $('#cfmpassword').val();
 
         if (name == '') {
-            alert("请输入用户姓名");
+            alertMess("请输入用户姓名");
             return;
         }
         if (phone == '') {
-            alert("请输入电话");
+            alertMess("请输入电话");
             return;
         }
         if (password == '') {
-            alert("请输入密码");
+            alertMess("请输入密码");
             return;
         }
 
         if (cfmpassword == '') {
-            alert("请输入密码");
+            alertMess("请输入密码");
             return;
         }
 
         if (password != cfmpassword) {
-            alert("2次输入密码不一致");
+            alertMess("2次输入密码不一致");
             return;
         }
 
@@ -110,9 +122,9 @@
             data: 'name=' + name + '&password=' + password + '&id=' + uid + '&phone=' + phone,
             success: function (json) {
                 if (json.code != '200') {
-                    alert(json.msg);
+                    alertMsg('提交失败');
                 } else {
-                    alert('修改成功');
+                    alertMsg('修改成功', callback("/${sessionScope.role}/my"));
                 }
             }
         });

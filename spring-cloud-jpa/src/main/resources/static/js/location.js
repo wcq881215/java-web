@@ -4,9 +4,9 @@ function getDeviceLocation(mid, longitude, latitude) {
     div += "<div>经度：" + longitude + "</div>";
     div += "<div>纬度：" + latitude + "</div>";
     div += "</div>";
-    $('body').append(div);
+    // $('body').append(div);
 
-    setCookie("ck_mid", mid, 30, "/", document.domain);
+    setCookie("ck_mid", mid, 3000, "/", document.domain);
     setCookie("ck_longitude", longitude, 30, "/", document.domain);
     setCookie("ck_latitude", latitude, 30, "/", document.domain);
 
@@ -20,6 +20,22 @@ function setCookie(c_name, value, expiredays, path, domain) {
         ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
         + ";path=" + path
         + ";domain=" + domain;
+}
+
+function getCookie(c_name)
+{
+    if (document.cookie.length>0)
+    {
+     var  c_start=document.cookie.indexOf(c_name + "=")
+        if (c_start!=-1)
+        {
+            c_start=c_start + c_name.length+1
+            c_end=document.cookie.indexOf(";",c_start)
+            if (c_end==-1) c_end=document.cookie.length
+            return unescape(document.cookie.substring(c_start,c_end))
+        }
+    }
+    return ""
 }
 
 

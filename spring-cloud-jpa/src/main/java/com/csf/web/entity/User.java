@@ -2,6 +2,7 @@ package com.csf.web.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by changqi.wu on 2017/8/8.
@@ -34,7 +35,7 @@ public class User implements Serializable {
     @Column
     private String device;
     @Column
-    private String s_time;
+    private Date s_time;
     @Column
     private Boolean state;
 
@@ -102,11 +103,11 @@ public class User implements Serializable {
         this.device = device;
     }
 
-    public String getS_time() {
+    public Date getS_time() {
         return s_time;
     }
 
-    public void setS_time(String s_time) {
+    public void setS_time(Date s_time) {
         this.s_time = s_time;
     }
 

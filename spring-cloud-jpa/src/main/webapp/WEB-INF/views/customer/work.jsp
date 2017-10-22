@@ -11,6 +11,10 @@
     <link rel="stylesheet" href="/css/style.css"/>
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script type="text/javascript" src="/js/amazeui.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="/mobile/zdialog.css"/>
+    <script type="text/javascript" src="/mobile/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="/mobile/zdialog.js"></script>
+    <script type="text/javascript" src="/js/alert.js?v=1.0"></script>
 </head>
 <body>
 

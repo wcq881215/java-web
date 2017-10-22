@@ -11,6 +11,10 @@
     <link rel="stylesheet" href="/css/style.css"/>
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script type="text/javascript" src="/js/amazeui.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="/mobile/zdialog.css"/>
+    <script type="text/javascript" src="/mobile/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="/mobile/zdialog.js"></script>
+    <script type="text/javascript" src="/js/alert.js?v=1.0"></script>
 </head>
 <body>
 
@@ -48,9 +52,9 @@
 
 </ul>
 
-<h3 align="center" style="padding-top:15px;">售后管理</h3>
-<hr>
-<ul class="nav">
+<h3 align="center" class="hide" style="padding-top:15px;">售后管理</h3>
+<hr class="hide">
+<ul class="hide nav">
     <li>
         <a href="/order/done.html">
             <img src="/images/fw.png"/>
@@ -73,9 +77,9 @@
 </ul>
 
 
-<h3 align="center" style="padding-top:15px;">客户管理</h3>
-<hr>
-<ul class="nav">
+<h3 align="center" class="hide" style="padding-top:15px;">客户管理</h3>
+<hr class="hide">
+<ul class="hide nav">
     <li>
         <a href="/user/sale.html">
             <img src="/images/az.png"/>

@@ -62,7 +62,7 @@
             <textarea placeholder="填写设备的故障与解决方案 " id="content" name="content" class="tab-input"
                       style="height:300px;"></textarea>
 
-
+            上传图片:
             <div class="img-space"
                  style=" background:#f2f2f2; border-color:#939393; height:auto; width:100%; margin-bottom:20px;z-index:-1000">
                 <a href="javascript:void(0)" class="file">
@@ -83,6 +83,10 @@
 
 <script type="text/javascript" src="/js/jquery.min.js"></script>
 <script type="text/javascript" src="/js/amazeui.min.js"></script>
+<link type="text/css" rel="stylesheet" href="/mobile/zdialog.css"/>
+<script type="text/javascript" src="/mobile/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="/mobile/zdialog.js"></script>
+<script type="text/javascript" src="/js/alert.js?v=1.0"></script>
 <script type="text/javascript" src="/js/ssi-uploader.min.js"></script>
 
 <script type="text/javascript">
@@ -111,11 +115,11 @@
         var title = $('#title').val();
         var content = $('#content').val();
         if (title == '') {
-            alert("请输入标题");
+            alertMess("请输入标题");
             return false;
         }
         if (content == '') {
-            alert("请输入内容");
+            alertMess("请输入内容");
             return false;
         }
 
@@ -135,8 +139,8 @@
                     var type = "";
                     $('.img-space > img').each(function () {
                         img += $(this).attr("src") + "##@##";
-                        fname += $(this).attr("alt")+ "##@##";
-                        type += $(this).attr("title")+ "##@##";
+                        fname += $(this).attr("alt") + "##@##";
+                        type += $(this).attr("title") + "##@##";
                     });
 
                     $.ajax({
@@ -145,17 +149,17 @@
                         data: {
                             cid: cid,
                             img: img,
-                            type:type,
-                            alt:fname
+                            type: type,
+                            alt: fname
                         }, success: function (json) {
                             console.log("upload " + fname + " image ");
-                            alert("上传成功");
+                            alertMess("上传成功");
                             location.href = "/${sessionScope.role}/work"
                         }
                     });
 
                 } else {
-                    alert(json.msg);
+                    alertMess(json.msg);
                 }
             }
         });

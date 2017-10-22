@@ -95,6 +95,10 @@
 
 <script type="text/javascript" src="/js/jquery.min.js"></script>
 <script type="text/javascript" src="/js/amazeui.min.js"></script>
+<link type="text/css" rel="stylesheet" href="/mobile/zdialog.css"/>
+<script type="text/javascript" src="/mobile/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="/mobile/zdialog.js"></script>
+<script type="text/javascript" src="/js/alert.js?v=1.0"></script>
 <script type="text/javascript" src="/js/ssi-uploader.min.js"></script>
 
 <script type="text/javascript">
@@ -127,7 +131,7 @@
         $.ajax({
             url: '/web/proxy/list',
             type: 'get',
-            data: { },
+            data: {},
             dataType: "html",
             success: function (html) {
                 $('#proxy').html(html);
@@ -147,11 +151,11 @@
 
 
         if (_name == '') {
-            alert("请输入设备名称");
+            alertMess("请输入设备名称");
             return false;
         }
         if (_desc == '') {
-            alert("请输入设备简介");
+            alertMess("请输入设备简介");
             return false;
         }
 
@@ -160,13 +164,13 @@
             url: '/web/device/add',
             type: 'POST',
             data: {
-                sn:sn,
-                _name:_name,
-                type:type,
-                proxy:proxy,
-                number:number,
-                price:price,
-                _desc:_desc
+                sn: sn,
+                _name: _name,
+                type: type,
+                proxy: proxy,
+                number: number,
+                price: price,
+                _desc: _desc
             },
             success: function (json) {
                 if (json.code == '200') {
@@ -176,8 +180,8 @@
                     var type = "";
                     $('.img-space > img').each(function () {
                         img += $(this).attr("src") + "##@##";
-                        fname += $(this).attr("alt")+ "##@##";
-                        type += $(this).attr("title")+ "##@##";
+                        fname += $(this).attr("alt") + "##@##";
+                        type += $(this).attr("title") + "##@##";
                     });
 
                     $.ajax({
@@ -186,17 +190,17 @@
                         data: {
                             did: did,
                             img: img,
-                            type:type,
-                            alt:fname
+                            type: type,
+                            alt: fname
                         }, success: function (json) {
                             console.log("upload " + fname + " image ");
-                            alert("上传成功");
+                            alertMess("上传成功");
                             location.href = "/${sessionScope.role}/work"
                         }
                     });
 
                 } else {
-                    alert(json.msg);
+                    alertMess(json.msg);
                 }
             }
         });

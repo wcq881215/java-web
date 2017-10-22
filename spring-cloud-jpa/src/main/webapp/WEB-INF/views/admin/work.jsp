@@ -11,6 +11,10 @@
     <link rel="stylesheet" href="/css/style.css"/>
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script type="text/javascript" src="/js/amazeui.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="/mobile/zdialog.css"/>
+    <script type="text/javascript" src="/mobile/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="/mobile/zdialog.js"></script>
+    <script type="text/javascript" src="/js/alert.js?v=1.0"></script>
 </head>
 <body>
 
@@ -46,10 +50,10 @@
         </a>
     </li>
     <%--<li>--%>
-        <%--<a href="/admin/service.html">--%>
-            <%--<img src="/images/fw.png"/>--%>
-            <%--<p>服务内容</p>--%>
-        <%--</a>--%>
+    <%--<a href="/admin/service.html">--%>
+    <%--<img src="/images/fw.png"/>--%>
+    <%--<p>服务内容</p>--%>
+    <%--</a>--%>
     <%--</li>--%>
     <li>
         <a href="/admin/video.html">
@@ -58,15 +62,36 @@
         </a>
     </li>
 
+    <li>
+        <a href="/device/addDevice.html">
+            <img src="/images/az.png"/>
+            <p>录入设备信息</p>
+        </a>
+    </li>
+
+    <li>
+        <a href="/proxy/addProxy.html">
+            <img src="/images/az.png"/>
+            <p>办事处信息</p>
+        </a>
+    </li>
+
+    <li>
+        <a href="/user/add.html">
+            <img src="/images/az.png"/>
+            <p>新用户开户</p>
+        </a>
+    </li>
+
 
 </ul>
 
 <ul class="member-nav">
 
-    <li><a href="/device/addDevice.html"><i class="am-icon-newspaper-o"></i><span>录入设备信息</span></a></li>
+    <li class="hide"><a href="/device/addDevice.html"><i class="am-icon-newspaper-o"></i><span>录入设备信息</span></a></li>
     <li class="hide"><a href="/device/addDevice.html"><i class="am-icon-credit-card"></i><span>配件资费标准</span></a></li>
-    <li><a href="/proxy/addProxy.html"><i class="am-icon-credit-card"></i><span>办事处信息</span></a></li>
-    <li style="display: none;"><a href=""><i class="am-icon-credit-card"></i><span>报销费用标准</span></a></li>
+    <li class="hide"><a href="/proxy/addProxy.html"><i class="am-icon-credit-card"></i><span>办事处信息</span></a></li>
+    <li class="hide"><a href=""><i class="am-icon-credit-card"></i><span>报销费用标准</span></a></li>
 </ul>
 <div class="h50"></div>
 

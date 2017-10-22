@@ -1,5 +1,5 @@
-<%@ page language="Java" import="java.util.*" pageEncoding="utf-8"%>
-<%    String path = request.getContextPath();
+<%@ page language="Java" import="java.util.*" pageEncoding="utf-8" %>
+<% String path = request.getContextPath();
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
             + path + "/";
     String error = (String) request.getAttribute("error0");
@@ -33,24 +33,28 @@
         </div>
         <script type="text/javascript">
 
-            var num=document.getElementById("albumId").value;
+            var num = document.getElementById("albumId").value;
 
             //下一行的url即为你后台所走的action路径
-            $('#ssi-upload3').ssi_uploader({url:'${pageContext.request.contextPath}/admin/uploader?albumId='+num,dropZone:false,allowed:['jpg','gif','txt','png','pdf']});
+            $('#ssi-upload3').ssi_uploader({
+                url: '${pageContext.request.contextPath}/admin/uploader?albumId=' + num,
+                dropZone: false,
+                allowed: ['jpg', 'gif', 'txt', 'png', 'pdf']
+            });
         </script>
     </div>
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript">
-        $(".menu dt").css({"background-color":"#404040"});
-        $(".menu dt img").attr("src","images/left/select_xl01.png");
-        $(function(){
+        $(".menu dt").css({"background-color": "#404040"});
+        $(".menu dt img").attr("src", "images/left/select_xl01.png");
+        $(function () {
             $(".menu dd").hide();
-            $(".menu dt").click(function(){
-                $(".menu dt").css({"background-color":"#404040"})
+            $(".menu dt").click(function () {
+                $(".menu dt").css({"background-color": "#404040"})
                 $(this).css({"background-color": "#FF5258"});
                 $(this).parent().find('dd').removeClass("menu_chioce");
-                $(".menu dt img").attr("src","images/left/select_xl01.png");
-                $(this).parent().find('img').attr("src","images/left/select_xl.png");
+                $(".menu dt img").attr("src", "images/left/select_xl01.png");
+                $(this).parent().find('img').attr("src", "images/left/select_xl.png");
                 $(".menu_chioce").slideUp();
                 $(this).parent().find('dd').slideToggle();
                 $(this).parent().find('dd').addClass("menu_chioce");

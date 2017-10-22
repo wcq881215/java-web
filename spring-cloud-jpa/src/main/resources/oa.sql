@@ -35,7 +35,7 @@ CREATE TABLE app_user (
   dept   VARCHAR(50) NOT NULL  COMMENT '部门',
   team   VARCHAR(50) NOT NULL  COMMENT '科室',
   device   VARCHAR(100) COMMENT '购买设备号',
-  s_time   DATE COMMENT '购买设备时间',
+  s_time   datetime COMMENT '购买设备时间',
   state  BOOLEAN COMMENT '用户状态 0 不可用 1可用',
   PRIMARY KEY (id)
 )ENGINE = InnoDB  DEFAULT CHARSET = utf8;
@@ -185,8 +185,9 @@ CREATE TABLE app_order (
   logistics    VARCHAR (20)   COMMENT '物流公司',
   driver    VARCHAR (20)   COMMENT '物流司机',
   logphone    VARCHAR (20)   COMMENT '司机联系电话',
+  fqid       INT   COMMENT '废弃订单id',
   time   TIMESTAMP COMMENT '发布时间',
-  state  CHAR (2) DEFAULT '1'  COMMENT '状态 0 无效 1 - 2 -3 -4 -5 ... -> over',
+  state  CHAR (2) DEFAULT '1'  COMMENT '状态 0 无效（废弃，重录） 1 - 2 -3 -4 -5 ... -> over  1:内勤录入等待发货，2已发货待安装 3安装完成等待客户确认 4 已完成',
   PRIMARY KEY (id)
 )ENGINE = InnoDB  DEFAULT CHARSET = utf8;
 

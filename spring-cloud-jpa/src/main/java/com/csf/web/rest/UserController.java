@@ -11,6 +11,7 @@ import com.csf.web.service.LocationService;
 import com.csf.web.service.UserService;
 import com.csf.web.util.JsonUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.security.SecureRandom;
 import java.util.List;
 
 /**
@@ -30,7 +32,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/user")
 public class UserController extends APIService {
-
+    private static final Logger logger = Logger.getLogger(UserController.class);
     @Autowired
     private UserService userService;
 
@@ -38,12 +40,16 @@ public class UserController extends APIService {
     private LocationService locationService;
 
     @RequestMapping("/login")
-    public String login(String username, String password) {
+    public String login(String username, String password, String mid) {
         User user = userService.login(username, password);
         if (user == null) {
             return webResp(APIStatus.un_check);
         }
-
+        if (StringUtils.isNotBlank(mid)) {
+            logger.info("login with idfa >>> " + mid);
+            user.setMobno(mid);
+            userService.saveUser(user);
+        }
         String role = UserRole.getRole(user.getRole()); //获取role
         //存session
         HttpSession session = request.getSession();
@@ -100,7 +106,7 @@ public class UserController extends APIService {
         if (session != null) {
             session.invalidate();
         }
-        return "/index";
+        return "redirect:/index";
     }
 
 //    @RequestMapping("/save")

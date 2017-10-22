@@ -5,8 +5,10 @@ import com.csf.web.dto.BaseDto;
 import com.csf.web.entity.User;
 import com.csf.web.entity.UserRole;
 import com.csf.web.rest.APIService;
+import com.csf.web.rest.UserController;
 import com.csf.web.service.UserService;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,10 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by changqi.wu on 17-8-27.
@@ -25,16 +24,24 @@ import java.util.Map;
 @RestController
 @RequestMapping("/web/user")
 public class UserActionController extends APIService {
+    private static final Logger logger = Logger.getLogger(UserActionController.class);
 
     @Autowired
     private UserService userService;
 
     @RequestMapping("/login")
-    public BaseDto login(String username, String password) throws UnsupportedEncodingException {
+    public BaseDto login(String username, String password,String mid) throws UnsupportedEncodingException {
         User user = userService.login(username, password);
         if (user == null) {
             return ajaxResp(APIStatus.un_check);
         }
+
+        if (StringUtils.isNotBlank(mid)) {
+            logger.info("login with idfa >>> " + mid);
+            user.setMobno(mid);
+            userService.saveUser(user);
+        }
+
         String role = UserRole.getRole(user.getRole()); //获取role
         HttpSession session = request.getSession();
 
@@ -58,6 +65,18 @@ public class UserActionController extends APIService {
 
         store(request.getSession(), response, user, UserRole.CUSTOMER.getRole());
         return ajaxSuccess(user);
+    }
+
+    @RequestMapping("/add")
+    public BaseDto addUser(User user) {
+        if(user == null){
+            return BaseDto.newDto(APIStatus.param_error);
+        }
+        user.setRole(user.getDept());
+        user.setS_time(new Date());
+        user.setState(true);
+        user = userService.saveUser(user);
+        return BaseDto.newDto(user);
     }
 
     @RequestMapping("/update")
@@ -87,6 +106,19 @@ public class UserActionController extends APIService {
         store(request.getSession(), response, user, role);
 
         return ajaxSuccess(user);
+    }
+
+
+    @RequestMapping("/check")
+    public Boolean checkUsername(String username) {
+        if(username == null){
+            return false;
+        }
+        User user = userService.findByName(username);
+        if(user == null){
+            return true;
+        }
+        return false;
     }
 
 

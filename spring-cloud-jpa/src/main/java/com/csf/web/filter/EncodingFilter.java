@@ -23,13 +23,13 @@ public class EncodingFilter implements HandlerInterceptor {
     public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
         httpServletRequest.setCharacterEncoding("utf-8");
         httpServletResponse.setCharacterEncoding("utf-8");
-        System.out.println(">>>MyFilter>>>>>>>请求处理之后进行调用，但是在视图被渲染之前（Controller方法调用之后）");
+        System.out.println(">>>SessionFilter>>>>>>>请求处理之后进行调用，但是在视图被渲染之前（Controller方法调用之后）");
     }
 
     @Override
     public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception {
         httpServletRequest.setCharacterEncoding("utf-8");
         httpServletResponse.setCharacterEncoding("utf-8");
-        System.out.println(">>>MyFilter>>>>>>>在整个请求结束之后被调用，也就是在DispatcherServlet 渲染了对应的视图之后执行（主要是用于进行资源清理工作）");
+        System.out.println(">>>SessionFilter>>>>>>>在整个请求结束之后被调用，也就是在DispatcherServlet 渲染了对应的视图之后执行（主要是用于进行资源清理工作）");
     }
 }

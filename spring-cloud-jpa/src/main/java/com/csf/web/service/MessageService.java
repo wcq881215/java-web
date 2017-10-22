@@ -41,4 +41,8 @@ public class MessageService {
 
         return dto;
     }
+
+    public Message findOne(Long id){
+        return messageDao.findOne(id);
+    }
 }

@@ -30,17 +30,17 @@ public class UserService {
     }
 
     public Page<User> findAll(Integer page, Integer pageSize) {
-        Pageable pageable = new PageRequest(page,pageSize);
+        Pageable pageable = new PageRequest(page, pageSize);
         return userDao.findAll(pageable);
     }
 
-    public Page<User> findAllInner(String key,Integer page, Integer pageSize) {
-        Pageable pageable = new PageRequest(page,pageSize);
-        if(StringUtils.isBlank(key)){
+    public Page<User> findAllInner(String key, Integer page, Integer pageSize) {
+        Pageable pageable = new PageRequest(page, pageSize);
+        if (StringUtils.isBlank(key)) {
             key = "";
         }
         key = "%" + key + "%";
-        return userDao.findInnerUser(key,pageable);
+        return userDao.findInnerUser(key, pageable);
     }
 
     public User findByName(String name) {
@@ -55,8 +55,8 @@ public class UserService {
         return userDao.findByUsernameAndPassword(name, pasword);
     }
 
-    public void saveUser(User user) {
-        userDao.save(user);
+    public User saveUser(User user) {
+        return userDao.save(user);
     }
 
 

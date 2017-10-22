@@ -15,6 +15,7 @@ public class AppConf {
         String server = env.getProperty("dev.server.url");
         System.out.println("server address is " + server);
         OAConstants.SERVER_PREFIX = server;
+        OAConstants.SERVER_HOST = env.getProperty("server.address");
     }
 
 }

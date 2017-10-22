@@ -11,6 +11,10 @@
     <link rel="stylesheet" href="/css/style.css"/>
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script type="text/javascript" src="/js/amazeui.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="/mobile/zdialog.css"/>
+    <script type="text/javascript" src="/mobile/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="/mobile/zdialog.js"></script>
+    <script type="text/javascript" src="/js/alert.js?v=1.0"></script>
 </head>
 <body>
 <header data-am-widget="header" class="am-header am-header-default header"
@@ -50,7 +54,7 @@
     function submitAdv() {
         var advice = $('#advice').val();
         if (advice == '') {
-            alert("请输入您的建议");
+            alertMess("请输入您的建议");
             return;
         }
 
@@ -64,11 +68,11 @@
             success: function (json) {
                 console.log(json);
                 if (json.code == '200') {
-                    alert('提交成功');
+                    alertMess('提交成功');
                     history.go(-1);
                     return;
                 } else {
-                    alert(json.msg);
+                    alertMess(json.msg);
                     return
                 }
             }

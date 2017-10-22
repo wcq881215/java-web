@@ -73,7 +73,7 @@
 
     </ul>
     <br><br>
-    <button type="button" onclick="sendMsg()" class="tab-btn">确  定</button>
+    <button type="button" onclick="sendMsg()" class="tab-btn">确 定</button>
 
 </div>
 
@@ -95,6 +95,10 @@
 
 <script type="text/javascript" src="/js/jquery.min.js"></script>
 <script type="text/javascript" src="/js/amazeui.min.js"></script>
+<link type="text/css" rel="stylesheet" href="/mobile/zdialog.css"/>
+<script type="text/javascript" src="/mobile/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="/mobile/zdialog.js"></script>
+<script type="text/javascript" src="/js/alert.js?v=1.0"></script>
 <script type="text/javascript" src="/mobile/jquery.mobile-1.4.5.min.js"></script>
 
 
@@ -181,11 +185,11 @@
         var title = $('#title').val();
         var content = $('#content').val();
         if (title == '') {
-            alert("请输入标题");
+            alertMess("请输入标题");
             return false;
         }
         if (content == '') {
-            alert("请输入内容");
+            alertMess("请输入内容");
             return false;
         }
 
@@ -203,7 +207,7 @@
         var content = $('#content').val();
         var uids = "";
         $("input[name='user_ids']").each(function () {
-            if($(this.checked)){
+            if ($(this.checked)) {
                 uids += $(this).val() + ",";
             }
         })
@@ -212,16 +216,16 @@
             url: '/web/msg/send',
             type: 'get',
             data: {
-                title:title,
-                content:content,
-                uids:uids
+                title: title,
+                content: content,
+                uids: uids
             },
             success: function (json) {
                 if (json.code == '200') {
-                    alert('发送成功');
+                    alertMess('发送成功');
                     location.href = "/${sessionScope.role}/message";
                 } else {
-                    alert('发送成功');
+                    alertMess('发送成功');
                 }
             }
         });

@@ -13,6 +13,10 @@
     <link rel="stylesheet" href="/css/style.css"/>
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script type="text/javascript" src="/js/amazeui.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="/mobile/zdialog.css"/>
+    <script type="text/javascript" src="/mobile/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="/mobile/zdialog.js"></script>
+    <script type="text/javascript" src="/js/alert.js?v=1.0"></script>
 </head>
 <body>
 <header data-am-widget="header" class="am-header am-header-default header"
@@ -29,7 +33,8 @@
 </header>
 <div class="content" style="margin-top:50px;">
     <h1>${data.title}</h1>
-    <div class="text"><span class="fl"><fmt:formatDate pattern="yyyy-MM-dd"  value="${data.time}" /></span><span class="fr">${data.user.name}</span></div>
+    <div class="text"><span class="fl"><fmt:formatDate pattern="yyyy-MM-dd" value="${data.time}"/></span><span
+            class="fr">${data.user.name}</span></div>
     <p>${data.content}</p>
     <c:forEach items="${data.imgs}" var="img">
         <img src="${img.src}"/>

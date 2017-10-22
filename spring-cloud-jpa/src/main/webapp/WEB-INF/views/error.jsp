@@ -28,7 +28,8 @@
         history.go(-1);
     }
 
-    var message = "${message}";
+   // var message = "${message}";
+    var message = "操作有误,请重试";
     if(message == ''){
         message = "操作有误";
     }

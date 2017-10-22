@@ -12,7 +12,7 @@
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script type="text/javascript" src="/mobile/jquery.mobile-1.4.5.min.js"></script>
     <style>
-        .ui-loader h1{
+        .ui-loader h1 {
             font-size: 12px;
             text-align: center;
         }
@@ -57,7 +57,7 @@
     });
 
     function init() {
-        if(!ajaxFlag){
+        if (!ajaxFlag) {
             return;
         }
         $.ajax({
@@ -75,7 +75,7 @@
                     page++;
                     htm = createHtml(json);
                     $('.ui-loader').hide();
-                }else{
+                } else {
                     ajaxFlag = false;
                 }
                 $('#products-gallery').append(htm);
@@ -95,7 +95,9 @@
             html += "<li>";
             html += "<div class='am-gallery-item'>";
             html += "<a  target='_top' href='/web/device/detail/" + data.id + "' class=''>";
-            html += "<img src='" + data.imgs[0].src + "' alt='" + data.name + "'/>";
+            if (data.imgs[0] && data.imgs[0].src) {
+                html += "<img src='" + data.imgs[0].src + "' alt='" + data.name + "'/>";
+            }
             html += "<h3 class='am-gallery-title'>" + data.name + "</h3>";
             html += "<div class='am-gallery-desc'>";
             html += "<em>查看详情</em>";

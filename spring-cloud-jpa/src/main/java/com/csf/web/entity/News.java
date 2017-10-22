@@ -31,7 +31,7 @@ public class News implements Serializable {
     private Date time;
 
     @OneToMany(mappedBy = "cid")
-    private List<CaseImg> imgs;
+    private List<NewsImg> imgs;
 
     @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = true)
     @JoinColumn(name = "uid")
@@ -101,11 +101,11 @@ public class News implements Serializable {
         this.time = time;
     }
 
-    public List<CaseImg> getImgs() {
+    public List<NewsImg> getImgs() {
         return imgs;
     }
 
-    public void setImgs(List<CaseImg> imgs) {
+    public void setImgs(List<NewsImg> imgs) {
         this.imgs = imgs;
     }
 }

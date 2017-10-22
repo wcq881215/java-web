@@ -83,6 +83,10 @@
 
 <script type="text/javascript" src="/js/jquery.min.js"></script>
 <script type="text/javascript" src="/js/amazeui.min.js"></script>
+<link type="text/css" rel="stylesheet" href="/mobile/zdialog.css"/>
+<script type="text/javascript" src="/mobile/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="/mobile/zdialog.js"></script>
+<script type="text/javascript" src="/js/alert.js?v=1.0"></script>
 <script type="text/javascript" src="/js/ssi-uploader.min.js"></script>
 
 <script type="text/javascript">
@@ -111,11 +115,11 @@
         var title = $('#title').val();
         var content = $('#content').val();
         if (title == '') {
-            alert("请输入标题");
+            alertMess("请输入标题");
             return false;
         }
         if (content == '') {
-            alert("请输入内容");
+            alertMess("请输入内容");
             return false;
         }
 
@@ -149,13 +153,13 @@
                             alt: fname
                         }, success: function (json) {
                             console.log("upload " + fname + " image ");
-                            alert("上传成功");
+                            alertMess("上传成功");
                             location.href = "/${sessionScope.role}/work"
                         }
                     });
 
                 } else {
-                    alert(json.msg);
+                    alertMess(json.msg);
                 }
             }
         });

@@ -7,9 +7,11 @@
     idfa = request.getHeader("device");
     System.out.println("===================reqeust header from mobile device :: " + idfa);
 
-    Cookie cookie = new Cookie("cookie_mid",idfa);
-    cookie.setMaxAge(30*24*3600);
-    response.addCookie(cookie);
+    if(idfa !=null && "".equals(idfa.trim())){
+        Cookie cookie = new Cookie("ck_mid",idfa);
+        cookie.setMaxAge(12*30*24*3600);
+        response.addCookie(cookie);
+    }
 %>
 
 
@@ -24,7 +26,7 @@
     <link rel="stylesheet" href="/css/amazeui.min.css"/>
     <link rel="stylesheet" href="/css/style.css"/>
     <script type="text/javascript" src="/js/jquery-1.10.2.js"></script>
-    <script type="text/javascript" src="/js/location.js"></script>
+    <script type="text/javascript" src="/js/location.js?v=1.3"></script>
 
 </head>
 <body style="background: rgb(50, 149, 251);">
@@ -39,6 +41,7 @@
             <div class="am-tab-panel am-fade am-in am-active" id="tab1">
                 <li>
                     <%--<input type="text" name="username" id="username" placeholder="请输入用户名" class="tab-input"/>--%>
+
                     <select id="username"  name="username">
                         <option value="admin">管理员</option>
                         <option value="tech">技术员</option>
@@ -47,7 +50,7 @@
                         <option value="produce">生产部</option>
                         <option value="customer">购机客户</option>
                     </select>
-
+                        <input type="hidden" name="mid" id="mid" value=""/>
                         <input type="password" name="password" id="password" value="111111" placeholder="输入用户密码" class="tab-input"/>
 
                 </li>
@@ -66,15 +69,32 @@
 </body>
 <script type="text/javascript">
 
+    $(function () {
+       // init();
+    });
+
+    function init() {
+        var username = getCookie('cookie_user_name');
+        var password = getCookie('scookie_user_pwd');
+        var mid = getCookie('ck_mid');
+
+        $('#username').val(username);
+        $('#password').val(password);
+        $('#mid').val(mid);
+
+    }
+
     function receiveCoupon() {
         var username = $('#username').val();
         var password = $('#password').val();
+        var mid = getCookie('cookie_mid');
+        $('#mid').val(mid);
         if (username == '') {
-            alert("请输入用户名");
+            alertMess("请输入用户名");
             return;
         }
         if (password == '') {
-            alert("请输入密码");
+            alertMess("请输入密码");
             return;
         }
         $('#userform').submit();
@@ -83,10 +103,10 @@
             <%--type: "get",--%>
             <%--url: "${pageContext.request.contextPath}/web/user/login",--%>
             <%--dataType: 'json',--%>
-            <%--data: 'username=' + username + "&password=" + password,--%>
+            <%--data: 'username=' + username + "&password=" + password+ "&mid=" + mid,--%>
             <%--success: function (json) {--%>
                 <%--if (json.code != '200') {--%>
-                    <%--alert(json.msg);--%>
+                    <%--alertMess(json.msg);--%>
                     <%--return;--%>
                 <%--}--%>
                 <%--location.href = "${pageContext.request.contextPath}/page/admin/home";--%>

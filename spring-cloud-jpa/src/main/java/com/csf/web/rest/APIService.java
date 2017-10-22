@@ -109,14 +109,20 @@ public class APIService {
     public void cookie(HttpServletResponse response, User user, String role){
         Cookie cookie = new Cookie(OAConstants.COOKIE_USER_NAME,user.getUsername());
         cookie.setMaxAge(30*24*3600);
+        cookie.setDomain(OAConstants.SERVER_HOST);
+        cookie.setPath("/");
         response.addCookie(cookie);
         cookie = new Cookie(OAConstants.COOKIE_USER_PASSWORD,user.getPassword());
         cookie.setMaxAge(30*24*3600);
+        cookie.setDomain(OAConstants.SERVER_HOST);
+        cookie.setPath("/");
         response.addCookie(cookie);
 
         try {
             cookie = new Cookie(OAConstants.COOKIE_USER, URLEncoder.encode(JsonUtils.toJson(user),"utf-8"));
             response.addCookie(cookie);
+            cookie.setDomain(OAConstants.SERVER_HOST);
+            cookie.setPath("/");
             cookie.setMaxAge(30*24*3600);
             response.addCookie(cookie);
         } catch (UnsupportedEncodingException e) {
@@ -124,6 +130,8 @@ public class APIService {
         }
 
         cookie = new Cookie(OAConstants.COOKIE_USER_ROLE, role);
+        cookie.setDomain(OAConstants.SERVER_HOST);
+        cookie.setPath("/");
         cookie.setMaxAge(30 * 24 * 3600);
         response.addCookie(cookie);
     }

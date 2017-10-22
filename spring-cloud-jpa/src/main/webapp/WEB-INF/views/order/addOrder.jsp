@@ -11,6 +11,10 @@
     <link rel="stylesheet" href="/css/style.css"/>
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script type="text/javascript" src="/js/amazeui.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="/mobile/zdialog.css"/>
+    <script type="text/javascript" src="/mobile/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="/mobile/zdialog.js"></script>
+    <script type="text/javascript" src="/js/alert.js?v=1.0"></script>
 </head>
 <body>
 
@@ -18,7 +22,7 @@
 <header data-am-widget="header" class="am-header am-header-default header"
         style="width:100%;position:fixed; z-index:1000;top:0;left:0;">
     <div class="am-header-left am-header-nav">
-        <a href="#left-link" class="">
+        <a href="javascript:history.go(-1)" class="">
             <i class="am-header-icon am-icon-angle-left"></i>
         </a>
     </div>
@@ -160,39 +164,39 @@
 
 
         if (buser == '') {
-            alert("请输入业务员姓名");
+            alertMess("请输入业务员姓名");
             return false;
         }
         if (bphone == '') {
-            alert("请输入业务员联系电话");
+            alertMess("请输入业务员联系电话");
             return false;
         }
 
         if (cust == '') {
-            alert("请输入客户负责人姓名");
+            alertMess("请输入客户负责人姓名");
             return false;
         }
         if (cphone == '') {
-            alert("请输入客户负责人联系方式");
+            alertMess("请输入客户负责人联系方式");
             return false;
         }
 
         if (stime == '') {
-            alert("请输入下单时间");
+            alertMess("请输入下单时间");
             return false;
         }
         if (dtime == '') {
-            alert("请输入交货时间");
+            alertMess("请输入交货时间");
             return false;
         }
 
         if (device == '') {
-            alert("请添加设备信息");
+            alertMess("请添加设备信息");
             return false;
         }
 
         if (dnumber == '') {
-            alert("请添加设备数量");
+            alertMess("请添加设备数量");
             return false;
         }
 
@@ -200,26 +204,26 @@
             url: '/web/order/add',
             type: 'POST',
             data: {
-                buser:buser,
-                bphone:bphone,
-                cust:cust,
-                phone:cphone,
-                address:caddress,
-                stime:stime,
-                dtime:dtime,
-                ext:selfInf,
-                remark:remark,
-                proxy:proxy,
-                did:device,
-                number:dnumber
+                buser: buser,
+                bphone: bphone,
+                cust: cust,
+                phone: cphone,
+                address: caddress,
+                stime: stime,
+                dtime: dtime,
+                ext: selfInf,
+                remark: remark,
+                proxy: proxy,
+                did: device,
+                number: dnumber
             },
             success: function (json) {
                 if (json.code == '200') {
-                    alert('提交成功');
-                    location.href='/${sessionScope.role}/work';
+                    alertMess('提交成功');
+                    location.href = '/${sessionScope.role}/work';
                     return;
                 } else {
-                    alert(json.msg);
+                    alertMess(json.msg);
                 }
             }
         });

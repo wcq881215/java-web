@@ -11,9 +11,13 @@
     <link rel="stylesheet" href="/css/style.css"/>
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script type="text/javascript" src="/js/amazeui.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="/mobile/zdialog.css"/>
+    <script type="text/javascript" src="/mobile/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="/mobile/zdialog.js"></script>
+    <script type="text/javascript" src="/js/alert.js?v=1.0"></script>
     <script type="text/javascript" src="/mobile/jquery.mobile-1.4.5.min.js"></script>
     <style>
-        .ui-loader h1{
+        .ui-loader h1 {
             font-size: 12px;
             text-align: center;
         }
@@ -35,7 +39,8 @@
     </div>
 </header>
 
-<div data-am-widget="intro" id="maintain-gallery" class="am-intro am-cf am-intro-default" style="margin-left:10px;margin-top: 50px;">
+<div data-am-widget="intro" id="maintain-gallery" class="am-intro am-cf am-intro-default"
+     style="margin-left:10px;margin-top: 50px;">
 
 
 </div>
@@ -57,7 +62,7 @@
     });
 
     function init() {
-        if(!ajaxFlag){
+        if (!ajaxFlag) {
             return;
         }
         $.ajax({
@@ -75,7 +80,7 @@
                     page++;
                     htm = createHtml(json);
                     $('.ui-loader').hide();
-                }else{
+                } else {
                     ajaxFlag = false;
                 }
                 $('#maintain-gallery').append(htm);
@@ -93,12 +98,12 @@
         for (var i in array) {
             var data = array[i];
             html += "<div class='am-g am-intro-bd'>";
-            html += "<a target='_top' href='/web/news/detail/"+data.id+"'>";
+            html += "<a target='_top' href='/web/news/detail/" + data.id + "'>";
             html += " <div class='am-intro-right am-u-sm-9'>";
-            html += "<h2>"+data.title+"</h2>";
-            html += "<p>"+data.desc+"...</p>";
+            html += "<h2>" + data.title + "</h2>";
+            html += "<p>" + data.desc + "...</p>";
             html += "<div class='text' style=' margin-right:20px;'>";
-            html += "<span class='fl'>"+data.time+"</span>";
+            html += "<span class='fl'>" + data.time + "</span>";
             html += "<span style='float:right; margin-right:10px;'>查看详情</span>";
             html += "</div>";
             html += "</div>";

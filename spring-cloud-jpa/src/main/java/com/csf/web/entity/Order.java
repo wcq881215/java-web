@@ -59,10 +59,21 @@ public class Order {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date time;
     @Column
-    private String state;
+    private String state;//状态 0 无效（废弃，重录） 1 - 2 -3 -4 -5 ... -> over  1:内勤录入等待发货，2已发货待安装 3安装完成等待客户确认 4 已完成
     @Column
     private Long proxy;
 
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = true)
+    @JoinColumn(name = "fqid")
+    private Order dirty;//废弃订单
+
+    public Order getDirty() {
+        return dirty;
+    }
+
+    public void setDirty(Order dirty) {
+        this.dirty = dirty;
+    }
 
     public Long getDid() {
         return did;

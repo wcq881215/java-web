@@ -22,6 +22,8 @@ public class OAConstants {
 
     public static String SERVER_PREFIX = null;
 
+    public static String SERVER_HOST = null;
+
     public static String upload_path = null;
 
     public static final String upload_path_default_dir = "/upload";

@@ -33,11 +33,11 @@
 </header>
 
 
-<div class="cate-search" style="position: relative; top: 0; border-bottom: 0; margin-top:50px;">
+<div class="cate-search " style="position: relative; top: 0; border-bottom: 0; margin-top:50px;display: none">
     <input type="text" class="cate-input" id="key" placeholder="输入关键词进行搜索">
     <input type="button" class="cate-btn">
 </div>
-<div align="center">
+<div align="center" style="display: none">
     <select style="width:150px;  " id="period">
         <option value="">按时间筛选</option>
         <option value="week">一周</option>
@@ -60,7 +60,7 @@
     </select>
 </div>
 
-<div id="data-gallery">
+<div id="data-gallery" style="margin-top: 50px;">
 
 
 </div>
@@ -129,14 +129,14 @@
         for (var i in array) {
             var data = array[i];
             html += "<div class='c-comment-list' style='border: 0;'>";
-            html += " <a class='o-con' target='_top' href='/web/case/detail/"+data.id+"'>";
+            html += " <a class='o-con' target='_top' href='/web/case/detail/" + data.id + "'>";
             html += " <div class='o-con-txt'>";
             html += "<p>" + data.title + "</p>";
             html += "</div>";
             html += "</a>";
             html += "</div>";
             html += "<div class='c-com-btn'>";
-            html += "<a target='_top' href='/web/case/detail/"+data.id+"'>查看详情</a>";
+            html += "<a target='_top' href='/web/case/detail/" + data.id + "'>查看详情</a>";
             html += "</div>";
             html += "<div class='clear'></div>";
         }
