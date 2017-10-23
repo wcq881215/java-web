@@ -22,6 +22,9 @@ public interface UserDao extends JpaRepository<User, Long> {
     User findByUsername(String username);
 
 
-    @Query(value = " from User u where (u.name like :key or u.dept like :key or u.phone like :key) and u.dept <> '购机客户'")
+    @Query(value = " from User u where (u.name like :key or u.dept like :key or u.phone like :key) and u.role <> '购机客户'")
     Page<User> findInnerUser(@Param("key") String key,Pageable pageable);
+
+    @Query(value = " from User u where (u.name like :key or u.dept like :key or u.phone like :key) and u.role = :type ")
+    Page<User> findInnerTypeUser(@Param("key") String key,@Param("type") String type,Pageable pageable);
 }

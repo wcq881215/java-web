@@ -34,12 +34,15 @@ public class UserService {
         return userDao.findAll(pageable);
     }
 
-    public Page<User> findAllInner(String key, Integer page, Integer pageSize) {
+    public Page<User> findAllInner(String key, String type ,Integer page, Integer pageSize) {
         Pageable pageable = new PageRequest(page, pageSize);
         if (StringUtils.isBlank(key)) {
             key = "";
         }
         key = "%" + key + "%";
+        if(StringUtils.isNotBlank(type)){
+            return userDao.findInnerTypeUser(key,type,pageable);
+        }
         return userDao.findInnerUser(key, pageable);
     }
 

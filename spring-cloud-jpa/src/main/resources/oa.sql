@@ -208,6 +208,19 @@ CREATE TABLE app_order_notify (
   PRIMARY KEY (id)
 )ENGINE = InnoDB  DEFAULT CHARSET = utf8;
 
+DROP TABLE IF EXISTS app_order_tech;
+CREATE TABLE app_order_tech (
+  id         INT AUTO_INCREMENT,
+  order_id   INT COMMENT '工单ID',
+  uid    INT   COMMENT '派遣人员',
+  remark   VARCHAR (500)    COMMENT '备注',
+  pid    int  COMMENT '服务派公人员',
+  time   TIMESTAMP COMMENT '发布时间',
+  state  VARCHAR (10) DEFAULT '0' COMMENT '状态 0等待处理 1处理中 2处理完毕',
+  PRIMARY KEY (id)
+)ENGINE = InnoDB  DEFAULT CHARSET = utf8;
+
+
 
 DROP TABLE IF EXISTS app_maintain;
 CREATE TABLE app_maintain (

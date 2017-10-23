@@ -156,7 +156,7 @@
             html += "<span class='c-comment-suc'>" + stateMsg + "</span>";
             html += "</div>";
             html += "<div class='c-comment-list' style='border: 0;'>";
-            html += "<a class='o-con' href=''>";
+            html += "<a class='o-con' target='_top' href='/web/order/office/detail/"+data.id+"'>";
             html += "<div class='o-con-txt'>";
             html += "<p>" + data.device + "</p>";
             html += "</div>";

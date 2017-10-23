@@ -5,17 +5,16 @@ import com.csf.web.dto.APIStatus;
 import com.csf.web.dto.BaseDto;
 import com.csf.web.dto.DeviceVo;
 import com.csf.web.dto.OrderVO;
-import com.csf.web.entity.Device;
-import com.csf.web.entity.Order;
-import com.csf.web.entity.OrderStatus;
-import com.csf.web.entity.User;
+import com.csf.web.entity.*;
 import com.csf.web.rest.APIService;
 import com.csf.web.service.DeviceService;
 import com.csf.web.service.OrderService;
+import com.csf.web.service.UserService;
 import com.csf.web.util.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,6 +33,8 @@ public class OrderController extends APIService {
     private OrderService orderService;
     @Autowired
     private DeviceService deviceService;
+    @Autowired
+    private UserService userService;
 
     @ResponseBody
     @RequestMapping("/user/message")
@@ -190,6 +191,17 @@ public class OrderController extends APIService {
         return "/order/detail_service";
     }
 
+    @RequestMapping("/service/split/{id}")
+    public String splitOrderDetail(@PathVariable("id") Long id) {
+        Order order = orderService.findById(id);
+        if (order != null) {
+            order.setState(OrderStatus.getStatusMsg(order.getState()));
+        }
+        attr("data", order);
+        return "/order/split_service";
+    }
+
+
     @ResponseBody
     @RequestMapping("/srv/select")
     public BaseDto queryForSrv(Integer page, Integer pageSize) {
@@ -214,6 +226,31 @@ public class OrderController extends APIService {
         return BaseDto.newDto(orderService.queryProductOrder(page, pageSize));
     }
 
+    @ResponseBody
+    @RequestMapping("/tech/select")
+    public BaseDto queryTechPack(Integer page, Integer pageSize) {
+        if (page == null) {
+            page = 0;
+        }
+        if (pageSize == null) {
+            pageSize = 30;
+        }
+        User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
+        return BaseDto.newDto(orderService.queryPackerrOrder(user,page, pageSize));
+    }
+
+
+
+    @RequestMapping("/office/detail/{id}")
+    public String getOrderDetail(@PathVariable("id") Long id) {
+        Order order = orderService.findById(id);
+        if (order != null) {
+            order.setState(OrderStatus.getStatusMsg(order.getState()));
+        }
+        attr("data", order);
+        return "/order/detail_order";
+    }
+
     @RequestMapping("/work/detail/{id}")
     public String getUserOrderDetail(@PathVariable("id") Long id) {
         Order order = orderService.findById(id);
@@ -223,6 +260,7 @@ public class OrderController extends APIService {
         attr("data", order);
         return "/order/detail";
     }
+
 
     @ResponseBody
     @RequestMapping("/product/accept/{id}")
@@ -246,7 +284,7 @@ public class OrderController extends APIService {
 
     @ResponseBody
     @RequestMapping("/finish/{id}")
-    public BaseDto finish(@PathVariable("id") Long id,String status) {
+    public BaseDto finish(@PathVariable("id") Long id, String status) {
         Order order = orderService.findById(id);
         order.setState(status);
         orderService.saveOrder(order);
@@ -268,6 +306,109 @@ public class OrderController extends APIService {
         Order order = orderService.findById(id);
         order.setService(null);
         orderService.saveOrder(order);
+        return BaseDto.newDto(APIStatus.success);
+    }
+
+    @ResponseBody
+    @RequestMapping("/srv/split")
+    public BaseDto serviceSplit(Long id, String uids) {
+        Order order = orderService.findById(id);
+        User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
+        if (StringUtils.isEmpty(uids)) {
+            return BaseDto.newDto(APIStatus.param_error);
+        }
+        for (String uid : uids.split(",")) {
+            Long ud = Long.parseLong(uid);
+            User u = userService.findById(ud);
+            OrderTeah orderTeah = new OrderTeah();
+            orderTeah.setOrder(order);
+            orderTeah.setService(user);
+            orderTeah.setState("0");
+            orderTeah.setTime(new Date());
+            orderTeah.setUser(u);
+            orderService.splitOrder(orderTeah);
+
+        }
+        return BaseDto.newDto(APIStatus.success);
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/delete/{id}")
+    public BaseDto deleteOrder(@PathVariable("id") Long id) {
+        orderService.delOrder(id);
+        return BaseDto.newDto(APIStatus.success);
+    }
+
+    @ResponseBody
+    @RequestMapping("/tech/finish/{id}")
+    public BaseDto finishOrder(@PathVariable("id") Long id) {
+        orderService.finishTechOrder(id);
+        return BaseDto.newDto(APIStatus.success);
+    }
+
+
+
+    @RequestMapping("/edit/{id}")
+    public String queryOrderDetail(@PathVariable("id") Long id) {
+        Order order = orderService.findById(id);
+        attr("data", order);
+        return "/order/editOrder";
+    }
+
+    @RequestMapping("/tech/detail/{id}")
+    public String queryTechOrderDetail(@PathVariable("id") Long id) {
+        OrderTeah tech = orderService.findTechOrder(id);
+        Order order = tech.getOrder();
+        attr("data", order);
+        attr("tech_order", tech);
+        return "/order/tech_order";
+    }
+
+    @ResponseBody
+    @RequestMapping("/tech/delete/{id}")
+    public BaseDto deleteTechOrder(@PathVariable("id") Long id) {
+        User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
+        orderService.delTechOrder(id,user);
+        return BaseDto.newDto(APIStatus.success);
+    }
+
+    @ResponseBody
+    @RequestMapping("/tech/agree/{id}")
+    public BaseDto agreeTechOrder(@PathVariable("id") Long id) {
+        User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
+        orderService.agreeTechOrder(id,user);
+        return BaseDto.newDto(APIStatus.success);
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/update")
+    public BaseDto updateOrder(Order order) {
+        Order o = orderService.findById(order.getId());
+        if (o != null) {
+            o.setProxy(order.getProxy());
+            Device device = deviceService.findById(order.getDid());
+            if (device != null) {
+                o.setSn(device.getSn());
+                o.setDevice(device.getName());
+                o.setType(device.getType());
+                o.setPrice(device.getPrice());
+                o.setTotal(device.getPrice() * order.getNumber());
+                o.setNumber(order.getNumber());
+            }
+            o.setRemark(order.getRemark());
+            o.setExt(order.getExt());
+            o.setPhone(order.getPhone());
+            o.setAddress(order.getAddress());
+            o.setBphone(order.getBphone());
+            o.setBuser(order.getBuser());
+            o.setCust(order.getCust());
+            o.setStime(order.getStime());
+            o.setDtime(order.getDtime());
+        }
+
+        orderService.saveOrder(o);
         return BaseDto.newDto(APIStatus.success);
     }
 

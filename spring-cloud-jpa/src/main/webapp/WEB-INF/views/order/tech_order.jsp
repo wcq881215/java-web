@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,7 +34,7 @@
         <img src="/images/default_photo.png" alt="logo" class="logo">
         <p class="name">时间：2017-08-20</p>
         <h2 class="sub-title"> 订单编号：${data.id}</h2>
-        <h2 class="sub-title">订单状态：生产完成等待安装</h2>
+        <h2 class="sub-title">订单状态：${data.state}</h2>
         <p class="condition">设备名称：<span></span>${data.device}</p>
         <p class="date">设备型号：<span>${data.sn}</span></p>
         <div class="contact-wrap">
@@ -55,42 +56,74 @@
 
     <div class="h50"></div>
     <ul class="fixed-btn">
-        <li class="" style="width: 95%;"><a href="javascript:accept(${data.id})" class="current">接受</a></li>
-        <li class="hide" style="width: 40%;"><a href="javascript:refuse(${data.id})">退回</a></li>
+        <c:if test="${tech_order.state eq 0}">
+            <li style="width: 40%;"><a href="javascript:access(${data.id})" class="current">接受</a></li>
+            <li style="width: 40%;"><a href="javascript:refuse(${data.id})">退回</a></li>
+        </c:if>
+        <c:if test="${tech_order.state eq 1}">
+            <li style="width: 40%;"><a href="javascript:success(${data.id})" class="current">完成</a></li>
+            <li style="width: 40%;"><a href="javascript:refuse(${data.id})">退回</a></li>
+        </c:if>
+        <c:if test="${tech_order.state eq 2}">
+            <li style="width: 95%;"><a href="javascript:backHome()">退回</a></li>
+        </c:if>
     </ul>
 
 </div>
 </body>
 <script type="text/javascript">
-    function accept(id) {
+    
+    function success() {
         $.ajax({
             type: 'post',
-            url: '/web/order/srv/accept/${data.id}',
-            data: { },
+            url: '/web/order/tech/finish/${tech_order.id}',
+            data: {},
             dataType: 'json',
             success: function (json) {
                 console.log(json);
-                if (json.code =='200') {
-                    alertMess("操作成功")
-                    location.href = "/order/service_ing.html";
+                if (json.code == '200') {
+                    alertMess("操作成功");
+                    location.href = "/order/teah.html";
                 } else {
                     alertMess("操作失败")
                 }
             }
         });
     }
-
-    function refuse(id) {
+    
+    function access(id) {
         $.ajax({
-            type: 'get',
-            url: '/web/order/service/refuse/${data.id}',
-            data: { },
+            type: 'post',
+            url: '/web/order/tech/agree/${data.id}',
+            data: {},
             dataType: 'json',
             success: function (json) {
                 console.log(json);
-                if (json.code =='200') {
+                if (json.code == '200') {
                     alertMess("操作成功");
-                    location.href = "/order/service_ing.html";
+                    location.href = "/order/teah.html";
+                } else {
+                    alertMess("操作失败")
+                }
+            }
+        });
+    }
+    
+    function backHome() {
+        location.href = "/order/teah.html";
+    }
+
+    function refuse(id) {
+        $.ajax({
+            type: 'post',
+            url: '/web/order/tech/delete/${data.id}',
+            data: {},
+            dataType: 'json',
+            success: function (json) {
+                console.log(json);
+                if (json.code == '200') {
+                    alertMess("操作成功");
+                    location.href = "/order/teah.html";
                 } else {
                     alertMess("操作失败")
                 }

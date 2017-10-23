@@ -140,8 +140,8 @@ public class UserActionController extends APIService {
     }
 
     @RequestMapping("/list/inner")
-    public BaseDto listInnerUser(String key,@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "30") Integer pageSize) {
-        return BaseDto.newDto(userService.findAllInner(key,page, pageSize));
+    public BaseDto listInnerUser(String key,String type,@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "30") Integer pageSize) {
+        return BaseDto.newDto(userService.findAllInner(key,type,page, pageSize));
     }
 
 }

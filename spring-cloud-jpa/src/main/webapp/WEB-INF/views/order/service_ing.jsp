@@ -93,11 +93,11 @@
         var array = json.obj.content;
         for (var i in array) {
             var data = array[i];
-            var  stateMsg = "等待生产";
+            var  stateMsg = "生产完毕待发货";
 
             html += "<div class='c-comment'>";
             html += "<span class='c-comment-num'>订单编号：" + data.id + "</span>";
-            html += "<span class='c-comment-suc'>生产中</span>";
+            html += "<span class='c-comment-suc'>生产完毕待发货</span>";
             html += "</div>";
             html += "<div class='c-comment-list' style='border: 0;'>";
             html += "<a target='_top' class='o-con' href='/web/order/service/detail/"+data.id+"' >";

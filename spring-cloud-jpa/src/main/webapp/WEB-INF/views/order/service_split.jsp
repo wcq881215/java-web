@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title>订单查询</title>
+    <title>服务派工</title>
     <meta name="description" content="正大海工"/>
     <meta name="keywords" content="正大海工"/>
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
@@ -29,7 +29,7 @@
             <i class="am-header-icon am-icon-angle-left"></i>
         </a>
     </div>
-    <h1 class="am-header-title"><a href="#title-link" class="" style="color: #333;">订单查询</a></h1>
+    <h1 class="am-header-title"><a href="#title-link" class="" style="color: #333;">服务派工</a></h1>
     <div class="am-header-right am-header-nav">
         <a href="#right-link" class=""> </a>
     </div>
@@ -46,7 +46,7 @@
 
 <script type="text/javascript">
 
-    var status = "3"; // 1待生产 2 已生产 3发货待安装
+    var status = "2"; // 待安装
     var page = 0;
     var pageSize = 4;
     var ajaxFlag = true;
@@ -62,8 +62,8 @@
             return;
         }
         $.ajax({
-            type: 'post',
-            url: '/web/order/srv/select',
+            type: 'get',
+            url: '/web/order/service/query',
             data: {
                 page: page,
                 pageSize: pageSize
@@ -93,14 +93,14 @@
         var array = json.obj.content;
         for (var i in array) {
             var data = array[i];
-            var  stateMsg = "生产完毕等待发货";
+            var  stateMsg = "生产完毕待发货";
 
             html += "<div class='c-comment'>";
             html += "<span class='c-comment-num'>订单编号：" + data.id + "</span>";
-            html += "<span class='c-comment-suc'>" + stateMsg + "</span>";
+            html += "<span class='c-comment-suc'>生产完毕待发货</span>";
             html += "</div>";
             html += "<div class='c-comment-list' style='border: 0;'>";
-            html += "<a target='_top' class='o-con' href='/web/order/service/detail/"+data.id+"' >";
+            html += "<a target='_top' class='o-con' href='/web/order/service/split/"+data.id+"' >";
             html += "<div class='o-con-txt'>";
             html += "<p>" + data.device + "</p>";
             html += "</div>";

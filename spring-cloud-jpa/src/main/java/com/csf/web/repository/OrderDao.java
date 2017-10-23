@@ -40,7 +40,7 @@ public interface OrderDao extends JpaRepository<Order, Long> {
     @Query("from Order o where o.state = 3 and o.pack is null ")
     public Page<Order> queryPackOrder(Pageable pageable);
 
-    @Query("from Order o where o.state = 2 and o.pack = :user ")
+    @Query("from Order o where o.state = 3 and o.pack = :user ")
     public Page<Order> queryPackProductOrder(@Param("user") User user, Pageable pageable);
 
 }

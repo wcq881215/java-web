@@ -33,7 +33,7 @@
         <img src="/images/default_photo.png" alt="logo" class="logo">
         <p class="name">时间：2017-08-20</p>
         <h2 class="sub-title"> 订单编号：${data.id}</h2>
-        <h2 class="sub-title">订单状态：生产完成等待安装</h2>
+        <h2 class="sub-title">订单状态：${data.state}</h2>
         <p class="condition">设备名称：<span></span>${data.device}</p>
         <p class="date">设备型号：<span>${data.sn}</span></p>
         <div class="contact-wrap">
@@ -55,42 +55,28 @@
 
     <div class="h50"></div>
     <ul class="fixed-btn">
-        <li class="" style="width: 95%;"><a href="javascript:accept(${data.id})" class="current">接受</a></li>
-        <li class="hide" style="width: 40%;"><a href="javascript:refuse(${data.id})">退回</a></li>
+        <li style="width: 40%;"><a href="javascript:edit(${data.id})" class="current">编辑</a></li>
+        <li style="width: 40%;"><a href="javascript:dele(${data.id})">删除</a></li>
     </ul>
 
 </div>
 </body>
 <script type="text/javascript">
-    function accept(id) {
-        $.ajax({
-            type: 'post',
-            url: '/web/order/srv/accept/${data.id}',
-            data: { },
-            dataType: 'json',
-            success: function (json) {
-                console.log(json);
-                if (json.code =='200') {
-                    alertMess("操作成功")
-                    location.href = "/order/service_ing.html";
-                } else {
-                    alertMess("操作失败")
-                }
-            }
-        });
+    function edit(id) {
+        location.href = "/web/order/edit/"+${data.id};
     }
 
-    function refuse(id) {
+    function dele(id) {
         $.ajax({
-            type: 'get',
-            url: '/web/order/service/refuse/${data.id}',
+            type: 'post',
+            url: '/web/order/delete/${data.id}',
             data: { },
             dataType: 'json',
             success: function (json) {
                 console.log(json);
                 if (json.code =='200') {
                     alertMess("操作成功");
-                    location.href = "/order/service_ing.html";
+                    location.href = "/order/query.html";
                 } else {
                     alertMess("操作失败")
                 }

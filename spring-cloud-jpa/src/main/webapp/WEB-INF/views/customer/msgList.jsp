@@ -17,88 +17,96 @@
     <script type="text/javascript" src="/js/alert.js?v=1.0"></script>
 </head>
 <body>
-
 <header data-am-widget="header" class="am-header am-header-default header"
         style="width:100%;position:fixed; z-index:1000;top:0;left:0;">
-
-    <h1 class="am-header-title"><a href="#title-link" class="" style="color: #333;">我的消息</a></h1>
+    <div class="am-header-left am-header-nav">
+        <a href="javascript:history.go(-1)" class="">
+            <i class="am-header-icon am-icon-angle-left"></i>
+        </a>
+    </div>
+    <h1 class="am-header-title"><a href="#" class="" style="color: #333;">消息</a></h1>
     <div class="am-header-right am-header-nav">
         <a href="#right-link" class=""> </a>
     </div>
 </header>
 
-<div data-am-widget="slider" class="am-slider am-slider-default" data-am-slider='{}' style="margin-top:50px;">
-    <ul class="am-slides">
-        <li><img src="/images/banner3.png"></li>
+<div>
+    <ul class="address-list" id="data-gallery" style="margin-top:70px; ">
+
 
     </ul>
 </div>
 
-
-<div data-am-widget="intro" class="am-intro am-cf am-intro-default" style="margin-left:10px;">
-
-    <div class="am-g am-intro-bd">
-        <a href="/web/order/message/1" target="_top">
-            <div class="am-intro-right am-u-sm-9">
-                <h2>专业石材的清洁与保养方法</h2>
-                <p>不同磨损的石材翻新养护方法：1、修补破损及中缝补胶（无缝处理）...</p>
-                <div class="text" style=" margin-right:20px;">
-                    <span class="fl">2017-5-23</span>
-                    <span style="float:right; margin-right:10px;">查看详情</span>
-                </div>
-            </div>
-        </a>
-    </div>
-
-    <div class="am-g am-intro-bd">
-        <a href="/web/order/message/1" target="_top">
-            <div class="am-intro-right am-u-sm-9">
-                <h2>专业石材的清洁与保养方法</h2>
-                <p>不同磨损的石材翻新养护方法：1、修补破损及中缝补胶（无缝处理）...</p>
-                <div class="text" style=" margin-right:20px;">
-                    <span class="fl">2017-5-23</span>
-                    <span style="float:right; margin-right:10px;">查看详情</span>
-                </div>
-            </div>
-        </a>
-    </div>
-
-    <div class="am-g am-intro-bd">
-        <a href="/web/order/message/1" target="_top">
-            <div class="am-intro-right am-u-sm-9">
-                <h2>专业石材的清洁与保养方法</h2>
-                <p>不同磨损的石材翻新养护方法：1、修补破损及中缝补胶（无缝处理）...</p>
-                <div class="text" style=" margin-right:20px;">
-                    <span class="fl">2017-5-23</span>
-                    <span style="float:right; margin-right:10px;">查看详情</span>
-                </div>
-            </div>
-        </a>
-    </div>
-
-
-</div>
-
-
 <div class="h50"></div>
 
-<%@include file="../footer.jsp" %>
 
 </body>
 
 <script type="text/javascript">
+    var page = 0;
+    var pageSize = 10;
+    var ajaxFlag = true;
+
     init();
+
+    $(document).on("scrollstart", function () {
+        init();
+    });
+
     function init() {
+        var htm = createHtmlNoData();
+        if (!ajaxFlag) {
+//            $('#data-gallery').append(htm);
+            return;
+        }
+
         $.ajax({
-            type: 'post',
-            url: '/web/order/user/message',
-            data: {},
-            dataType: 'html',
-            success: function (html) {
-                console.log(html);
-                $('#products-gallery').html(html);
+            type: 'get',
+            url: '/web/msg/my',
+            data: {
+                page: page,
+                pageSize: pageSize
+            },
+            dataType: 'json',
+            success: function (json) {
+                console.log(json);
+
+                if (json.code == "200") {
+                    page++;
+                    htm = createHtml(json);
+
+                    if (json.obj.last) {
+                        ajaxFlag = false;
+                    }
+                    $('.ui-loader').hide();
+                }
+                $('#data-gallery').append(htm);
             }
         });
+    }
+
+    function createHtmlNoData() {
+        return "<div>没有数据了</div>";
+    }
+
+    function createHtml(json) {
+        var html = "";
+        var array = json.obj.data;
+        for (var i in array) {
+            var data = array[i];
+            html += "<li>";
+            html += "<p>来源：&nbsp;&nbsp;" + data.user.team + " - " + data.user.name + " </p>";
+            html += "<p class='order-add1'>" + data.title + "</p>";
+            html += "<hr>";
+            html += "<div class='address-cz'>";
+            html += "<label class='am-radio am-warning'>" + data.time + "</label>";
+            html += "<a target='_top' class='' href='/web/msg/detail/" + data.id + "'>查看详情</a>";
+            html += "<a target='_top' class='hide' href=''>删除</a>";
+            html += "</div>";
+            html += "</li>";
+        }
+
+        return html;
     }
 
 

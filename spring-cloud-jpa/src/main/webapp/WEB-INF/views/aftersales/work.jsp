@@ -49,10 +49,16 @@
             <p>工单处理</p>
         </a>
     </li>
-    <li class="">
+    <li class="hide">
         <a href="/order/service_ing.html">
             <img src="/images/fw.png"/>
             <p>我的工单</p>
+        </a>
+    </li>
+    <li class="">
+        <a href="/order/service_split.html">
+            <img src="/images/cx.png"/>
+            <p>服务派工</p>
         </a>
     </li>
     <li>
