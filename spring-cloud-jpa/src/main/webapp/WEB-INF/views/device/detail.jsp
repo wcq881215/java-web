@@ -18,6 +18,18 @@
     <script type="text/javascript" src="/js/alert.js?v=1.0"></script>
 </head>
 <body>
+<header data-am-widget="header" class="am-header am-header-default header"
+        style="width:100%;position:fixed; z-index:1000;top:0;left:0;">
+    <div class="am-header-left am-header-nav">
+        <a href="javascript:history.go(-1)" class="">
+            <i class="am-header-icon am-icon-angle-left"></i>
+        </a>
+    </div>
+    <h1 class="am-header-title"><a href="#title-link" class="" style="color: #333;">设备详情</a></h1>
+    <div class="am-header-right am-header-nav">
+        <a href="#right-link" class=""> </a>
+    </div>
+</header>
 <div data-am-widget="slider" class="am-slider am-slider-default" data-am-slider='{}'>
     <ul class="am-slides">
         <c:forEach items="${device.imgs}" var="img">

@@ -36,33 +36,33 @@
 <h3 align="center" style="padding-top:15px;">工作</h3>
 <hr>
 <ul class="nav">
-    <li>
-        <a href="订单录入.html">
+    <li class="hide">
+        <a href="html">
             <img src="/images/cx.png"/>
             <p>设备报修</p>
         </a>
     </li>
 
-    <li>
-        <a href="订单查询.html">
+    <li >
+        <a href="/order/service.html">
             <img src="/images/yscx.png"/>
             <p>工单处理</p>
         </a>
     </li>
-    <li>
-        <a href="订单查询.html">
+    <li class="">
+        <a href="/order/service_ing.html">
             <img src="/images/fw.png"/>
-            <p>完成的工单</p>
+            <p>我的工单</p>
         </a>
     </li>
     <li>
-        <a href="订单查询.html">
+        <a href="/technician/deal.html">
             <img src="/images/az.png"/>
             <p>售后解决方案</p>
         </a>
     </li>
-    <li>
-        <a href="订单查询.html">
+    <li class="hide">
+        <a href=".html">
             <img src="/images/az.png"/>
             <p>配件库</p>
         </a>

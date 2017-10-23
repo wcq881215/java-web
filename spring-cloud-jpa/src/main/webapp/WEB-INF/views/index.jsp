@@ -7,9 +7,9 @@
     idfa = request.getHeader("device");
     System.out.println("===================reqeust header from mobile device :: " + idfa);
 
-    if(idfa !=null && "".equals(idfa.trim())){
-        Cookie cookie = new Cookie("ck_mid",idfa);
-        cookie.setMaxAge(12*30*24*3600);
+    if (idfa != null && "".equals(idfa.trim())) {
+        Cookie cookie = new Cookie("ck_mid", idfa);
+        cookie.setMaxAge(12 * 30 * 24 * 3600);
         response.addCookie(cookie);
     }
 %>
@@ -36,41 +36,41 @@
         <img src="/images/default_photo.png" alt="logo" class="logo">
 
         <form id="userform" method="post" action="/user/login">
-        <div class="am-tabs-bd">
+            <div class="am-tabs-bd">
 
-            <div class="am-tab-panel am-fade am-in am-active" id="tab1">
-                <li>
-                    <%--<input type="text" name="username" id="username" placeholder="请输入用户名" class="tab-input"/>--%>
+                <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+                    <li>
+                        <input type="text" name="username" id="username" placeholder="请输入用户名" class="tab-input"/>
 
-                    <select id="username"  name="username">
-                        <option value="admin">管理员</option>
-                        <option value="tech">技术员</option>
-                        <option value="office">内勤</option>
-                        <option value="service">售后服务</option>
-                        <option value="produce">生产部</option>
-                        <option value="customer">购机客户</option>
-                    </select>
+                        <%--<select id="username" name="username">--%>
+                        <%--<option value="admin">管理员</option>--%>
+                        <%--<option value="tech">技术员</option>--%>
+                        <%--<option value="office">内勤</option>--%>
+                        <%--<option value="service">售后服务</option>--%>
+                        <%--<option value="produce">生产部</option>--%>
+                        <%--<option value="customer">购机客户</option>--%>
+                        <%--</select>--%>
                         <input type="hidden" name="mid" id="mid" value=""/>
-                        <input type="password" name="password" id="password" value="111111" placeholder="输入用户密码" class="tab-input"/>
+                        <input type="password" name="password" id="password" value="" placeholder="输入用户密码"
+                               class="tab-input"/>
 
-                </li>
+                    </li>
 
+                </div>
             </div>
-        </div>
         </form>
     </div>
 
 
     <div class="receive-btn" onclick="receiveCoupon()" style="background: rgb(255, 255,255); color:#565656">登录</div>
-    <div align="center" style="margin-top:2px;"><p style="color: #FFFFFF">新用户注册</p></div>
-
+    <div align="center" style="margin-top:20px;"><p onclick="showReg()" style="color: #FFFFFF">新用户注册</p></div>
 
 </div>
 </body>
 <script type="text/javascript">
 
     $(function () {
-       // init();
+        // init();
     });
 
     function init() {
@@ -100,20 +100,24 @@
         $('#userform').submit();
 
         <%--$.ajax({--%>
-            <%--type: "get",--%>
-            <%--url: "${pageContext.request.contextPath}/web/user/login",--%>
-            <%--dataType: 'json',--%>
-            <%--data: 'username=' + username + "&password=" + password+ "&mid=" + mid,--%>
-            <%--success: function (json) {--%>
-                <%--if (json.code != '200') {--%>
-                    <%--alertMess(json.msg);--%>
-                    <%--return;--%>
-                <%--}--%>
-                <%--location.href = "${pageContext.request.contextPath}/page/admin/home";--%>
-            <%--}--%>
+        <%--type: "get",--%>
+        <%--url: "${pageContext.request.contextPath}/web/user/login",--%>
+        <%--dataType: 'json',--%>
+        <%--data: 'username=' + username + "&password=" + password+ "&mid=" + mid,--%>
+        <%--success: function (json) {--%>
+        <%--if (json.code != '200') {--%>
+        <%--alertMess(json.msg);--%>
+        <%--return;--%>
+        <%--}--%>
+        <%--location.href = "${pageContext.request.contextPath}/page/admin/home";--%>
+        <%--}--%>
         <%--});--%>
 
-
     }
+
+    function showReg() {
+        location.href = "/user/regist.html";
+    }
+
 </script>
 </html>

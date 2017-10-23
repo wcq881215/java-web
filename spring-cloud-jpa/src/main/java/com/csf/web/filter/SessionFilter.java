@@ -19,6 +19,7 @@ public class SessionFilter implements HandlerInterceptor {
     private static final Logger logger = Logger.getLogger(SessionFilter.class);
 
     private static Set<String> exclude_path = new HashSet<>();
+    private static Set<String> include_path = new HashSet<>();
 
     static {
         exclude_path.add("/");
@@ -28,14 +29,42 @@ public class SessionFilter implements HandlerInterceptor {
         exclude_path.add("/web/user/register");
         exclude_path.add("/user/login");
         exclude_path.add("/user/regist.html");
+
+//        exclude_path.add("/web/maintain/more");
+//        exclude_path.add("/video/more.html");
+//        exclude_path.add("/web/device/more");
+//        exclude_path.add("/news/more.html");
+//        exclude_path.add("/web/device/new");
+//        exclude_path.add("/web/maintain/new");
+//        exclude_path.add("/news/more.html");
+//        exclude_path.add("/web/news/list");
+//        exclude_path.add("/web/news/detail");
+//        exclude_path.add("/web/device/list");
+//        exclude_path.add("/web/device/detail");
+//        exclude_path.add("/web/video/list");
+//        exclude_path.add("/web/video/detail");
+//        exclude_path.add("/web/maintain/list");
+//        exclude_path.add("/web/maintain/detail");
+
+        include_path.add("/cust/work");
+        include_path.add("/cust/my");
+        include_path.add("/cust/message");
     }
 
-    private boolean checkInPath(String path) {
+    private boolean checkExPath(String path) {
         if (exclude_path.contains(path)) {
             return true;
         }
         return false;
     }
+    private boolean checkInPath(String path) {
+        if (include_path.contains(path)) {
+            return true;
+        }
+        return false;
+    }
+
+
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
@@ -47,13 +76,19 @@ public class SessionFilter implements HandlerInterceptor {
             System.out.println("request header : " + key + " value : " + httpServletRequest.getHeader(key));
         }
         logger.info(httpServletRequest.getRequestURI().toString() + " >>>>>>>>>>>>>> ");
-        if (checkInPath(httpServletRequest.getRequestURI())) {
+        if (checkExPath(httpServletRequest.getRequestURI())) {
             return true;
         } else {
             User user = (User) httpServletRequest.getSession().getAttribute(OAConstants.SESSION_USER);
-            if (user == null) {
-                httpServletResponse.sendRedirect("/index");
-                return false;
+            if(user== null){
+                user = new User();
+                httpServletRequest.getSession().setAttribute(OAConstants.SESSION_USER,user);//创建临时用户
+            }
+            if(checkInPath(httpServletRequest.getRequestURI())){
+                if (user.getId() == null) {
+                    httpServletResponse.sendRedirect("/index");
+                    return false;
+                }
             }
         }
         return true;// 只有返回true才会继续向下执行，返回false取消当前请求

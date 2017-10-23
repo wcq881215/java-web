@@ -36,44 +36,50 @@
 <h3 align="center" style="padding-top:15px;">发布</h3>
 <hr>
 <ul class="nav">
-    <li>
-        <a href="订单录入.html">
+    <li class="">
+        <a href="/production/addProduct.html">
             <img src="/images/cx.png"/>
-            <p>设备报修</p>
+            <p>产品入库</p>
         </a>
     </li>
 
     <li>
-        <a href="订单查询.html">
+        <a href="/production/queryProduct.html">
             <img src="/images/yscx.png"/>
-            <p>服务派工</p>
+            <p>所有产品</p>
         </a>
     </li>
     <li>
-        <a href="订单查询.html">
+        <a href="/order/production.html">
             <img src="/images/fw.png"/>
-            <p>报销</p>
+            <p>查看订单</p>
         </a>
     </li>
     <li>
+        <a href="/order/production_ing.html">
+            <img src="/images/fw.png"/>
+            <p>我的工单</p>
+        </a>
+    </li>
+    <li class="hide">
         <a href="订单查询.html">
             <img src="/images/az.png"/>
             <p>信息群发</p>
         </a>
     </li>
-    <li>
-        <a href="订单查询.html">
+    <li class="hide">
+        <a href="/technician/problem.html">
             <img src="/images/az.png"/>
             <p>问题汇总</p>
         </a>
     </li>
-    <li>
+    <li class="hide">
         <a href="订单查询.html">
             <img src="/images/az.png"/>
             <p>售后解决方案</p>
         </a>
     </li>
-    <li>
+    <li class="hide">
         <a href="订单查询.html">
             <img src="/images/az.png"/>
             <p>配件库</p>

@@ -60,8 +60,8 @@
                 交货时间：<input type="date" name="dtime" id="dtime" placeholder="" class="tab-input"/></li>
 
             <li class="" style="border: 1px dashed #ddd;padding: 3px 0px 3px 10px;margin-bottom: 10px;">
-                添加设备信息 <span style=" font-size:24px; color:#00A6FF" onclick="showDevice()"> &#43;  </span><br>
-                <div id="" class="device-info hide">
+                添加设备信息 <span style=" font-size:24px; color:#00A6FF" onclick="addDevice()"> &#43;  </span><br>
+                <div id="" class="device-info ">
                     <select name="device-name" id="device-name">
                         <option value="">请选择设备型号</option>
                     </select>
@@ -89,23 +89,20 @@
         queryDevice();
     });
 
+    var dids = "";
+    var names = "";
+    var dnumber = "";
+    var device = [];
     function addDevice() {
-        //全局  ！
-        var dids = "";
-        var names = "";
-        var dnumber = "";
-        var device = [];
-
-
         var did = $('#device-name').val();
         var dnum = $('#dnumber').val();
         if(did == ''){
             alertMess('请选择一台设备');
-            return;
+            return
         }
         if(dnum == ''){
             alertMess('请选择设备数量');
-            return;
+            return
         }
         var dname=$("#device-name").find("option:selected").html();
         var info = "";
@@ -197,7 +194,7 @@
         var remark = $('#remark').val();
 
         var proxy = $('#proxy').val();
-        var device = $("select[name='device-name']").val();
+      //  var device = $("select[name='device-name']").val();
         var dnumber = $('#dnumber').val();
 
 
@@ -252,8 +249,11 @@
                 ext: selfInf,
                 remark: remark,
                 proxy: proxy,
-                did: device,
-                number: dnumber
+                device: JSON.stringify(device),
+                number: dnumber,
+                dids:dids,
+                names:names,
+                dnumber:dnumber
             },
             success: function (json) {
                 if (json.code == '200') {
