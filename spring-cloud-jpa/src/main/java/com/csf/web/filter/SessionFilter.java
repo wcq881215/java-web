@@ -27,6 +27,7 @@ public class SessionFilter implements HandlerInterceptor {
         exclude_path.add("/web/user/login");
         exclude_path.add("/web/user/register");
         exclude_path.add("/user/login");
+        exclude_path.add("/user/regist.html");
     }
 
     private boolean checkInPath(String path) {

@@ -57,10 +57,12 @@ public class UserActionController extends APIService {
         if (user == null) {
             return ajaxFailure("-1", "参数错误");
         }
-        user = userService.findByName(user.getUsername());
-        if (user != null) {
+        User u = userService.findByName(user.getUsername());
+        if (u != null) {
             return ajaxFailure("-1", "用户已存在");
         }
+        user.setState(true);
+        user.setS_time(new Date());
         userService.saveUser(user);
 
         store(request.getSession(), response, user, UserRole.CUSTOMER.getRole());

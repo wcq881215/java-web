@@ -59,13 +59,49 @@ public class Order {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date time;
     @Column
-    private String state;//状态 0 无效（废弃，重录） 1 - 2 -3 -4 -5 ... -> over  1:内勤录入等待发货，2已发货待安装 3安装完成等待客户确认 4 已完成
+    private String state;//状态 0 无效（废弃，重录） 1 - 2 -3 -4 -5 ... -> over  1:内勤录入等待生产，2生产中待发货，3已发货待安装 4安装完成等待客户确认 5 已完成
     @Column
     private Long proxy;
 
     @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = true)
     @JoinColumn(name = "fqid")
     private Order dirty;//废弃订单
+
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = true)
+    @JoinColumn(name = "prod")
+    private User producer;//生产人
+
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = true)
+    @JoinColumn(name = "srv")
+    private User service;//售后服务
+
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = true)
+    @JoinColumn(name = "pack")
+    private User pack;//安装
+
+    public User getProducer() {
+        return producer;
+    }
+
+    public void setProducer(User producer) {
+        this.producer = producer;
+    }
+
+    public User getService() {
+        return service;
+    }
+
+    public void setService(User service) {
+        this.service = service;
+    }
+
+    public User getPack() {
+        return pack;
+    }
+
+    public void setPack(User pack) {
+        this.pack = pack;
+    }
 
     public Order getDirty() {
         return dirty;
