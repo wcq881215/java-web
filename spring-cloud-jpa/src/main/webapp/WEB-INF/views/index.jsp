@@ -70,7 +70,7 @@
 <script type="text/javascript">
 
     $(function () {
-        // init();
+         init();
     });
 
     function init() {
@@ -78,9 +78,12 @@
         var password = getCookie('scookie_user_pwd');
         var mid = getCookie('ck_mid');
 
-        $('#username').val(username);
-        $('#password').val(password);
-        $('#mid').val(mid);
+        if(username != '' && password !='' ){
+            $('#username').val(username);
+            $('#password').val(password);
+            $('#mid').val(mid);
+            receiveCoupon();
+        }
 
     }
 
