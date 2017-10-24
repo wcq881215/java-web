@@ -37,7 +37,8 @@
         </c:forEach>
     </ul>
 </div>
-<div class="detail">
+<c:if test="${empty device.imgs }"></c:if>
+<div class="detail" style="margin-top: 70px;"  >
     <h2>${device.name}</h2>
     <div class="price">
         <b>￥${device.price}</b>
