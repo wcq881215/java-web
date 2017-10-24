@@ -15,6 +15,7 @@
     <script type="text/javascript" src="/mobile/jquery-1.11.2.min.js"></script>
     <script type="text/javascript" src="/mobile/zdialog.js"></script>
     <script type="text/javascript" src="/js/alert.js?v=1.0"></script>
+    <script type="text/javascript" src="/js/location.js?v=1.0"></script>
 </head>
 <body>
 <div class="member">
@@ -40,6 +41,7 @@
 <script type="text/javascript">
 
     function exit() {
+        setCookie("logout","1",1,"/",document.domain);
         document.location.href = "/user/exit";
     }
 

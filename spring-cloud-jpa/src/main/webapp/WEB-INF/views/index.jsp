@@ -77,6 +77,10 @@
         var username = getCookie('cookie_user_name');
         var password = getCookie('scookie_user_pwd');
         var mid = getCookie('ck_mid');
+        var logout = getCookie('logout');
+        if(logout == '1'){ //手动退出
+            return;
+        }
 
         if(username != '' && password !='' ){
             $('#username').val(username);
@@ -88,6 +92,7 @@
     }
 
     function receiveCoupon() {
+        setCookie("logout","0",1,"/",document.domain);//开启自动登陆
         var username = $('#username').val();
         var password = $('#password').val();
         var mid = getCookie('cookie_mid');
