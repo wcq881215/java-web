@@ -56,8 +56,12 @@ public class UserController extends APIService {
 
         store(session, response, user, role);
         /****存session,cookie end***/
-
-        return "forward:/" + role + "/home";//跳转到相应角色页面
+        String url = (String) request.getSession().getAttribute("redirect_url");
+        if (url != null && url.startsWith("/cust/")) {
+            String[] paths = url.toString().split("/");
+            url = paths[paths.length - 1];
+        }
+        return "forward:/" + role + "/" + url;//跳转到相应角色页面
     }
 
     @RequestMapping("/query")

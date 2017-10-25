@@ -8,7 +8,8 @@ public enum UserRole {
     ADMIN("admin", "管理员"),
     TECHNICIAN("technician", "技术员"),
     OFFICE("office", "内勤"),
-    AFTERSALES("aftersales", "售后服务"),
+    SERVICE("sale", "售后服务"),
+    MANAGER("manager", "售后管理"),
     PRODUCTION("production", "生产部"),
     CUSTOMER("customer", "购机客户");
 

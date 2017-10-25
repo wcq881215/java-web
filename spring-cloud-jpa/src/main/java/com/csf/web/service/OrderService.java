@@ -5,6 +5,7 @@ import com.csf.web.entity.OrderTeah;
 import com.csf.web.entity.User;
 import com.csf.web.repository.OrderDao;
 import com.csf.web.repository.OrderTeahDao;
+import com.csf.web.util.OAUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,6 +32,10 @@ public class OrderService {
     }
 
     public Order saveOrder(Order order) {
+
+        if(order !=null && order.getOrder_id() == null){
+            order.setOrder_id(OAUtil.generateOrderId());
+        }
         return orderDao.save(order);
     }
 

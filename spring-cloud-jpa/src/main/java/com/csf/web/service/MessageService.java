@@ -45,4 +45,19 @@ public class MessageService {
     public Message findOne(Long id){
         return messageDao.findOne(id);
     }
+
+
+    public Message addInOrderMessage(String order){
+        Message msg = new Message();
+
+        return msg;
+    }
+
+
+
+    private static final String in_title = "订单编号$order已录入，请生产部按照要求开始生产";
+    private static final String product_title = "";
+    private static final String srv_title = "";
+    private static final String service_title = "";
+
 }

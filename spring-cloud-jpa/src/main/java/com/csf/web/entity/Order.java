@@ -16,6 +16,8 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column
+    private String order_id;
+    @Column
     private Long pid;
     @Column
     private String buser;
@@ -301,5 +303,13 @@ public class Order {
 
     public void setBphone(String bphone) {
         this.bphone = bphone;
+    }
+
+    public String getOrder_id() {
+        return order_id;
+    }
+
+    public void setOrder_id(String order_id) {
+        this.order_id = order_id;
     }
 }

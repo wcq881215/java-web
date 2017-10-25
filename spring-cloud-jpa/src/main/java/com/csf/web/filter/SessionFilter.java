@@ -57,13 +57,13 @@ public class SessionFilter implements HandlerInterceptor {
         }
         return false;
     }
+
     private boolean checkInPath(String path) {
         if (include_path.contains(path)) {
             return true;
         }
         return false;
     }
-
 
 
     @Override
@@ -80,12 +80,16 @@ public class SessionFilter implements HandlerInterceptor {
             return true;
         } else {
             User user = (User) httpServletRequest.getSession().getAttribute(OAConstants.SESSION_USER);
-            if(user== null){
+            if (user == null) {
                 user = new User();
-                httpServletRequest.getSession().setAttribute(OAConstants.SESSION_USER,user);//创建临时用户
+                httpServletRequest.getSession().setAttribute(OAConstants.SESSION_USER, user);//创建临时用户 用于无登陆访问首页
             }
-            if(checkInPath(httpServletRequest.getRequestURI())){
+            if (checkInPath(httpServletRequest.getRequestURI())) {
                 if (user.getId() == null) {
+                    String query = httpServletRequest.getQueryString() == null ? "" : httpServletRequest.getQueryString();
+                    String redirect_url = httpServletRequest.getRequestURI() + "?" + query;
+                    logger.info(">>>> query is :" + redirect_url);
+                    httpServletRequest.getSession().setAttribute("redirect_url", redirect_url);
                     httpServletResponse.sendRedirect("/index");
                     return false;
                 }

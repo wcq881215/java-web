@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 /**
  * Created by changqi.wu on 17-10-5.
  */
@@ -42,5 +44,8 @@ public interface OrderDao extends JpaRepository<Order, Long> {
 
     @Query("from Order o where o.state = 3 and o.pack = :user ")
     public Page<Order> queryPackProductOrder(@Param("user") User user, Pageable pageable);
+
+    @Query("select max(id) from Order ")
+    public Long getMaxId();
 
 }

@@ -164,6 +164,7 @@ INSERT INTO app_message(pid,title,content,time,state) values (3,'订单编号134
 DROP TABLE IF EXISTS app_order;
 CREATE TABLE app_order (
   id         INT AUTO_INCREMENT,
+  order_id   VARCHAR(20)    COMMENT '订单编号',
   pid        INT  NOT NULL  COMMENT '发布人',
   proxy        INT   COMMENT '办事处',
   buser     VARCHAR(200)    COMMENT '业务员',
@@ -192,7 +193,7 @@ CREATE TABLE app_order (
   pack        INT   COMMENT '安装人',
   state  CHAR (2) DEFAULT '1'  COMMENT '状态 0 无效（废弃，重录） 1 - 2 -3 -4 -5 ... -> over  1:内勤录入等待发货，2已发货待安装 3安装完成等待客户确认 4 已完成',
   PRIMARY KEY (id)
-)ENGINE = InnoDB  DEFAULT CHARSET = utf8;
+)ENGINE = InnoDB auto_increment=100000  DEFAULT CHARSET = utf8;
 
 DROP TABLE IF EXISTS app_order_notify;
 CREATE TABLE app_order_notify (
