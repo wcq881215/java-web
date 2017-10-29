@@ -66,6 +66,7 @@ public class OrderController extends APIService {
             order.setTotal(device.getPrice() * order.getNumber());
         }
         orderService.saveOrder(order);
+        saveMsg(UserRole.PRODUCTION,user,"您有一比新订单需要生产","订单编号"+order.getId()+",请在我的工单里面查收");
         return BaseDto.newDto(order);
     }
 
@@ -189,6 +190,44 @@ public class OrderController extends APIService {
         }
         attr("data", order);
         return "/order/detail_service";
+    }
+
+    @RequestMapping("/manage/detail/{id}")
+    public String getManageOrderDetail(@PathVariable("id") Long id) {
+        Order order = orderService.findById(id);
+        if (order != null) {
+            order.setState(OrderStatus.getStatusMsg(order.getState()));
+        }
+        attr("data", order);
+        setStatus(order);
+        return "/order/detail_manage";
+    }
+
+    private void setStatus(Order order){
+        if("1".equals(order.getState()) && order.getProducer() == null){
+            order.setState("等待生产");
+            return;
+        }
+        if("1".equals(order.getState()) && order.getProducer() != null){
+            order.setState("生产中");
+            return;
+        }
+        if("2".equals(order.getState()) && order.getService()== null){
+            order.setState("生产完成待发货");
+            return;
+        }
+        if("2".equals(order.getState()) && order.getService()!= null){
+            order.setState("已发货");
+            return;
+        }
+        if("3".equals(order.getState()) ){
+            order.setState("待安装");
+            return;
+        }
+        if("4".equals(order.getState())){
+            order.setState("安装完成");
+            return;
+        }
     }
 
     @RequestMapping("/service/split/{id}")

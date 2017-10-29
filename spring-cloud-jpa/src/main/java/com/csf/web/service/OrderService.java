@@ -132,7 +132,7 @@ public class OrderService {
             orderTeahDao.save(orderTea);
             Order order = orderTea.getOrder();
             if (order != null) {
-                order.setState("3");
+                order.setState("4");
                 orderDao.save(order);
             }
         }

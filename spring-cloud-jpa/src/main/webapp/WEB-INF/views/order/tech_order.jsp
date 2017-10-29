@@ -65,7 +65,7 @@
             <li style="width: 40%;"><a href="javascript:refuse(${data.id})">退回</a></li>
         </c:if>
         <c:if test="${tech_order.state eq 2}">
-            <li style="width: 95%;"><a href="javascript:backHome()">退回</a></li>
+            <li style="width: 95%;"><a href="javascript:backHome()">已完成</a></li>
         </c:if>
     </ul>
 

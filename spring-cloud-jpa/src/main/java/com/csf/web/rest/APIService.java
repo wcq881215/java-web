@@ -3,7 +3,11 @@ package com.csf.web.rest;
 import com.csf.web.constants.OAConstants;
 import com.csf.web.dto.APIStatus;
 import com.csf.web.dto.BaseDto;
+import com.csf.web.entity.Message;
 import com.csf.web.entity.User;
+import com.csf.web.entity.UserRole;
+import com.csf.web.service.MessageService;
+import com.csf.web.service.UserService;
 import com.csf.web.util.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -96,34 +101,34 @@ public class APIService {
 
     /******** public method *******/
 
-    public void store(HttpSession session, HttpServletResponse response, User user, String role){
-        session(session,user,role);
-        cookie(response,user,role);
+    public void store(HttpSession session, HttpServletResponse response, User user, String role) {
+        session(session, user, role);
+        cookie(response, user, role);
     }
 
-    public void session(HttpSession session,User user, String role){
-        session.setAttribute(OAConstants.SESSION_USER,user);
+    public void session(HttpSession session, User user, String role) {
+        session.setAttribute(OAConstants.SESSION_USER, user);
         session.setAttribute("role", role);
     }
 
-    public void cookie(HttpServletResponse response, User user, String role){
-        Cookie cookie = new Cookie(OAConstants.COOKIE_USER_NAME,user.getUsername());
-        cookie.setMaxAge(30*24*3600);
+    public void cookie(HttpServletResponse response, User user, String role) {
+        Cookie cookie = new Cookie(OAConstants.COOKIE_USER_NAME, user.getUsername());
+        cookie.setMaxAge(30 * 24 * 3600);
         cookie.setDomain(OAConstants.SERVER_HOST);
         cookie.setPath("/");
         response.addCookie(cookie);
-        cookie = new Cookie(OAConstants.COOKIE_USER_PASSWORD,user.getPassword());
-        cookie.setMaxAge(30*24*3600);
+        cookie = new Cookie(OAConstants.COOKIE_USER_PASSWORD, user.getPassword());
+        cookie.setMaxAge(30 * 24 * 3600);
         cookie.setDomain(OAConstants.SERVER_HOST);
         cookie.setPath("/");
         response.addCookie(cookie);
 
         try {
-            cookie = new Cookie(OAConstants.COOKIE_USER, URLEncoder.encode(JsonUtils.toJson(user),"utf-8"));
+            cookie = new Cookie(OAConstants.COOKIE_USER, URLEncoder.encode(JsonUtils.toJson(user), "utf-8"));
             response.addCookie(cookie);
             cookie.setDomain(OAConstants.SERVER_HOST);
             cookie.setPath("/");
-            cookie.setMaxAge(30*24*3600);
+            cookie.setMaxAge(30 * 24 * 3600);
             response.addCookie(cookie);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -137,34 +142,34 @@ public class APIService {
     }
 
     /***********session***************/
-    public void onclick(boolean home,boolean work,boolean msg,boolean my){
+    public void onclick(boolean home, boolean work, boolean msg, boolean my) {
         HttpSession session = request.getSession();
-        if(home){
-            session.setAttribute("action_home_png","nav_home_focus.png");
-            session.setAttribute("action_work_png","nav_work.png");
-            session.setAttribute("action_msg_png","nav_msg.png");
-            session.setAttribute("action_my_png","nav_my.png");
+        if (home) {
+            session.setAttribute("action_home_png", "nav_home_focus.png");
+            session.setAttribute("action_work_png", "nav_work.png");
+            session.setAttribute("action_msg_png", "nav_msg.png");
+            session.setAttribute("action_my_png", "nav_my.png");
             return;
         }
-        if(work){
-            session.setAttribute("action_home_png","nav_home.png");
-            session.setAttribute("action_work_png","nav_work_focus.png");
-            session.setAttribute("action_msg_png","nav_msg.png");
-            session.setAttribute("action_my_png","nav_my.png");
+        if (work) {
+            session.setAttribute("action_home_png", "nav_home.png");
+            session.setAttribute("action_work_png", "nav_work_focus.png");
+            session.setAttribute("action_msg_png", "nav_msg.png");
+            session.setAttribute("action_my_png", "nav_my.png");
             return;
         }
-        if(msg){
-            session.setAttribute("action_home_png","nav_home.png");
-            session.setAttribute("action_work_png","nav_work.png");
-            session.setAttribute("action_msg_png","nav_msg_focus.png");
-            session.setAttribute("action_my_png","nav_my.png");
+        if (msg) {
+            session.setAttribute("action_home_png", "nav_home.png");
+            session.setAttribute("action_work_png", "nav_work.png");
+            session.setAttribute("action_msg_png", "nav_msg_focus.png");
+            session.setAttribute("action_my_png", "nav_my.png");
             return;
         }
-        if(my){
-            session.setAttribute("action_home_png","nav_home.png");
-            session.setAttribute("action_work_png","nav_work.png");
-            session.setAttribute("action_msg_png","nav_msg.png");
-            session.setAttribute("action_my_png","nav_my_focus.png");
+        if (my) {
+            session.setAttribute("action_home_png", "nav_home.png");
+            session.setAttribute("action_work_png", "nav_work.png");
+            session.setAttribute("action_msg_png", "nav_msg.png");
+            session.setAttribute("action_my_png", "nav_my_focus.png");
             return;
         }
     }
@@ -178,9 +183,38 @@ public class APIService {
         return sb;
     }
 
+
+    protected void notifyUser() {
+
+    }
+
+    protected void saveMsg(UserRole role, User user, String title, String content) {
+        Message message = new Message();
+        message.setContent(content);
+        message.setTitle(title);
+        message.setTime(new Date());
+        message.setState(true);
+        message.setUser(user);
+        List<User> users = userService.findByRole(role.getName());
+        for (User u : users) {
+            Message msg = message;
+            msg.setUid(u.getId());
+            msg.setDept(u.getDept());
+            msg.setTeam(u.getTeam());
+            messageService.saveMsg(msg);
+        }
+    }
+
+
     protected static final SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
     protected static final SimpleDateFormat dsf = new SimpleDateFormat("yyyyMMdd");
 
     public static final String error_page = "/error";
+
+    @Autowired
+    private MessageService messageService;
+
+    @Autowired
+    private UserService userService;
 
 }

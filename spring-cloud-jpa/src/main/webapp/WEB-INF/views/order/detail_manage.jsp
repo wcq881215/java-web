@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,7 +34,7 @@
         <img src="/images/default_photo.png" alt="logo" class="logo">
         <p class="name">时间：2017-08-20</p>
         <h2 class="sub-title"> 订单编号：${data.id}</h2>
-        <h2 class="sub-title">订单状态：生产完成等待安装</h2>
+
         <p class="condition">设备名称：<span></span>${data.device}</p>
         <p class="date">设备型号：<span>${data.sn}</span></p>
         <div class="contact-wrap">
@@ -55,13 +56,18 @@
 
     <div class="h50"></div>
     <ul class="fixed-btn">
-        <li class="" style="width: 95%;"><a href="javascript:accept(${data.id})" class="current">发货</a></li>
+        <li class="" style="width: 95%;"><a href="javascript:splitOrder(${data.id})" class="current">接受</a></li>
         <li class="hide" style="width: 40%;"><a href="javascript:refuse(${data.id})">退回</a></li>
     </ul>
 
 </div>
 </body>
 <script type="text/javascript">
+    
+    function splitOrder(oid) {
+        
+    }
+    
     function accept(id) {
         $.ajax({
             type: 'post',

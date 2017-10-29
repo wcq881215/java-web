@@ -36,25 +36,14 @@
 <h3 align="center" style="padding-top:15px;">工作</h3>
 <hr>
 <ul class="nav">
-    <li class="hide">
-        <a href="html">
-            <img src="/images/cx.png"/>
-            <p>设备报修</p>
-        </a>
-    </li>
 
     <li >
         <a href="/order/service.html">
             <img src="/images/yscx.png"/>
-            <p>工单处理</p>
+            <p>订单查询</p>
         </a>
     </li>
-    <li class="hide">
-        <a href="/order/service_ing.html">
-            <img src="/images/fw.png"/>
-            <p>我的工单</p>
-        </a>
-    </li>
+
     <li class="">
         <a href="/order/service_split.html">
             <img src="/images/cx.png"/>
@@ -67,16 +56,33 @@
             <p>售后解决方案</p>
         </a>
     </li>
-    <li class="hide">
-        <a href=".html">
-            <img src="/images/az.png"/>
-            <p>配件库</p>
-        </a>
-    </li>
+
     <li>
         <a href="/technician/problem.html">
             <img src="/images/az.png"/>
             <p>问题汇总</p>
+        </a>
+    </li>
+
+
+    <li class="hide">
+        <a href="/order/service_ing.html">
+            <img src="/images/fw.png"/>
+            <p>我的工单</p>
+        </a>
+    </li>
+
+    <li class="hide">
+        <a href="html">
+            <img src="/images/cx.png"/>
+            <p>设备报修</p>
+        </a>
+    </li>
+
+    <li class="hide">
+        <a href=".html">
+            <img src="/images/az.png"/>
+            <p>配件库</p>
         </a>
     </li>
 

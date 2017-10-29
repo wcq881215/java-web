@@ -50,6 +50,10 @@ public class UserService {
         return userDao.findByUsername(name);
     }
 
+    public List<User> findByRole(String name) {
+        return userDao.findByRole(name);
+    }
+
     public User findById(Long id) {
         return userDao.findOne(id);
     }

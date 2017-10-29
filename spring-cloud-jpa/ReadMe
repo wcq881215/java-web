@@ -7,6 +7,9 @@ systemctl stop firewalld.service
 
 #back by left <
 javascript:history.go(-1)
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 
 
 window.WVJBCallbacks
@@ -16,3 +19,52 @@ http://blog.csdn.net/u010394015/article/details/52038527
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 1:内勤录入等待发货，2生产部生产待发货 3生产部生产完成 4售后部已发货待安装 5安装完成等待客户确认 6 已完成
+
+
+<c:if test="${data.state eq 1 && data.producer eq empty}">
+            <h2 class="sub-title">订单状态：等待生产</h2>
+        </c:if>
+
+        <c:if test="${data.state eq 1 && data.producer ne empty}">
+            <h2 class="sub-title">订单状态：生产中</h2>
+        </c:if>
+
+        <c:if test="${data.state eq 2 && data.producer ne empty}">
+            <h2 class="sub-title">订单状态：生产完成待发货</h2>
+        </c:if>
+
+        <c:if test="${data.state eq 2 && data.service ne empty }">
+            <h2 class="sub-title">订单状态：</h2>
+        </c:if>
+
+        <c:if test="${data.state eq 2 && data.service ne empty }">
+            <h2 class="sub-title">订单状态：生产完成等待安装</h2>
+        </c:if>
+
+
+
+      if("1".equals(order.getState()) && order.getProducer() == null){
+            order.setState("等待生产");
+            return;
+        }
+        if("1".equals(order.getState()) && order.getProducer() != null){
+            order.setState("生产中");
+            return;
+        }
+        if("2".equals(order.getState()) && order.getService()== null){
+            order.setState("生产完成待发货");
+            return;
+        }
+        if("2".equals(order.getState()) && order.getService()!= null){
+            order.setState("已发货");
+            return;
+        }
+        if("3".equals(order.getState()) ){
+            order.setState("待安装");
+            return;
+        }
+        if("4".equals(order.getState())){
+            order.setState("安装完成");
+            return;
+        }
+

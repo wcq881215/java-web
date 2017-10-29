@@ -43,7 +43,7 @@
         </a>
     </li>
 
-    <li >
+    <li class="hide">
         <a href="/order/service.html">
             <img src="/images/yscx.png"/>
             <p>工单处理</p>
@@ -55,7 +55,7 @@
             <p>我的工单</p>
         </a>
     </li>
-    <li class="">
+    <li class="hide">
         <a href="/order/service_split.html">
             <img src="/images/cx.png"/>
             <p>服务派工</p>

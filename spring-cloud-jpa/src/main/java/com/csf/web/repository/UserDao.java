@@ -21,6 +21,9 @@ public interface UserDao extends JpaRepository<User, Long> {
 
     User findByUsername(String username);
 
+    @Query(value = " from User where role = ?1 and state = true ")
+    List<User> findByRole(String role);
+
 
     @Query(value = " from User u where (u.name like :key or u.dept like :key or u.phone like :key) and u.role <> '购机客户'")
     Page<User> findInnerUser(@Param("key") String key,Pageable pageable);
