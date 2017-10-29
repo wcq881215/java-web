@@ -2,12 +2,14 @@ package com.csf.web.service;
 
 import com.csf.web.repository.OrderDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
 /**
  * Created by changqi.wu on 17-10-25.
  */
+@Component
 public class ServiceUtil {
 
     @Autowired
@@ -26,11 +28,4 @@ public class ServiceUtil {
     }
 
 
-    public OrderDao getOrderDao() {
-        return orderDao;
-    }
-
-    public void setOrderDao(OrderDao orderDao) {
-        this.orderDao = orderDao;
-    }
 }

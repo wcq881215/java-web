@@ -60,6 +60,8 @@ public class UserController extends APIService {
         if (url != null && url.startsWith("/cust/")) {
             String[] paths = url.toString().split("/");
             url = paths[paths.length - 1];
+        }else{
+            url = "home";
         }
         return "forward:/" + role + "/" + url;//跳转到相应角色页面
     }
