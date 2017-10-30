@@ -11,6 +11,7 @@ import com.csf.web.service.DeviceService;
 import com.csf.web.service.OrderService;
 import com.csf.web.service.UserService;
 import com.csf.web.util.JsonUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
@@ -28,6 +29,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/web/order")
 public class OrderController extends APIService {
+    private static final Logger logger = Logger.getLogger(OrderController.class);
 
     @Autowired
     private OrderService orderService;
@@ -66,7 +68,7 @@ public class OrderController extends APIService {
             order.setTotal(device.getPrice() * order.getNumber());
         }
         orderService.saveOrder(order);
-        saveMsg(UserRole.PRODUCTION,user,"您有一比新订单需要生产","订单编号"+order.getId()+",请在我的工单里面查收");
+        saveMsg(UserRole.PRODUCTION, user, "您有一比新订单需要生产", "订单编号" + order.getId() + ",请在我的工单里面查收");
         return BaseDto.newDto(order);
     }
 
@@ -171,6 +173,18 @@ public class OrderController extends APIService {
         return BaseDto.newDto(orderService.queryServicerProductOrder(user, page, pageSize));
     }
 
+    @ResponseBody
+    @RequestMapping("/manage/query")
+    public BaseDto queryManage(Integer page, Integer pageSize) {
+        if (page == null) {
+            page = 0;
+        }
+        if (pageSize == null) {
+            pageSize = 30;
+        }
+        return BaseDto.newDto(orderService.querySrvOrder( page, pageSize));
+    }
+
 
     @RequestMapping("/product/detail/{id}")
     public String getMyOrderDetail(@PathVariable("id") Long id) {
@@ -203,28 +217,28 @@ public class OrderController extends APIService {
         return "/order/detail_manage";
     }
 
-    private void setStatus(Order order){
-        if("1".equals(order.getState()) && order.getProducer() == null){
+    private void setStatus(Order order) {
+        if ("1".equals(order.getState()) && order.getProducer() == null) {
             order.setState("等待生产");
             return;
         }
-        if("1".equals(order.getState()) && order.getProducer() != null){
+        if ("1".equals(order.getState()) && order.getProducer() != null) {
             order.setState("生产中");
             return;
         }
-        if("2".equals(order.getState()) && order.getService()== null){
+        if ("2".equals(order.getState()) && order.getService() == null) {
             order.setState("生产完成待发货");
             return;
         }
-        if("2".equals(order.getState()) && order.getService()!= null){
+        if ("2".equals(order.getState()) && order.getService() != null) {
             order.setState("已发货");
             return;
         }
-        if("3".equals(order.getState()) ){
+        if ("3".equals(order.getState())) {
             order.setState("待安装");
             return;
         }
-        if("4".equals(order.getState())){
+        if ("4".equals(order.getState())) {
             order.setState("安装完成");
             return;
         }
@@ -275,9 +289,8 @@ public class OrderController extends APIService {
             pageSize = 30;
         }
         User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
-        return BaseDto.newDto(orderService.queryPackerrOrder(user,page, pageSize));
+        return BaseDto.newDto(orderService.queryPackerrOrder(user, page, pageSize));
     }
-
 
 
     @RequestMapping("/office/detail/{id}")
@@ -320,6 +333,29 @@ public class OrderController extends APIService {
         orderService.saveOrder(order);
         return BaseDto.newDto(APIStatus.success);
     }
+
+    @ResponseBody
+    @RequestMapping("/manage/wuliu/{id}")
+    public BaseDto manageWuliu(@PathVariable("id") Long id, String logistics,
+                               String iphone,
+                               String driver,
+                               String logphone,
+                               String delatime) {
+        User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
+        Order order = orderService.findById(id);
+        if (order != null) {
+            order.setLogistics(logistics);
+            order.setIphone(iphone);
+            order.setDriver(driver);
+            order.setLogphone(logphone);
+            order.setDelatime(delatime);
+            logger.info("manager :  <id :" + user.getId() + " , name: " + user.getName() + "> has deliver order ：" + order.getId());
+            order.setState("2");
+        }
+        orderService.saveOrder(order);
+        return BaseDto.newDto(APIStatus.success);
+    }
+
 
     @ResponseBody
     @RequestMapping("/finish/{id}")
@@ -387,7 +423,6 @@ public class OrderController extends APIService {
     }
 
 
-
     @RequestMapping("/edit/{id}")
     public String queryOrderDetail(@PathVariable("id") Long id) {
         Order order = orderService.findById(id);
@@ -408,7 +443,7 @@ public class OrderController extends APIService {
     @RequestMapping("/tech/delete/{id}")
     public BaseDto deleteTechOrder(@PathVariable("id") Long id) {
         User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
-        orderService.delTechOrder(id,user);
+        orderService.delTechOrder(id, user);
         return BaseDto.newDto(APIStatus.success);
     }
 
@@ -416,7 +451,7 @@ public class OrderController extends APIService {
     @RequestMapping("/tech/agree/{id}")
     public BaseDto agreeTechOrder(@PathVariable("id") Long id) {
         User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
-        orderService.agreeTechOrder(id,user);
+        orderService.agreeTechOrder(id, user);
         return BaseDto.newDto(APIStatus.success);
     }
 

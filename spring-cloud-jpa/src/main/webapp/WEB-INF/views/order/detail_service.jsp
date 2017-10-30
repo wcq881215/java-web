@@ -55,24 +55,98 @@
 
     <div class="h50"></div>
     <ul class="fixed-btn">
-        <li class="" style="width: 95%;"><a href="javascript:accept(${data.id})" class="current">发货</a></li>
+        <li class="" style="width: 95%;"><a href="javascript:addWuliu(${data.id})" class="current">发货</a></li>
         <li class="hide" style="width: 40%;"><a href="javascript:refuse(${data.id})">退回</a></li>
     </ul>
 
 </div>
+
+<div class="am-tabs qiehuan wuliu" data-am-tabs style="margin-top:70px;display: none;">
+
+    <li>物流信息
+        <input type="text" name="logistics" id="logistics" placeholder="物流公司" class="tab-input"/>
+        <input type="text" name="iphone" id="iphone" placeholder="联系电话" class="tab-input"/>
+        <input type="text" name="driver" id="driver" placeholder="司机" class="tab-input"/></li>
+    <input type="text" name="logphone" id="logphone" placeholder="联系电话" class="tab-input"/>
+    <input type="date" name="delatime" id="delatime" placeholder="发货时间" class="tab-input"/>
+
+    <div class="h50"></div>
+    <ul class="fixed-btn">
+        <li class="" style="width: 95%;"><a href="javascript:submitWuliu(${data.id})" class="current">提交</a></li>
+    </ul>
+
+</div>
+
+
 </body>
 <script type="text/javascript">
+
+    function addWuliu(id) {
+        $('.zShow').hide();
+        $('.wuliu').show();
+    }
+
+    function submitWuliu(id) {
+        var logistics = $('#logistics').val();
+        var iphone = $('#iphone').val();
+        var driver = $('#driver').val();
+        var logphone = $('#logphone').val();
+        var delatime = $('#delatime').val();
+        if (logistics == '请输入物流公司') {
+            alert('');
+            return;
+        }
+        if (iphone == '') {
+            alert('请输入物流公司联系电话');
+            return;
+        }
+        if (driver == '') {
+            alert('请输入司机');
+            return;
+        }
+        if (logphone == '') {
+            alert('请输入司机联系电话');
+            return;
+        }
+        if (delatime == '') {
+            alert('请输入发货时间');
+            return;
+        }
+        $.ajax({
+            type: 'post',
+            url: '/web/order/manage/wuliu/${data.id}',
+            data: {
+                logistics: logistics,
+                iphone: iphone,
+                driver: driver,
+                logphone: logphone,
+                delatime: delatime
+            },
+            dataType: 'json',
+            success: function (json) {
+                console.log(json);
+                if (json.code == '200') {
+                    alertMess("操作成功")
+                    location.href = "/order/service_ing.html";
+                } else {
+                    alertMess("操作失败")
+                }
+            }
+        });
+    }
+
+
     function accept(id) {
         $.ajax({
             type: 'post',
             url: '/web/order/srv/accept/${data.id}',
-            data: { },
+            data: {},
             dataType: 'json',
             success: function (json) {
                 console.log(json);
-                if (json.code =='200') {
+                if (json.code == '200') {
                     alertMess("操作成功")
-                    location.href = "/order/service_ing.html";
+                    location.href = "/order/service.html";
                 } else {
                     alertMess("操作失败")
                 }
@@ -84,11 +158,11 @@
         $.ajax({
             type: 'get',
             url: '/web/order/service/refuse/${data.id}',
-            data: { },
+            data: {},
             dataType: 'json',
             success: function (json) {
                 console.log(json);
-                if (json.code =='200') {
+                if (json.code == '200') {
                     alertMess("操作成功");
                     location.href = "/order/service_ing.html";
                 } else {

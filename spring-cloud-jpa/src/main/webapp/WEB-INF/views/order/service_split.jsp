@@ -63,7 +63,7 @@
         }
         $.ajax({
             type: 'get',
-            url: '/web/order/service/query',
+            url: '/web/order/manage/query',
             data: {
                 page: page,
                 pageSize: pageSize
@@ -93,11 +93,11 @@
         var array = json.obj.content;
         for (var i in array) {
             var data = array[i];
-            var  stateMsg = "生产完毕待发货";
+            var  stateMsg = "生产完毕已发货";
 
             html += "<div class='c-comment'>";
             html += "<span class='c-comment-num'>订单编号：" + data.id + "</span>";
-            html += "<span class='c-comment-suc'>生产完毕待发货</span>";
+            html += "<span class='c-comment-suc'>生产完毕已发货</span>";
             html += "</div>";
             html += "<div class='c-comment-list' style='border: 0;'>";
             html += "<a target='_top' class='o-con' href='/web/order/service/split/"+data.id+"' >";

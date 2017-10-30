@@ -52,11 +52,15 @@ public class Order {
     @Column
     private String dtime;
     @Column
-    private String driver;
-    @Column
     private String logistics;
     @Column
+    private String iphone;
+    @Column
+    private String driver;
+    @Column
     private String logphone;
+    @Column
+    private String delatime;
     @Column
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date time;
@@ -311,5 +315,21 @@ public class Order {
 
     public void setOrder_id(String order_id) {
         this.order_id = order_id;
+    }
+
+    public String getIphone() {
+        return iphone;
+    }
+
+    public void setIphone(String iphone) {
+        this.iphone = iphone;
+    }
+
+    public String getDelatime() {
+        return delatime;
+    }
+
+    public void setDelatime(String delatime) {
+        this.delatime = delatime;
     }
 }

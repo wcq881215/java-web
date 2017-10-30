@@ -33,7 +33,7 @@
         <img src="/images/default_photo.png" alt="logo" class="logo">
         <p class="name">时间：2017-08-20</p>
         <h2 class="sub-title"> 订单编号：${data.id}</h2>
-        <h2 class="sub-title">订单状态：生产待发货</h2>
+        <h2 class="sub-title">订单状态：生产已发货</h2>
         <p class="condition">设备名称：<span></span>${data.device}</p>
         <p class="date">设备型号：<span>${data.sn}</span></p>
         <div class="contact-wrap">
@@ -48,6 +48,14 @@
 
         <div class="contact-wrap">
             <p>安装要求：${data.ext}</p>
+        </div>
+
+        <div class="contact-wrap">
+            <p>物流公司：${data.logistics}</p>
+            <p>联系电话: <span>${data.iphone}</span></p>
+            <p>司机：${data.driver}</p>
+            <p>联系电话: <span>${data.logphone}</span></p>
+
         </div>
 
     </div>
@@ -133,7 +141,7 @@
             type: 'get',
             url: '/web/user/list/inner',
             data: {
-                type :'技术员',
+                type :'售后服务',
                 key: key,
                 page: page,
                 pageSize: pageSize
