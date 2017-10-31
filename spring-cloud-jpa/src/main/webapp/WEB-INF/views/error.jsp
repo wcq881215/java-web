@@ -28,10 +28,10 @@
         history.go(-1);
     }
 
-   // var message = "${message}";
-    var message = "操作有误,请重试";
-    if(message == ''){
-        message = "操作有误";
+    var message = "${message}";
+    if (message == '' || message == null || message.indexOf("Exception") !=-1) {
+
+        message = "操作有误,请重试";
     }
 
     $.DialogByZ.Alert({Title: "提示", Content: message, BtnL: "确定", FunL: back});

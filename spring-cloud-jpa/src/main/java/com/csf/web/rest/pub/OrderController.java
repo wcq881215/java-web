@@ -3,8 +3,6 @@ package com.csf.web.rest.pub;
 import com.csf.web.constants.OAConstants;
 import com.csf.web.dto.APIStatus;
 import com.csf.web.dto.BaseDto;
-import com.csf.web.dto.DeviceVo;
-import com.csf.web.dto.OrderVO;
 import com.csf.web.entity.*;
 import com.csf.web.rest.APIService;
 import com.csf.web.service.DeviceService;
@@ -247,10 +245,17 @@ public class OrderController extends APIService {
     @RequestMapping("/service/split/{id}")
     public String splitOrderDetail(@PathVariable("id") Long id) {
         Order order = orderService.findById(id);
+        boolean split = true;
         if (order != null) {
             order.setState(OrderStatus.getStatusMsg(order.getState()));
+            List<OrderTeah> orderTech = orderService.finishTechOrder(order);
+            if(CollectionUtils.isEmpty(orderTech)){
+                split = false;
+            }
+
         }
         attr("data", order);
+        attr("split", split);
         return "/order/split_service";
     }
 

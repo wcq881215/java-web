@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -63,8 +64,13 @@
 
     <div class="h50"></div>
     <ul class="fixed-btn">
-        <li class="" style="width: 40%;"><a href="javascript:selectTech()" class="current">派工</a></li>
-        <li class="" style="width: 40%;"><a href="javascript:refuse(${data.id})">退回</a></li>
+        <c:if test="${split == true}">
+            <li class="" style="width: 40%;"><a href="#" class="">已派工</a></li>
+        </c:if>
+        <c:if test="${split == false}">
+            <li class="" style="width: 40%;"><a href="javascript:selectTech()" class="current">派工</a></li>
+        </c:if>
+        <li class="" style="width: 40%;"><a href="javascript:back(${data.id})">退回</a></li>
     </ul>
 
 </div>
@@ -173,6 +179,9 @@
         return html;
     }
 
+    function back(id) {
+        location.href = "/order/service_split.html";
+    }
 
         function refuse(id) {
         $.ajax({
@@ -203,7 +212,7 @@
         })
         console.log(">> uids :: " + uids);
         if(uids == ""){
-            alertMess('请选择技术人员进行派工');
+            alertMess('请选择服务人员进行派工');
             return false;
         }
         $.ajax({

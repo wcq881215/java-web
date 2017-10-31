@@ -219,7 +219,7 @@ CREATE TABLE app_order_tech (
   remark   VARCHAR (500)    COMMENT '备注',
   pid    int  COMMENT '服务派公人员',
   time   TIMESTAMP COMMENT '发布时间',
-  state  VARCHAR (10) DEFAULT '0' COMMENT '状态 0等待处理 1处理中 2处理完毕',
+  state  VARCHAR (10) DEFAULT '0' COMMENT '状态 0等待处理 1处理中 2处理完毕 -1 已拒绝',
   PRIMARY KEY (id)
 )ENGINE = InnoDB  DEFAULT CHARSET = utf8;
 

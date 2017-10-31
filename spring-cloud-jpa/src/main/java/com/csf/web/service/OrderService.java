@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 /**
  * Created by changqi.wu on 17-10-13.
@@ -124,6 +125,11 @@ public class OrderService {
     public OrderTeah findTechOrder(Long id) {
         return orderTeahDao.findOne(id);
     }
+
+    public List<OrderTeah> finishTechOrder(Order  order) {
+        return orderTeahDao.queryOrderTeah(order);
+    }
+
 
     public OrderTeah finishTechOrder(Long id) {
         OrderTeah orderTea = orderTeahDao.findOne(id);

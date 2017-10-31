@@ -7,7 +7,7 @@ import java.util.Date;
  * Created by changqi.wu on 17-10-23.
  */
 @Entity
-@Table(name = "app_order_tech")
+@Table(name = "app_order_tech") // 服务派公
 public class OrderTeah {
 
     @Id
