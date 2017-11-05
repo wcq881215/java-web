@@ -26,9 +26,9 @@ import java.util.List;
  * Created by changqi.wu on 17-10-12.
  */
 @Controller
-@RequestMapping("/web/order")
-public class OrderController extends APIService {
-    private static final Logger logger = Logger.getLogger(OrderController.class);
+@RequestMapping("/web/2/order")
+public class OrderController2 extends APIService {
+    private static final Logger logger = Logger.getLogger(OrderController2.class);
 
     @Autowired
     private OrderService orderService;
@@ -37,6 +37,18 @@ public class OrderController extends APIService {
     @Autowired
     private UserService userService;
 
+    @ResponseBody
+    @RequestMapping("/user/message")
+    public BaseDto getUserOrderMsg() {
+
+        return BaseDto.newDto(null);
+    }
+
+    @RequestMapping("/message/{id}")
+    public String getUserOrderMsgDetail(@PathVariable("id") Long id) {
+
+        return "";
+    }
 
     @ResponseBody
     @RequestMapping("/add")
