@@ -10,7 +10,6 @@ public enum UserRole {
     OFFICE("office", "内勤"),
     SERVICE("sale", "售后服务"),
     MANAGER("manager", "售后管理"),
-    PRODUCTION("production", "生产部"),
     CUSTOMER("customer", "购机客户");
 
     private String role;

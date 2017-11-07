@@ -8,7 +8,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "app_order_tech") // 服务派公
-public class OrderTeah {
+public class OrderServer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,6 +22,8 @@ public class OrderTeah {
     @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = true)
     @JoinColumn(name = "uid")
     private User user;
+    @Column
+    private String date;
     @Column
     private String remark;
     @Column
@@ -83,5 +85,13 @@ public class OrderTeah {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

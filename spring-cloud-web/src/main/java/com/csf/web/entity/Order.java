@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by changqi.wu on 17-10-5.
@@ -17,26 +18,15 @@ public class Order {
     private Long id;
     @Column
     private String order_id;
-    @Column
-    private Long pid;
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = true)
+    @JoinColumn(name = "pid")
+    private User pub;
+    @OneToMany
+    private List<OrderDevice> devices;
     @Column
     private String buser;
     @Column
     private String bphone;
-    @Column
-    private String sn;
-    @Column
-    private Long did;
-    @Column
-    private String device;
-    @Column
-    private String type;
-    @Column
-    private Integer number;
-    @Column
-    private Double price;
-    @Column
-    private Double total;
     @Column
     private String ext;
     @Column
@@ -65,81 +55,16 @@ public class Order {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date time;
     @Column
-    private String state;//状态 0 无效（废弃，重录） 1 - 2 -3 -4 -5 ... -> over  1:内勤录入等待生产，2生产中待发货，3已发货待安装 4安装完成等待客户确认 5 已完成
+    private String state;//状态 0 无效（废弃，重录） 1 - 2 -3 -4 -5 ... -> over  1 内勤录入等待发货，2已发货待安装 3安装完成等待客户确认 4 已完成
     @Column
     private Long proxy;
-
     @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = true)
     @JoinColumn(name = "fqid")
     private Order dirty;//废弃订单
-
-    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = true)
-    @JoinColumn(name = "prod")
-    private User producer;//生产人
-
-    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = true)
+    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "srv")
-    private User service;//售后服务
+    private List<User> service;//服务派工
 
-    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = true)
-    @JoinColumn(name = "pack")
-    private User pack;//安装
-
-    public User getProducer() {
-        return producer;
-    }
-
-    public void setProducer(User producer) {
-        this.producer = producer;
-    }
-
-    public User getService() {
-        return service;
-    }
-
-    public void setService(User service) {
-        this.service = service;
-    }
-
-    public User getPack() {
-        return pack;
-    }
-
-    public void setPack(User pack) {
-        this.pack = pack;
-    }
-
-    public Order getDirty() {
-        return dirty;
-    }
-
-    public void setDirty(Order dirty) {
-        this.dirty = dirty;
-    }
-
-    public Long getDid() {
-        return did;
-    }
-
-    public void setDid(Long did) {
-        this.did = did;
-    }
-
-    public String getCust() {
-        return cust;
-    }
-
-    public void setCust(String cust) {
-        this.cust = cust;
-    }
-
-    public Long getProxy() {
-        return proxy;
-    }
-
-    public void setProxy(Long proxy) {
-        this.proxy = proxy;
-    }
 
     public Long getId() {
         return id;
@@ -149,52 +74,52 @@ public class Order {
         this.id = id;
     }
 
-    public Long getPid() {
-        return pid;
+    public String getOrder_id() {
+        return order_id;
     }
 
-    public void setPid(Long pid) {
-        this.pid = pid;
+    public void setOrder_id(String order_id) {
+        this.order_id = order_id;
     }
 
-    public String getDevice() {
-        return device;
+    public User getPub() {
+        return pub;
     }
 
-    public void setDevice(String device) {
-        this.device = device;
+    public void setPub(User pub) {
+        this.pub = pub;
     }
 
-    public String getType() {
-        return type;
+    public List<OrderDevice> getDevices() {
+        return devices;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setDevices(List<OrderDevice> devices) {
+        this.devices = devices;
     }
 
-    public Integer getNumber() {
-        return number;
+    public String getBuser() {
+        return buser;
     }
 
-    public void setNumber(Integer number) {
-        this.number = number;
+    public void setBuser(String buser) {
+        this.buser = buser;
     }
 
-    public Double getPrice() {
-        return price;
+    public String getBphone() {
+        return bphone;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setBphone(String bphone) {
+        this.bphone = bphone;
     }
 
-    public Double getTotal() {
-        return total;
+    public String getExt() {
+        return ext;
     }
 
-    public void setTotal(Double total) {
-        this.total = total;
+    public void setExt(String ext) {
+        this.ext = ext;
     }
 
     public String getRemark() {
@@ -203,6 +128,14 @@ public class Order {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getCust() {
+        return cust;
+    }
+
+    public void setCust(String cust) {
+        this.cust = cust;
     }
 
     public String getAddress() {
@@ -229,12 +162,12 @@ public class Order {
         this.stime = stime;
     }
 
-    public String getDriver() {
-        return driver;
+    public String getDtime() {
+        return dtime;
     }
 
-    public void setDriver(String driver) {
-        this.driver = driver;
+    public void setDtime(String dtime) {
+        this.dtime = dtime;
     }
 
     public String getLogistics() {
@@ -245,12 +178,36 @@ public class Order {
         this.logistics = logistics;
     }
 
+    public String getIphone() {
+        return iphone;
+    }
+
+    public void setIphone(String iphone) {
+        this.iphone = iphone;
+    }
+
+    public String getDriver() {
+        return driver;
+    }
+
+    public void setDriver(String driver) {
+        this.driver = driver;
+    }
+
     public String getLogphone() {
         return logphone;
     }
 
     public void setLogphone(String logphone) {
         this.logphone = logphone;
+    }
+
+    public String getDelatime() {
+        return delatime;
+    }
+
+    public void setDelatime(String delatime) {
+        this.delatime = delatime;
     }
 
     public Date getTime() {
@@ -269,67 +226,27 @@ public class Order {
         this.state = state;
     }
 
-    public String getSn() {
-        return sn;
+    public Long getProxy() {
+        return proxy;
     }
 
-    public void setSn(String sn) {
-        this.sn = sn;
+    public void setProxy(Long proxy) {
+        this.proxy = proxy;
     }
 
-    public String getExt() {
-        return ext;
+    public Order getDirty() {
+        return dirty;
     }
 
-    public void setExt(String ext) {
-        this.ext = ext;
+    public void setDirty(Order dirty) {
+        this.dirty = dirty;
     }
 
-    public String getDtime() {
-        return dtime;
+    public List<User> getService() {
+        return service;
     }
 
-    public void setDtime(String dtime) {
-        this.dtime = dtime;
-    }
-
-    public String getBuser() {
-        return buser;
-    }
-
-    public void setBuser(String buser) {
-        this.buser = buser;
-    }
-
-    public String getBphone() {
-        return bphone;
-    }
-
-    public void setBphone(String bphone) {
-        this.bphone = bphone;
-    }
-
-    public String getOrder_id() {
-        return order_id;
-    }
-
-    public void setOrder_id(String order_id) {
-        this.order_id = order_id;
-    }
-
-    public String getIphone() {
-        return iphone;
-    }
-
-    public void setIphone(String iphone) {
-        this.iphone = iphone;
-    }
-
-    public String getDelatime() {
-        return delatime;
-    }
-
-    public void setDelatime(String delatime) {
-        this.delatime = delatime;
+    public void setService(List<User> service) {
+        this.service = service;
     }
 }

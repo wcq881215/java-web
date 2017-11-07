@@ -68,15 +68,8 @@ public class CustomerController extends APIService {
     @RequestMapping("/purchar/device")
     @ResponseBody
     public BaseDto addDevice(String name, String type, String remark) {
-        Order order = new Order();
         User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
-        order.setPid(user.getId());
-        order.setSn("11");//设备编号
-        order.setDevice(name);
-        order.setType(type);
-        order.setRemark(remark);
-        order = orderService.saveOrder(order);
-        return BaseDto.newDto(order);
+        return BaseDto.newDto("no service");
     }
 
     @RequestMapping("/advice/list")

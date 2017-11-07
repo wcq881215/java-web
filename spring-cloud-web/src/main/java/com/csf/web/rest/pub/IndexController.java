@@ -73,5 +73,18 @@ public class IndexController extends APIService{
         return sb.toString();
     }
 
+    @RequestMapping("{scope}/{page}.html")
+    public String scope(@PathVariable("scope") String scope, @PathVariable("page") String page) {
+        StringBuffer sb = new StringBuffer();
+        if (scope != null) {
+            sb.append("/").append(scope);
+        }
+
+        if (page != null) {
+            sb.append("/").append(page);
+        }
+
+        return sb.toString();
+    }
 
 }

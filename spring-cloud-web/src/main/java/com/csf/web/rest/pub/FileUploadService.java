@@ -19,7 +19,8 @@ import java.util.Map;
 /**
  * Created by changqi.wu on 17-10-6.
  */
-public class FileUploadService extends APIService {
+public class
+FileUploadService extends APIService {
 
     private static final String file_path = "/upload";
 
