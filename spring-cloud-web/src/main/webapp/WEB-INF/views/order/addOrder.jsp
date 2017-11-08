@@ -60,8 +60,8 @@
                 交货时间：<input type="date" name="dtime" id="dtime" placeholder="" class="tab-input"/></li>
 
             <li class="" style="border: 1px dashed #ddd;padding: 3px 0px 3px 10px;margin-bottom: 10px;">
-                添加设备信息 <span style=" font-size:24px; color:#00A6FF" onclick="showDevice()"> &#43;  </span><br>
-                <div id="" class="device-info hide">
+                添加设备信息 <span style=" font-size:24px; color:#00A6FF" onclick="addDevice()"> &#43;  </span><br>
+                <div id="" class="device-info ">
                     <select name="device-name" id="device-name">
                         <option value="">请选择设备型号</option>
                     </select>
@@ -89,28 +89,25 @@
         queryDevice();
     });
 
+    var dids = "";
+    var names = "";
+    var dnumber = "";
+    var device = [];
     function addDevice() {
-        //全局  ！
-        var dids = "";
-        var names = "";
-        var dnumber = "";
-        var device = [];
-
-
         var did = $('#device-name').val();
         var dnum = $('#dnumber').val();
-        if(did == ''){
+        if (did == '') {
             alertMess('请选择一台设备');
-            return;
+            return
         }
-        if(dnum == ''){
+        if (dnum == '') {
             alertMess('请选择设备数量');
-            return;
+            return
         }
-        var dname=$("#device-name").find("option:selected").html();
+        var dname = $("#device-name").find("option:selected").html();
         var info = "";
-        info += "设备: "+dname;
-        info += "  设备数量: "+dnum;
+        info += "设备: " + dname;
+        info += "  设备数量: " + dnum;
         info += "<br>";
         $('.device-label').append(info);
 
@@ -122,11 +119,11 @@
         device.push(dev);
         console.log(device);
 
-        dids += did+",";
-        names += dname+",";
-        dnumber += dnum+",";
+        dids += did + ",";
+        names += dname + ",";
+        dnumber += dnum + ",";
     }
-    
+
     function showDevice() {
         var device_inf_div = $('.device-info');
         if (device_inf_div.hasClass('hide')) {
@@ -136,7 +133,6 @@
 
         // $('.device-info').parent().append(device_inf_div);
     }
-
 
 
     function queryDevice() {
@@ -197,8 +193,8 @@
         var remark = $('#remark').val();
 
         var proxy = $('#proxy').val();
-        var device = $("select[name='device-name']").val();
-        var dnumber = $('#dnumber').val();
+        //  var device = $("select[name='device-name']").val();
+//        var dnumber = $('#dnumber').val();
 
 
         if (buser == '') {
@@ -252,8 +248,11 @@
                 ext: selfInf,
                 remark: remark,
                 proxy: proxy,
-                did: device,
-                number: dnumber
+//                device: JSON.stringify(device),
+//                number: dnumber,
+                dids: dids,
+                names: names,
+                numbs: dnumber
             },
             success: function (json) {
                 if (json.code == '200') {
