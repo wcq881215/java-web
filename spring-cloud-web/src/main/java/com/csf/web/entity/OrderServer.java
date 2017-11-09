@@ -13,9 +13,8 @@ public class OrderServer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = true)
-    @JoinColumn(name = "order_id")
-    private Order order;
+    @Column(name = "order_id")
+    private Long  order;
     @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = true)
     @JoinColumn(name = "pid")
     private User service;
@@ -39,11 +38,11 @@ public class OrderServer {
         this.id = id;
     }
 
-    public Order getOrder() {
+    public Long getOrder() {
         return order;
     }
 
-    public void setOrder(Order order) {
+    public void setOrder(Long order) {
         this.order = order;
     }
 

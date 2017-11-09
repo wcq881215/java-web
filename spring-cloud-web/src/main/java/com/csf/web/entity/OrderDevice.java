@@ -19,7 +19,16 @@ public class OrderDevice {
     private Double weight;
     @Column
     private Integer numb;
+    @Column
+    private Long oid;
 
+    public Long getOid() {
+        return oid;
+    }
+
+    public void setOid(Long oid) {
+        this.oid = oid;
+    }
     public Long getId() {
         return id;
     }
@@ -27,7 +36,6 @@ public class OrderDevice {
     public void setId(Long id) {
         this.id = id;
     }
-
 
     public Device getDevice() {
         return device;

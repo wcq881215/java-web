@@ -40,7 +40,7 @@ public class OrderController extends APIService {
 
     @ResponseBody
     @RequestMapping("/add")
-    public BaseDto add(Order order, String dids, String numbs, String weights) {
+    public BaseDto add(Order order, String dids, String numbs, String weights) { //weight暂部处理
         if (order == null || StringUtils.isEmpty(dids) || StringUtils.isEmpty(numbs)) {
             return BaseDto.newDto(APIStatus.param_error);
         }
@@ -49,28 +49,68 @@ public class OrderController extends APIService {
         User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
         order.setState("1");
         order.setTime(new Date());
+        order.setPub(user);
+        order = orderService.saveOrder(order);
 
         String[] did = dids.split(",");
         String[] nums = numbs.split(",");
-        List<OrderDevice> ors = Lists.newArrayList();
         for (int i = 0; i < did.length; i++) {
             String d = did[i];
             String nu = nums[i];
             Long di = Long.valueOf(d);
-            Double wg = Double.valueOf(nu);
+            Integer no = Integer.valueOf(nu);
             Device device = deviceService.findById(di);
             OrderDevice od = new OrderDevice();
             od.setDevice(device);
-            od.setWeight(wg);
-//            od.setWeight();
-            ors.add(od);
+            od.setNumb(no);
+            od.setOid(order.getId());
+            orderService.saveOrderDevice(od);
         }
-        order.setDevices(ors);
-        order = orderService.saveOrder(order);
-
         saveMsg(UserRole.MANAGER, user, "有新订单待发货", "订单编号" + order.getId() + ",请在我的工单里面查收");
         return BaseDto.newDto(order);
     }
 
+    @ResponseBody
+    @RequestMapping("/status/{status}")
+    public BaseDto query(@PathVariable("status") String status, Integer page, Integer pageSize) {
+        if (page == null) {
+            page = 0;
+        }
+        if (pageSize == null) {
+            pageSize = 30;
+        }
+        User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
+        Page<Order> datas = null;
+        if ("-1".equals(status)) {
+            datas = orderService.queryUserAllOrder(user, page, pageSize);
+        } else {
+            datas = orderService.queryUserStateOrder(user, status, page, pageSize);
+        }
+        if (datas != null && !CollectionUtils.isEmpty(datas.getContent())) {
+            for (Order order : datas.getContent()) {
+                setStatus(order);
+            }
+        }
 
+        return BaseDto.newDto(datas);
+    }
+
+    private void setStatus(Order order) {
+        if ("1".equals(order.getState()) ) {
+            order.setState("等待发货");
+            return;
+        }
+        if ("2".equals(order.getState()) ) {
+            order.setState("已发货等待安装");
+            return;
+        }
+        if ("3".equals(order.getState()) ) {
+            order.setState("安装完成");
+            return;
+        }
+        if ("4".equals(order.getState())) {
+            order.setState("已完成");
+            return;
+        }
+    }
 }

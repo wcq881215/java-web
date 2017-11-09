@@ -84,7 +84,7 @@ public class SessionFilter implements HandlerInterceptor {
                 user = new User();
                 httpServletRequest.getSession().setAttribute(OAConstants.SESSION_USER, user);//创建临时用户 用于无登陆访问首页
             }
-            if (checkInPath(httpServletRequest.getRequestURI())) {
+            if (!checkInPath(httpServletRequest.getRequestURI())) {
                 if (user.getId() == null) {
                     String query = httpServletRequest.getQueryString() == null ? "" : httpServletRequest.getQueryString();
                     String redirect_url = httpServletRequest.getRequestURI() + "?" + query;

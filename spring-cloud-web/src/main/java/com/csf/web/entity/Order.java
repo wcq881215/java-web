@@ -21,7 +21,7 @@ public class Order {
     @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = true)
     @JoinColumn(name = "pid")
     private User pub;
-    @OneToMany
+    @OneToMany(mappedBy = "oid")
     private List<OrderDevice> devices;
     @Column
     private String buser;
@@ -61,9 +61,8 @@ public class Order {
     @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = true)
     @JoinColumn(name = "fqid")
     private Order dirty;//废弃订单
-    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinColumn(name = "srv")
-    private List<User> service;//服务派工
+    @OneToMany(mappedBy = "order")
+    private List<OrderServer> service;//服务派工
 
 
     public Long getId() {
@@ -242,11 +241,11 @@ public class Order {
         this.dirty = dirty;
     }
 
-    public List<User> getService() {
+    public List<OrderServer> getService() {
         return service;
     }
 
-    public void setService(List<User> service) {
+    public void setService(List<OrderServer> service) {
         this.service = service;
     }
 }

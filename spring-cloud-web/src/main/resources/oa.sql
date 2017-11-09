@@ -192,9 +192,9 @@ DROP TABLE IF EXISTS app_order_device;
 CREATE TABLE app_order_device (
   id         INT AUTO_INCREMENT,
   did   INT COMMENT '设备ID',
-  title      VARCHAR(100)    COMMENT '标题',
-  weight   double (8,2)    COMMENT '重量',
+  oid      INT(10)    COMMENT '订单id',
   `numb`   int  COMMENT '数量',
+  weight   double (8,2)    COMMENT '重量',
   PRIMARY KEY (id)
 )ENGINE = InnoDB  DEFAULT CHARSET = utf8;
 
