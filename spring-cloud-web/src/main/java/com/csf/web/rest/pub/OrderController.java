@@ -63,7 +63,7 @@ public class OrderController extends APIService {
             OrderDevice od = new OrderDevice();
             od.setDevice(device);
             od.setNumb(no);
-            od.setOid(order.getId());
+//            od.setOid(order.getId());
             orderService.saveOrderDevice(od);
         }
         saveMsg(UserRole.MANAGER, user, "有新订单待发货", "订单编号" + order.getId() + ",请在我的工单里面查收");
@@ -113,4 +113,19 @@ public class OrderController extends APIService {
             return;
         }
     }
+
+    @ResponseBody
+    @RequestMapping("/srv/select")
+    public BaseDto queryForSrv(Integer page, Integer pageSize) {
+        if (page == null) {
+            page = 0;
+        }
+        if (pageSize == null) {
+            pageSize = 30;
+        }
+        return BaseDto.newDto(orderService.querySrvOrder(page, pageSize));
+    }
+
+
+
 }

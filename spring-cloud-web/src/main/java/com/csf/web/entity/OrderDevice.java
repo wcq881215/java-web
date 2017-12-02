@@ -19,6 +19,7 @@ public class OrderDevice {
     private Double weight;
     @Column
     private Integer numb;
+
     @Column
     private Long oid;
 
@@ -29,6 +30,20 @@ public class OrderDevice {
     public void setOid(Long oid) {
         this.oid = oid;
     }
+
+    //    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.REFRESH }, optional = true)
+//    @JoinColumn(name = "oid")
+//    private Order order;
+//
+//    public Order getOrder() {
+//        return order;
+//    }
+//
+//    public void setOrder(Order order) {
+//        this.order = order;
+//    }
+
+
     public Long getId() {
         return id;
     }

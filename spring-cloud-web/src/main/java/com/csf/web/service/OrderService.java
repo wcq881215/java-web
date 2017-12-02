@@ -61,5 +61,10 @@ public class OrderService {
         return orderDao.queryUserStateOrder(user.getId(), state, pageable);
     }
 
+    public Page<Order> querySrvOrder(Integer page, Integer pageSize) {
+        Pageable pageable = new PageRequest(page, pageSize);
+        return orderDao.querySrvOrder(pageable);
+    }
+
 
 }

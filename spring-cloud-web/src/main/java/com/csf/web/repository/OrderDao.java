@@ -30,4 +30,8 @@ public interface OrderDao extends JpaRepository<Order, Long> {
     @Query("select max(id) from Order ")
     public Long getMaxId();
 
+
+    @Query("from Order o where o.state = 1 ")
+    public Page<Order> querySrvOrder(Pageable pageable);
+
 }

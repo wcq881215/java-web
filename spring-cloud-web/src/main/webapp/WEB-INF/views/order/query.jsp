@@ -133,24 +133,6 @@
         var array = json.obj.content;
         for (var i in array) {
             var data = array[i];
-            var stateMsg = "--";
-            //1:内勤录入等待发货，2已发货待安装 3安装完成等待客户确认 4 已完成
-            if (data.state == '1') {
-                stateMsg = "等待生产";
-            }
-            if (data.state == '2') {
-                stateMsg = "已生产待发货";
-            }
-            if (data.state == '3') {
-                stateMsg = "已发货待安装";
-            }
-            if (data.state == '4') {
-                stateMsg = "安装完成";
-            }
-            if (data.state == '5') {
-                stateMsg = "已完成";
-            }
-
             html += "<div class='c-comment'>";
             html += "<span class='c-comment-num'>订单编号：" + data.id + "</span>";
             html += "<span class='c-comment-suc'>" + data.state  + "</span>";

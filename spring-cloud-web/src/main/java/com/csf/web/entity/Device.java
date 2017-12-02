@@ -24,9 +24,10 @@ public class Device {
     private String desc;
     @Column
     private String type;
+    //办事处
     @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = true)
     @JoinColumn(name = "pid")
-    private Proxy proxy;//办事处
+    private Proxy proxy;
     @Column
     private Integer number;
     @Column
