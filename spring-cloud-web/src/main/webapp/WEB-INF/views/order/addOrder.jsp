@@ -65,7 +65,7 @@
                     <select name="device-name" id="device-name">
                         <option value="">请选择设备型号</option>
                     </select>
-                    <input type="number" name="dnumber" id="dnumber" placeholder="请输入数量" class="tab-input"/>
+                    <input type="number" name="dnumber" id="dnumber" placeholder="请输入数量" class="tab-input" style="width: 95%;margin: 15px;margin-left: 0px;"/>
                 </div>
                 <div class="device-label label"></div>
             </li>

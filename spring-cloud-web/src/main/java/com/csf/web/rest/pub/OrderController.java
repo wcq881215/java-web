@@ -9,7 +9,6 @@ import com.csf.web.service.DeviceService;
 import com.csf.web.service.OrderService;
 import com.csf.web.service.UserService;
 import com.csf.web.util.JsonUtils;
-import com.google.common.collect.Lists;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by changqi.wu on 17-10-12.
