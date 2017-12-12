@@ -42,8 +42,8 @@
 </div>
 <ul class="order-style" style="margin-top:50px;">
     <li class="current"><a href="javascript:queryOrder(-1)">全部</a></li>
-    <li><a href="javascript:queryOrder(2)">未发货</a></li>
-    <li><a href="javascript:queryOrder(3)">发货待安装</a></li>
+    <li><a href="javascript:queryOrder(1)">未发货</a></li>
+    <li><a href="javascript:queryOrder(2)">发货待安装</a></li>
 
 </ul>
 
@@ -57,7 +57,7 @@
 
 <script type="text/javascript">
 
-    var status = "-1"; //-1 全部 2待发货 3已发货
+    var status = "-1"; //-1 全部 1待发货 2已发货
     var page = 0;
     var pageSize = 4;
     var ajaxFlag = true;
@@ -154,7 +154,7 @@
                 }
 
             }else {
-                html += "<p>000000"  + "</p>";
+                html += "<p></p>";
             }
 
 

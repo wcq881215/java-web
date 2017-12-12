@@ -48,13 +48,13 @@
         <div class="am-tab-panel am-fade am-in am-active" id="tab1">
             <li> 业务员信息
                 <input type="text" name="buser" id="buser" placeholder="姓名" class="tab-input"/>
-                <input type="text" name="bphone" id="bphone" placeholder="联系电话（可填多个，请用逗号隔开）" class="tab-input"/>
+                <input type="text" name="bphone" id="bphone" placeholder="联系电话" class="tab-input"/>
 
             </li>
             <li>客户信息
                 <input type="text" name="cust" id="cust" placeholder="负责人姓名" class="tab-input"/>
                 <input type="text" name="cphone" id="cphone" placeholder="联系方式" class="tab-input"/></li>
-            <input type="text" name="caddress" id="caddress" placeholder="地址（可填多个，请用逗号隔开）" class="tab-input"/>
+            <input type="text" name="caddress" id="caddress" placeholder="联系地址" class="tab-input"/>
             <li>订单信息<br>
                 下单时间：<input type="date" name="stime" id="stime" placeholder="" class="tab-input"/>
                 交货时间：<input type="date" name="dtime" id="dtime" placeholder="" class="tab-input"/></li>

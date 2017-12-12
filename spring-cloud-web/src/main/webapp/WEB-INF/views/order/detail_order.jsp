@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ html>
 <html>
 <head>
     <meta charset="utf-8"/>
@@ -34,8 +35,13 @@
         <p class="name">时间：2017-08-20</p>
         <h2 class="sub-title"> 订单编号：${data.id}</h2>
         <h2 class="sub-title">订单状态：${data.state}</h2>
-        <p class="condition">设备名称：<span></span>${data.device}</p>
-        <p class="date">设备型号：<span>${data.sn}</span></p>
+        <c:if test="${not empty data.devices }" >
+            <c:forEach items="${data.devices}" var="device">
+                <p class="condition">设备名称：<span></span>${device.device.name}</p>
+                <p class="date">设备型号：<span>${device.device.sn}</span></p>
+            </c:forEach>
+        </c:if>
+
         <div class="contact-wrap">
             <p>客户姓名：${data.cust}</p>
             <p>电话 : <span>${data.phone}</span></p>
@@ -63,7 +69,7 @@
 </body>
 <script type="text/javascript">
     function edit(id) {
-        location.href = "/web/order/edit/"+${data.id};
+        location.href = "/web/order/office/edit/"+${data.id};
     }
 
     function dele(id) {

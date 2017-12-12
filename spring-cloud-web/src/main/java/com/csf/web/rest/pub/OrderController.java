@@ -61,7 +61,7 @@ public class OrderController extends APIService {
             OrderDevice od = new OrderDevice();
             od.setDevice(device);
             od.setNumb(no);
-//            od.setOid(order.getId());
+            od.setOid(order.getId());
             orderService.saveOrderDevice(od);
         }
         saveMsg(UserRole.MANAGER, user, "有新订单待发货", "订单编号" + order.getId() + ",请在我的工单里面查收");
@@ -93,6 +93,30 @@ public class OrderController extends APIService {
         return BaseDto.newDto(datas);
     }
 
+    @RequestMapping("/office/detail/{id}")
+    public String getOrderDetail(@PathVariable("id") Long id) {
+        Order order = orderService.findById(id);
+        if (order != null) {
+            setStatus(order);
+        }
+        attr("data", order);
+        return "/order/detail_order";
+    }
+
+    @RequestMapping("/office/edit/{id}")
+    public String queryOrderDetail(@PathVariable("id") Long id) {
+        Order order = orderService.findById(id);
+        attr("data", order);
+        return "/order/editOrder";
+    }
+
+    @ResponseBody
+    @RequestMapping("/delete/{id}")
+    public BaseDto deleteOrder(@PathVariable("id") Long id) {
+        orderService.delOrder(id);
+        return BaseDto.newDto(APIStatus.success);
+    }
+
     private void setStatus(Order order) {
         if ("1".equals(order.getState()) ) {
             order.setState("等待发货");
@@ -111,6 +135,26 @@ public class OrderController extends APIService {
             return;
         }
     }
+
+    @ResponseBody
+    @RequestMapping("/manage/query")
+    public BaseDto queryForMgr(Integer page, Integer pageSize) {
+        if (page == null) {
+            page = 0;
+        }
+        if (pageSize == null) {
+            pageSize = 30;
+        }
+        Page<Order> datas = orderService.queryMgrOrder(page, pageSize);
+        if (datas != null && !CollectionUtils.isEmpty(datas.getContent())) {
+            for (Order order : datas.getContent()) {
+                setStatus(order);
+            }
+        }
+        return BaseDto.newDto(datas);
+    }
+
+
 
     @ResponseBody
     @RequestMapping("/srv/select")

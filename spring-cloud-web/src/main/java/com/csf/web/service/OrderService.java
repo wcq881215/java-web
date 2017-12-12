@@ -61,6 +61,20 @@ public class OrderService {
         return orderDao.queryUserStateOrder(user.getId(), state, pageable);
     }
 
+    public Page<Order> queryMgrOrder(Integer page, Integer pageSize) {
+        Pageable pageable = new PageRequest(page, pageSize);
+        return orderDao.queryMgrOrder(pageable);
+    }
+
+    public Order findById(Long id){
+        return orderDao.findOne(id);
+    }
+
+    public void delOrder(Long id){
+        orderDeviceDao.deleteByOid(id);
+        orderDao.delete(id);
+    }
+
     public Page<Order> querySrvOrder(Integer page, Integer pageSize) {
         Pageable pageable = new PageRequest(page, pageSize);
         return orderDao.querySrvOrder(pageable);

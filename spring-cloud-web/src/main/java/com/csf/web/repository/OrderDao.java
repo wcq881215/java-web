@@ -31,6 +31,9 @@ public interface OrderDao extends JpaRepository<Order, Long> {
     public Long getMaxId();
 
 
+    @Query("from Order o where o.state  <> 0  ")
+    public Page<Order> queryMgrOrder(Pageable pageable);
+
     @Query("from Order o where o.state = 1 ")
     public Page<Order> querySrvOrder(Pageable pageable);
 

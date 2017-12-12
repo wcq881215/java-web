@@ -254,8 +254,11 @@
                 ext: selfInf,
                 remark: remark,
                 proxy: proxy,
-                did: device,
-                number: dnumber
+//                did: device,
+//                number: dnumber
+                dids: dids,
+                names: names,
+                numbs: dnumber
             },
             success: function (json) {
                 if (json.code == '200') {

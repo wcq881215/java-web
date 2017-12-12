@@ -1,6 +1,6 @@
 body, html, div, blockquote, img, label, p, h1, h2, h3, h4, h5, h6, pre, ul, ol,
 li, dl, dt, dd, form, a, fieldset, input, th, td,i
-{margin: 0; padding: 12; border: 0; outline: none; font-style: normal; font-weight: normal;}
+{margin: 0; padding: 12px; border: 0; outline: none; font-style: normal; font-weight: normal;}
 html{ height: 100%;}
 body{ font-family: "微软雅黑"; font-size:1.6rem; height: 100%; background: #fafafa;}
 ul, ol{list-style: none;}
@@ -58,7 +58,7 @@ li{ list-style-type: none;}
 .comment li{ float: left; font-size: 1.3rem; background: #f5ece7;    color: #7c7877; margin-right: 5px; padding:.1rem .5rem; border-radius: 5px;}
 .detail-con{ margin-top: 10px; background: #fff; padding: 1rem;}
 .detail-con img{ width: 100%;}
-.fixed-btn{ position: fixed; bottom: 0; height: 50px; background: #fff; width: 100%;}
+.fixed-btn{ position: fixed; bottom: 20px; height: 50px; background: #fff; width: 100%;}
 .fixed-btn li{ float: left; width: 50%; margin: 0 auto; text-align: center; line-height: 50px;}
 .fixed-btn li a{ width: 80%;    border: 1px solid #e5e5e5;     border-radius: 3px; padding: 7px  40px;     line-height: 18px;}
 .current{ background: #3295fb; color: #fff;}

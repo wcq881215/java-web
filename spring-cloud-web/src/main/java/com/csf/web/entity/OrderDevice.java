@@ -31,20 +31,7 @@ public class OrderDevice {
         this.oid = oid;
     }
 
-    //    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.REFRESH }, optional = true)
-//    @JoinColumn(name = "oid")
-//    private Order order;
-//
-//    public Order getOrder() {
-//        return order;
-//    }
-//
-//    public void setOrder(Order order) {
-//        this.order = order;
-//    }
-
-
-    public Long getId() {
+     public Long getId() {
         return id;
     }
 
