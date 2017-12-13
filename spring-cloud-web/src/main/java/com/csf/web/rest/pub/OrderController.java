@@ -96,10 +96,15 @@ public class OrderController extends APIService {
     @RequestMapping("/office/detail/{id}")
     public String getOrderDetail(@PathVariable("id") Long id) {
         Order order = orderService.findById(id);
+        boolean isEdit = false;
         if (order != null) {
+            if("1".equals(order.getState())){
+                isEdit = true;
+            }
             setStatus(order);
         }
         attr("data", order);
+        attr("isEdit", isEdit);
         return "/order/detail_order";
     }
 
@@ -154,6 +159,21 @@ public class OrderController extends APIService {
         return BaseDto.newDto(datas);
     }
 
+    @ResponseBody
+    @RequestMapping("/manage/detail/{id}")
+    public String getManageOrderDetail(@PathVariable("id") Long id) {
+        Order order = orderService.findById(id);
+        boolean isEdit = false;
+        if (order != null) {
+            if("1".equals(order.getState())){
+                isEdit = true;
+            }
+            setStatus(order);
+        }
+        attr("data", order);
+        attr("isEdit", isEdit);
+        return "/order/managerl_order";
+    }
 
 
     @ResponseBody

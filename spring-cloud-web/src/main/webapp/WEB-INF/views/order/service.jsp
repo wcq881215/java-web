@@ -98,7 +98,7 @@
             html += "<span class='c-comment-suc'>" + data.state  + "</span>";
             html += "</div>";
             html += "<div class='c-comment-list' style='border: 0;'>";
-            html += "<a class='o-con' target='_top' href='/web/order/office/detail/"+data.id+"'>";
+            html += "<a class='o-con' target='_top' href='/web/order/manage/detail/"+data.id+"'>";
 
             var total = 0;
             if(data.devices && data.devices.length > 0){

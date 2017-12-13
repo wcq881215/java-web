@@ -93,20 +93,33 @@
         var array = json.obj.content;
         for (var i in array) {
             var data = array[i];
-            var  stateMsg = "生产完毕已发货";
-
             html += "<div class='c-comment'>";
             html += "<span class='c-comment-num'>订单编号：" + data.id + "</span>";
-            html += "<span class='c-comment-suc'>生产完毕已发货</span>";
+            html += "<span class='c-comment-suc'>" + data.state  + "</span>";
             html += "</div>";
             html += "<div class='c-comment-list' style='border: 0;'>";
-            html += "<a target='_top' class='o-con' href='/web/order/service/split/"+data.id+"' >";
-            html += "<div class='o-con-txt'>";
-            html += "<p>" + data.device + "</p>";
-            html += "</div>";
-            html += "<div class='o-con-much'> <h4>" + data.number + "台</h4></div>";
+            html += "<a class='o-con' target='_top' href='/web/order/office/detail/"+data.id+"'>";
+
+            var total = 0;
+            if(data.devices && data.devices.length > 0){
+                for(var j = 0; j< data.devices.length;j++){
+                    var devi = data.devices[j];
+                    total += devi.numb;
+
+                    html += "<div class='o-con-txt'>";
+                    html += "<p>" + devi.device.name + "</p>";
+                    html += "</div>";
+
+                    html += "<div class='o-con-much'> <h4>" + devi.numb + "台</h4></div>";
+                }
+
+            }else {
+                html += "<p></p>";
+            }
+
+
             html += "</a>";
-            html += "<div class='c-com-money hide'>合计：<span>" + data.number + "台设备</span></div>";
+            html += "<div class='c-com-money '>合计：<span>" + total + "台设备</span></div>";
             html += "</div>";
             html += "<div class='clear'></div>";
         }

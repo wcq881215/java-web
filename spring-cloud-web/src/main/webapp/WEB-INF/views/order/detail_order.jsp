@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
- html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8"/>
@@ -60,10 +60,13 @@
 
 
     <div class="h50"></div>
-    <ul class="fixed-btn">
-        <li style="width: 40%;"><a href="javascript:edit(${data.id})" class="current">编辑</a></li>
-        <li style="width: 40%;"><a href="javascript:dele(${data.id})">删除</a></li>
-    </ul>
+
+    <c:if test="${isEdit == true}">
+        <ul class="fixed-btn">
+            <li style="width: 40%;"><a href="javascript:edit(${data.id})" class="current">编辑</a></li>
+            <li style="width: 40%;"><a href="javascript:dele(${data.id})">删除</a></li>
+        </ul>
+    </c:if>
 
 </div>
 </body>
