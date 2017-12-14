@@ -159,7 +159,6 @@ public class OrderController extends APIService {
         return BaseDto.newDto(datas);
     }
 
-    @ResponseBody
     @RequestMapping("/manage/detail/{id}")
     public String getManageOrderDetail(@PathVariable("id") Long id) {
         Order order = orderService.findById(id);
@@ -172,7 +171,7 @@ public class OrderController extends APIService {
         }
         attr("data", order);
         attr("isEdit", isEdit);
-        return "/order/managerl_order";
+        return "/order/manager_order";
     }
 
 

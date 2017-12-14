@@ -46,7 +46,6 @@
 
 <script type="text/javascript">
 
-    var status = "3"; // 1待生产 2 已生产 3发货待安装
     var page = 0;
     var pageSize = 4;
     var ajaxFlag = true;
