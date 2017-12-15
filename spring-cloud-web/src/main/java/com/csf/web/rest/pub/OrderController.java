@@ -174,6 +174,19 @@ public class OrderController extends APIService {
         return "/order/manager_order";
     }
 
+    @RequestMapping("/manage/logistics")
+    @ResponseBody
+    public BaseDto addLogstic( Long id,String logistics ,String driver,String logphone) {
+        Order order = orderService.findById(id);
+        if(order != null && "1".equals(order.getState())){
+            order.setLogistics(logistics);
+            order.setDriver(driver);
+            order.setLogphone(logphone);
+            orderService.saveOrder(order);
+        }
+        return BaseDto.newDto(APIStatus.success);
+    }
+
 
     @ResponseBody
     @RequestMapping("/srv/select")

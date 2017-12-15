@@ -19,16 +19,20 @@
 
     <style type="text/css">
         .qiehuan{
-            background-color: inherit;
+
         }
 
         #wuliu_infor{
             background-color: rgba(0,0,0,0.5);
             width: 100%;
             height: 100%;
-            position: absolute;
+            position: fixed;
             top:0px;
 
+        }
+
+        #wuliu_infor .am-tabs-bd{
+            background-color: transparent;
         }
 
     </style>
@@ -87,15 +91,14 @@
 </div>
 
 <div class="hide" id="wuliu_infor">
-    <div class="am-tabs qiehuan" data-am-tabs style="margin-top:70px;">
-        <div class="am-tabs-bd">
+    <div class="am-tabs qiehuan"  style="width: 90%;margin: 50% auto;">
+        <div class="">
             <div class="am-tab-panel am-fade am-in am-active" id="tab1">
-                <li> 业务员信息
-                    <input type="text" name="buser" id="buser" placeholder="姓名" class="tab-input"/>
-                    <input type="text" name="bphone" id="bphone" placeholder="联系电话" class="tab-input"/>
-
-                    <button type="button" onclick="addOrder()" class="tab-btn">确认提交</button>
-
+                <li>
+                    <input type="text" name="logistics" id="logistics" placeholder="物流公司" class="tab-input"/>
+                    <input type="text" name="driver" id="driver" placeholder="司机" class="tab-input"/>
+                    <input type="text" name="logphone" id="logphone" placeholder="司机电话" class="tab-input"/>
+                    <button type="button" onclick="addLogistics()" class="tab-btn" style="width: 50%;text-align: center;margin: auto 25% ;margin-top:20px;">确认提交</button>
                 </li>
             </div>
         </div>
@@ -106,6 +109,35 @@
 <script type="text/javascript">
     function delivery() {
         $('#wuliu_infor').removeClass('hide');
+    }
+    
+    function addLogistics() {
+        var oid = ${data.id};
+        var logistics = $('#logistics').val();
+        var driver = $('#driver').val();
+        var logphone = $('#logphone').val();
+
+        $.ajax({
+            type: 'post',
+            url: '/web/order/manage/logistics',
+            data: {
+                id: oid,
+                driver: driver,
+                logphone: logphone,
+                logistics: logistics
+            },
+            dataType: 'json',
+            success: function (json) {
+                console.log(json);
+               if(json.code ==  '200'){
+                    location.href =  "/order/service.html";
+               }else{
+                   alertMess("添加信息失败");
+               }
+            }
+        });
+
+
     }
 
 </script>
