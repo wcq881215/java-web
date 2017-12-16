@@ -20,6 +20,12 @@ public class BaseDto implements Serializable {
         return new BaseDto(status);
     }
 
+    public static BaseDto failure(String message) {
+        BaseDto dto = new BaseDto(APIStatus.failure);
+        dto.setMsg(message);
+        return dto;
+    }
+
     public BaseDto() {
     }
 

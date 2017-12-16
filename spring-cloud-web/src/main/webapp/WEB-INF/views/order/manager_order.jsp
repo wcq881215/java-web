@@ -19,16 +19,20 @@
 
     <style type="text/css">
         .qiehuan{
-            background-color: inherit;
+
         }
 
         #wuliu_infor{
             background-color: rgba(0,0,0,0.5);
             width: 100%;
             height: 100%;
-            position: absolute;
+            position: fixed;
             top:0px;
 
+        }
+
+        #wuliu_infor .am-tabs-bd{
+            background-color: transparent;
         }
 
     </style>
@@ -84,28 +88,226 @@
         </ul>
     </c:if>
 
+    <c:if test="${isSplit == true}">
+
+        <div class="contact-wrap">
+            <p>物流公司：${data.logistics}</p>
+            <p>联系电话: <span>${data.iphone}</span></p>
+            <p>司机：${data.driver}</p>
+            <p>联系电话: <span>${data.logphone}</span></p>
+        </div>
+
+        <ul class="fixed-btn">
+            <li style="width: 90%;"><a href="javascript:selectTech()" class="current">派工</a></li>
+        </ul>
+
+    </c:if>
+
+
 </div>
 
 <div class="hide" id="wuliu_infor">
-    <div class="am-tabs qiehuan" data-am-tabs style="margin-top:70px;">
-        <div class="am-tabs-bd">
+    <div class="am-tabs qiehuan"  style="width: 90%;margin: 50% auto;border-radius: 8px;">
+        <div class="">
             <div class="am-tab-panel am-fade am-in am-active" id="tab1">
-                <li> 业务员信息
-                    <input type="text" name="buser" id="buser" placeholder="姓名" class="tab-input"/>
-                    <input type="text" name="bphone" id="bphone" placeholder="联系电话" class="tab-input"/>
-
-                    <button type="button" onclick="addOrder()" class="tab-btn">确认提交</button>
-
+                <li>
+                    <input type="text" name="logistics" id="logistics"  value="${data.logistics}" placeholder="物流公司" class="tab-input"/>
+                    <input type="text" name="iphone" id="iphone"  value="${data.iphone}" placeholder="联系电话" class="tab-input"/>
+                    <input type="text" name="driver" id="driver" value="${data.driver}" placeholder="司机" class="tab-input"/>
+                    <input type="text" name="logphone" id="logphone" value="${data.logphone}" placeholder="司机电话" class="tab-input"/>
+                    <input type="date" name="delatime" id="delatime" value="${data.delatime}" placeholder="发货时间" class="tab-input"/>
+                    <button type="button" onclick="addLogistics()" class="tab-btn" style="padding: 2px;width: 50%;text-align: center;margin: auto 25% ;margin-top:20px;">确认提交</button>
                 </li>
             </div>
         </div>
     </div>
 
 </div>
+
+
+<div class="am-tabs qiehuan hide" id="user-content" data-am-tabs style="margin-top:50px; ">
+    <div class="search-input" style="">
+        <input type="text" id="key" name="key" placeholder="输入关键词查找"/>
+    </div>
+
+    <ul class="member-nav">
+
+    </ul>
+    <br><br>
+    <button type="button" onclick="splitOrder()" class="tab-btn">确 定</button>
+
+</div>
+
+
 </body>
 <script type="text/javascript">
     function delivery() {
         $('#wuliu_infor').removeClass('hide');
+    }
+    
+    function addLogistics() {
+        var oid = ${data.id};
+        var logistics = $('#logistics').val();
+        var iphone = $('#iphone').val();
+        var driver = $('#driver').val();
+        var logphone = $('#logphone').val();
+        var delatime = $('#delatime').val();
+
+        if (logistics == '请输入物流公司') {
+            alert('');
+            return;
+        }
+        if (iphone == '') {
+            alert('请输入物流公司联系电话');
+            return;
+        }
+        if (driver == '') {
+            alert('请输入司机');
+            return;
+        }
+        if (logphone == '') {
+            alert('请输入司机联系电话');
+            return;
+        }
+        if (delatime == '') {
+            alert('请输入发货时间');
+            return;
+        }
+
+        $.ajax({
+            type: 'post',
+            url: '/web/order/manage/logistics',
+            data: {
+                id: oid,
+                logistics: logistics,
+                iphone: iphone,
+                driver: driver,
+                logphone: logphone,
+                delatime: delatime
+            },
+            dataType: 'json',
+            success: function (json) {
+                console.log(json);
+               if(json.code ==  '200'){
+                    location.href =  "/order/service.html";
+               }else{
+                   alertMess("操作失败");
+               }
+            }
+        });
+    }
+
+
+    function selectTech() {
+        $('#couponDetail').addClass("hide")
+        $('#user-content').removeClass("hide")
+        init(function (json) {
+            appendData(json);
+        });
+    }
+
+    var page = 0;
+    var pageSize = 4;
+    var ajaxFlag = true;
+    $(".search-input").on("input", "input[type='text']", function () {
+        ajaxFlag = true;
+        page = 0;
+        init(function (json) {
+            var htm = createHtmlNoData();
+            if (json.obj.numberOfElements > 0) {
+                htm = createHtml(json);
+                $('.ui-loader').hide();
+            } else {
+                ajaxFlag = false;
+            }
+            $('.member-nav').html(htm);
+        });
+    });
+
+    function appendData(json) {
+        var htm = createHtmlNoData();
+        if (json.obj.numberOfElements > 0) {
+            page++;
+            htm = createHtml(json);
+            $('.ui-loader').hide();
+        } else {
+            ajaxFlag = false;
+        }
+        $('.member-nav').append(htm);
+    }
+
+    function init(callback) {
+        var key = $('#key').val();
+        if (!ajaxFlag) {
+            return;
+        }
+        $.ajax({
+            type: 'get',
+            url: '/web/user/list/server',
+            data: {
+                key: key,
+                page: page,
+                pageSize: pageSize
+            },
+            dataType: 'json',
+            success: function (json) {
+                console.log(json);
+                callback(json)
+            }
+        });
+    }
+
+    function createHtml(json) {
+        var html = "";
+        var array = json.obj.content;
+        for (var i in array) {
+            var data = array[i];
+            html += "<li>";
+            html += "<span>" + data.name + "&nbsp;" + data.dept + "&nbsp; 电话：" + data.phone + "</span>";
+            html += "<input style='float: right;right:20px;margin-top: 15px;' type='checkbox' name='user_ids' value='" + data.id + "' />";
+            html += "</li>";
+        }
+        return html;
+    }
+
+    function createHtmlNoData() {
+//        return "<div>没有数据了</div>";
+        return "";
+    }
+
+
+    function splitOrder() {
+
+        var orderid = ${data.id};
+        var uids = "";
+        $("input[name='user_ids']").each(function () {
+            if ($(this).is(":checked")) {
+                uids += $(this).val() + ",";
+            }
+        })
+        console.log(">> uids :: " + uids);
+        if(uids == ""){
+            alertMess('请选择服务人员进行派工');
+            return false;
+        }
+        $.ajax({
+            url: '/web/order/manage/split',
+            type: 'get',
+            data: {
+                id: orderid,
+                uids: uids
+            },
+            success: function (json) {
+                if (json.code == '200') {
+                    alertMess('派工成功');
+                    location.href = "/order/service.html";
+                } else {
+                    alertMess('发送成功');
+                }
+            }
+        });
+
+        return true;
     }
 
 </script>

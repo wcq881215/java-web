@@ -162,16 +162,62 @@ public class OrderController extends APIService {
     @RequestMapping("/manage/detail/{id}")
     public String getManageOrderDetail(@PathVariable("id") Long id) {
         Order order = orderService.findById(id);
-        boolean isEdit = false;
+        boolean isEdit = false; // 物流
+        boolean isSplit = false; // 派工
         if (order != null) {
             if("1".equals(order.getState())){
                 isEdit = true;
+            }
+            if("2".equals(order.getState())){
+                isSplit = true;
             }
             setStatus(order);
         }
         attr("data", order);
         attr("isEdit", isEdit);
+        attr("isSplit", isSplit);
         return "/order/manager_order";
+    }
+
+    @RequestMapping("/manage/logistics")
+    @ResponseBody
+    public BaseDto addLogstic( Long id,String logistics ,String iphone,String driver,String logphone,String delatime) {
+        Order order = orderService.findById(id);
+        if(order != null && "1".equals(order.getState())){
+            order.setLogistics(logistics);
+            order.setIphone(iphone);
+            order.setDriver(driver);
+            order.setLogphone(logphone);
+            order.setDelatime(delatime);
+            order.setState("2");
+            orderService.saveOrder(order);
+        }
+        return BaseDto.newDto(APIStatus.success);
+    }
+
+    @ResponseBody
+    @RequestMapping("/manage/split")
+    public BaseDto serviceSplit(Long id, String uids) {
+        Order order = orderService.findById(id);
+        if(order==null || "2".equals(order.getState())){
+            return BaseDto.failure("订单无效");
+        }
+        User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
+        if (StringUtils.isEmpty(uids)) {
+            return BaseDto.newDto(APIStatus.param_error);
+        }
+        for (String uid : uids.split(",")) {
+            Long ud = Long.parseLong(uid);
+            User u = userService.findById(ud);
+            OrderServer orderTeah = new OrderServer();
+            orderTeah.setOrder(id);
+            orderTeah.setService(user);
+            orderTeah.setState("0");
+            orderTeah.setTime(new Date());
+            orderTeah.setUser(u);
+            orderService.splitOrder(orderTeah);
+        }
+        return BaseDto.newDto(APIStatus.success);
     }
 
 
