@@ -144,4 +144,11 @@ public class UserActionController extends APIService {
         return BaseDto.newDto(userService.findAllInner(key,type,page, pageSize));
     }
 
+    @RequestMapping("/list/server")
+    public BaseDto listServerUser(String key,@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "30") Integer pageSize) {
+        return BaseDto.newDto(userService.findAllInner(key,page, pageSize));
+    }
+
+
+
 }

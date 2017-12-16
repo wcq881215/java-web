@@ -46,6 +46,14 @@ public class UserService {
         return userDao.findInnerUser(key, pageable);
     }
 
+    public Page<User> findAllInner(String key, Integer page, Integer pageSize) {
+        Pageable pageable = new PageRequest(page, pageSize);
+        if (StringUtils.isBlank(key)) {
+            key = "";
+        }
+        key = "%" + key + "%";
+        return userDao.findServerUser(key, pageable);
+    }
     public User findByName(String name) {
         return userDao.findByUsername(name);
     }
