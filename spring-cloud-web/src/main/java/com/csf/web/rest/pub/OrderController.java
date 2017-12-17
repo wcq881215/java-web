@@ -328,7 +328,8 @@ public class OrderController extends APIService {
     @RequestMapping("/srv/order/detail/{id}")
     public String getSrvOrderDetail(@PathVariable("id") Long id) {
         Order order = orderService.findById(id);
-        String state = ""; //
+        String state = "-1"; //
+        boolean issign = false; //是否sign
         if (order != null) {
             User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
             if("2".equals(order.getState())) {
@@ -340,11 +341,15 @@ public class OrderController extends APIService {
                         }
                     }
                 }
+                if(orderService.sign(user,order)){
+                    issign = true;
+                }
             }
             setStatus(order,user);
         }
         attr("data", order);
         attr("state", state);
+        attr("issign", issign);
         return "/order/srv_order_detail";
     }
 
@@ -357,14 +362,22 @@ public class OrderController extends APIService {
             return BaseDto.failure("订单不正确");
         }
         if(!CollectionUtils.isEmpty(order.getService())){
+            boolean isAllFinish = true;
             for (OrderServer u : order.getService()) {
                 if (user.getId().equals(u.getUser().getId())) {
                     u.setState(status);
                     u.setRemark(reason);
                     orderService.updateOrderSrvState(u);
-                    return BaseDto.newDto(APIStatus.success);
+                }
+                if(!"2".equals(u.getState())){
+                    isAllFinish = false;
                 }
             }
+            if(isAllFinish){
+                order.setState("3");//全部服务人员完成
+                orderService.saveOrder(order);
+            }
+            return BaseDto.newDto(APIStatus.success);
         }
         return BaseDto.failure("订单不正确,未发现派工信息");
     }

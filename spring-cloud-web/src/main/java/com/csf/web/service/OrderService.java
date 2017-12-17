@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -91,6 +92,14 @@ public class OrderService {
     public void delOrder(Long id) {
         orderDeviceDao.deleteByOid(id);
         orderDao.delete(id);
+    }
+
+    public boolean sign(User user,Order order){
+       List<Sign> sings =  signDao.findUserTypeSign(user,order);
+        if(sings !=null  && sings.size() == 3){
+            return true;
+        }
+        return false;
     }
 
     public Page<Order> querySrvOrder(Integer page, Integer pageSize) {

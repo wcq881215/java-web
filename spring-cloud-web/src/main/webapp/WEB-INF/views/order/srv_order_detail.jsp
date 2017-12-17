@@ -113,11 +113,20 @@
     </c:if>
 
     <c:if test="${state eq 1}">
-        <ul class="fixed-btn" style="text-align: center;padding-left: 0px;">
-            <li style="font-size: 10px;width: 100px;float: none;display: inline-block;"><a href="javascript:startoff()" class="current">出发签到</a></li>
-            <li style="font-size: 10px;width: 100px;float: none;display: inline-block;"><a href="javascript:arrive()" class="current">到达签到</a></li>
-            <li style="font-size: 10px;width: 100px;float: none;display: inline-block;"><a href="javascript:leave()" class="current">离开签到</a></li>
-        </ul>
+        <c:if test="${issign == false}">
+            <ul class="fixed-btn" style="text-align: center;padding-left: 0px;">
+                <li style="font-size: 10px;width: 100px;float: none;display: inline-block;"><a href="javascript:startoff()" class="current">出发签到</a></li>
+                <li style="font-size: 10px;width: 100px;float: none;display: inline-block;"><a href="javascript:arrive()" class="current">到达签到</a></li>
+                <li style="font-size: 10px;width: 100px;float: none;display: inline-block;"><a href="javascript:leave()" class="current">离开签到</a></li>
+            </ul>
+        </c:if>
+
+        <c:if test="${issign == true}">
+            <ul class="fixed-btn" style="text-align: center;padding-left: 0px;">
+                <li style="width: 150px;float: none;display: inline-block;"><a href="javascript:finish()" class="current">完成</a></li>
+            </ul>
+        </c:if>
+
     </c:if>
 
 
@@ -142,8 +151,8 @@
         <div class="">
             <div class="am-tab-panel am-fade am-in am-active" id="">
                 <li style="text-align: center;padding-top: 20px;">
-                    <textarea id="finish_msg" cols="" rows="4" placeholder="请输入"></textarea>
-                    <button type="button" onclick="refuse_sure()" class="tab-btn" style="padding: 2px;width: 150px;text-align: center;margin: auto 25% ;margin-top:20px;">确认提交</button>
+                    <textarea id="finish_msg" cols="" rows="4" placeholder="请输入安装信息"></textarea>
+                    <button type="button" onclick="finish_sure()" class="tab-btn" style="padding: 2px;width: 150px;text-align: center;margin: auto 25% ;margin-top:20px;">确认提交</button>
                 </li>
             </div>
         </div>
@@ -247,8 +256,22 @@
         accept(-1,reason);
     }
 
+    function finish_sure() {
+        var reason = $('#finish_msg').val();
+        if(reason == ''){
+            alert("请输入安装信息");
+            return;
+        }
+        accept(2,reason);
+    }
+
+
     $('#resean').click(function () {
         $('#resean').addClass('hide');
+    });
+
+    $('#finish').click(function () {
+        $('#finish').addClass('hide');
     });
     
     function accept(status,reason) {

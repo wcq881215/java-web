@@ -184,7 +184,7 @@ CREATE TABLE app_order (
   fqid       INT   COMMENT '废弃订单id',
   time   TIMESTAMP COMMENT '发布时间',
   srv        INT  COMMENT '服务派工',
-  state  CHAR (2) DEFAULT '1'  COMMENT '状态 0 无效（废弃，重录） 1 - 2 -3 -4 -5 ... -> over  1:内勤录入等待发货，2已发货待安装 3安装完成等待客户确认 4 已完成',
+  state  CHAR (2) DEFAULT '1'  COMMENT '状态 0 无效（废弃，重录） 1 - 2 -3 -4 -5 ... -> over  1:内勤录入等待发货，2已发货待安装  3 已完成',
   PRIMARY KEY (id)
 )ENGINE = InnoDB auto_increment=20170000001  DEFAULT CHARSET = utf8;
 
