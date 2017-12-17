@@ -110,9 +110,9 @@
         info += "<div class='addition"+index+"'>";
         info += "设备: " + dname;
         info += "  设备数量: " + dnum;
-        info += "<span onclick='deleDiv("+index+")' style='float: right;margin-right: 20px;color: #ff0000;'>X</span>";
+        info += "<span onclick='deleDiv("+index+")' style='margin-left:20px;color: #ff0000;'>X</span>";
         info += "</div>";
-        info += "<br>";
+       // info += "<br>";
         $('.device-label').append(info);
 
         var dev = {};
@@ -129,12 +129,30 @@
         index++;
     }
     
-    function deleDiv(index) {
-        console.log($('.device-label div:eq('+index+')'));
-        $('.device-label div:eq('+index+')').remove();
+    function deleDiv(ind) {
+        console.log($('.device-label div.addition'+ind));
+        $('.device-label div.addition'+ind).remove();
         //delete  divice number
         var devs = [];
+        dids = '';
+        names = '';
+        dnumber = '';
+        for (var i in device) {
+            if(i == ind){
+                continue;
+            }
+            var data = device[i];
+            var dev = {};
+            dev["did"] = data['did'];
+            dev["dname"] = data['dname'];
+            dev["number"] = data['number'];
+            devs.push(dev);
 
+            dids += data['did'] + ",";
+            names += data['dname'] + ",";
+            dnumber += data['number'] + ",";
+        }
+        device = devs;
         index--;
     }
 

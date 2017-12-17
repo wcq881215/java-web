@@ -9,12 +9,12 @@ import com.csf.web.service.DeviceService;
 import com.csf.web.service.OrderService;
 import com.csf.web.service.UserService;
 import com.csf.web.util.JsonUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -124,7 +124,7 @@ public class OrderController extends APIService {
     }
 
     private void setStatus(Order order) {
-        setDetailStatus(order,null);
+        setStatus(order,null);
     }
 //    private void setStatus(Order order) {
 //        if ("1".equals(order.getState())) {
@@ -145,7 +145,7 @@ public class OrderController extends APIService {
 //        }
 //    }
 
-    private void setDetailStatus(Order order,User user) {
+    private void setStatus(Order order,User user) {
 
         if ("1".equals(order.getState())) {
             order.setState("等待发货");
@@ -299,7 +299,7 @@ public class OrderController extends APIService {
         Page<Order> orders = orderService.querySrvUserOrder(user, page, pageSize);
         if(orders != null && !CollectionUtils.isEmpty(orders.getContent())){
             for(Order o : orders.getContent()){
-                setDetailStatus(o,user);
+                setStatus(o,user);
             }
         }
         return BaseDto.newDto(orders);
@@ -330,9 +330,10 @@ public class OrderController extends APIService {
         Order order = orderService.findById(id);
         String state = ""; //
         if (order != null) {
+            User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
             if("2".equals(order.getState())) {
                 if (!CollectionUtils.isEmpty(order.getService())) {
-                    User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
+
                     for (OrderServer u : order.getService()) {
                         if (user.getId().equals(u.getUser().getId())) {
                             state = u.getState();
@@ -340,7 +341,7 @@ public class OrderController extends APIService {
                     }
                 }
             }
-            setStatus(order);
+            setStatus(order,user);
         }
         attr("data", order);
         attr("state", state);
@@ -367,4 +368,34 @@ public class OrderController extends APIService {
         }
         return BaseDto.failure("订单不正确,未发现派工信息");
     }
+
+    @ResponseBody
+    @RequestMapping("/srv/sign")
+    public BaseDto updateForSrvState(Long id,String type,String  longitude,String  latitude) {
+        User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
+        Order order = orderService.findById(id);
+        if(order == null){
+            return BaseDto.failure("订单不正确,未发现派工信息");
+        }
+
+        if(StringUtils.isEmpty(longitude)){
+            longitude = "";
+        }
+
+        if(StringUtils.isEmpty(latitude)){
+            latitude = "";
+        }
+        String address = "浙江省临海市江南街道汇丰南路328号";
+        Sign sign = new Sign();
+        sign.setOrder(order);
+        sign.setAddress(address);
+        sign.setUser(user);
+        sign.setType(type);
+        sign.setTime(new Date());
+        orderService.addSign(sign);
+
+        return BaseDto.newDto(APIStatus.success);
+    }
+
+
 }

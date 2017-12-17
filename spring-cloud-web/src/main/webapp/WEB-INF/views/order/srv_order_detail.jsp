@@ -16,13 +16,14 @@
     <script type="text/javascript" src="/mobile/jquery-1.11.2.min.js"></script>
     <script type="text/javascript" src="/mobile/zdialog.js"></script>
     <script type="text/javascript" src="/js/alert.js?v=1.0"></script>
+    <script type="text/javascript" src="/js/location.js?v=1.0"></script>
 
     <style type="text/css">
         .qiehuan{
 
         }
 
-        #resean{
+        .dialog_back{
             background-color: rgba(0,0,0,0.5);
             width: 100%;
             height: 100%;
@@ -31,10 +32,12 @@
 
         }
 
-        #resean .am-tabs-bd{
+        .dialog_back .am-tabs-bd{
             background-color: transparent;
         }
-
+        .fixed-btn li a{
+            padding: 7px 10px;
+        }
     </style>
 
 </head>
@@ -111,19 +114,35 @@
 
     <c:if test="${state eq 1}">
         <ul class="fixed-btn" style="text-align: center;padding-left: 0px;">
-            <li style="width: 150px;float: none;display: inline-block;"><a href="javascript:accept(2)" class="current">完成</a></li>
+            <li style="font-size: 10px;width: 100px;float: none;display: inline-block;"><a href="javascript:startoff()" class="current">出发签到</a></li>
+            <li style="font-size: 10px;width: 100px;float: none;display: inline-block;"><a href="javascript:arrive()" class="current">到达签到</a></li>
+            <li style="font-size: 10px;width: 100px;float: none;display: inline-block;"><a href="javascript:leave()" class="current">离开签到</a></li>
         </ul>
     </c:if>
 
 
 </div>
 
-<div class="hide" id="resean">
+<div class="hide dialog_back" id="resean" >
     <div class="am-tabs qiehuan"  onClick="event.cancelBubble = true" style="width: 90%;margin: 50% auto;border-radius: 8px;">
         <div class="">
             <div class="am-tab-panel am-fade am-in am-active" id="tab1">
                 <li style="text-align: center;padding-top: 20px;">
                     <textarea id="refuse_season" cols="" rows="4" placeholder="请输入拒绝原因"></textarea>
+                    <button type="button" onclick="refuse_sure()" class="tab-btn" style="padding: 2px;width: 150px;text-align: center;margin: auto 25% ;margin-top:20px;">确认提交</button>
+                </li>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="hide dialog_back" id="finish" >
+    <div class="am-tabs qiehuan"  onClick="event.cancelBubble = true" style="width: 90%;margin: 50% auto;border-radius: 8px;">
+        <div class="">
+            <div class="am-tab-panel am-fade am-in am-active" id="">
+                <li style="text-align: center;padding-top: 20px;">
+                    <textarea id="finish_msg" cols="" rows="4" placeholder="请输入"></textarea>
                     <button type="button" onclick="refuse_sure()" class="tab-btn" style="padding: 2px;width: 150px;text-align: center;margin: auto 25% ;margin-top:20px;">确认提交</button>
                 </li>
             </div>
@@ -138,6 +157,87 @@
     function refuse() {
         $('#resean').removeClass("hide");
     }
+
+    function finish() {
+        $('#finish').removeClass("hide");
+    }
+    
+    function leave() {
+       var longitude =  getCookie('longitude');
+        var latitude =  getCookie('latitude');
+
+        $.ajax({
+            type: 'post',
+            url: '/web/order/srv/sign',
+            data: {
+                id: ${data.id},
+                type: 1,
+                longitude: longitude,
+                latitude: latitude
+            },
+            dataType: 'json',
+            success: function (json) {
+                console.log(json);
+                if(json.code ==  '200'){
+                    alertMess("签到成功");
+                }else{
+                    alertMess("操作失败");
+                }
+            }
+        });
+    }
+
+    function arrive() {
+        var longitude =  getCookie('longitude');
+        var latitude =  getCookie('latitude');
+
+        $.ajax({
+            type: 'post',
+            url: '/web/order/srv/sign',
+            data: {
+                id: ${data.id},
+                type: 2,
+                longitude: longitude,
+                latitude: latitude
+            },
+            dataType: 'json',
+            success: function (json) {
+                console.log(json);
+                if(json.code ==  '200'){
+                    alertMess("签到成功");
+                }else{
+                    alertMess("签到失败");
+                }
+            }
+        });
+    }
+
+    function startoff() {
+        var longitude =  getCookie('longitude');
+        var latitude =  getCookie('latitude');
+
+        $.ajax({
+            type: 'post',
+            url: '/web/order/srv/sign',
+            data: {
+                id: ${data.id},
+                type: 3,
+                longitude: longitude,
+                latitude: latitude
+            },
+            dataType: 'json',
+            success: function (json) {
+                console.log(json);
+                if(json.code ==  '200'){
+                    alertMess("签到成功");
+                }else{
+                    alertMess("签到失败");
+                }
+            }
+        });
+
+    }
+
     function refuse_sure() {
         var reason = $('#refuse_season').val();
         if(reason == ''){

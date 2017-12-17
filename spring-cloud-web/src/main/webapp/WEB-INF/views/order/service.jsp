@@ -98,7 +98,7 @@
         var html = "";
         var array = json.obj.content;
         for (var i in array) {
-            var data = array[i];
+                var data = array[i];
             var stateMsg = data.state ;
             if(stateMsg == '已发货等待安装' && data.service && data.service.length > 0){
                 stateMsg = "已派工";

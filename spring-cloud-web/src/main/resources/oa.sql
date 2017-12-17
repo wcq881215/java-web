@@ -326,3 +326,17 @@ CREATE TABLE app_video_src (
   PRIMARY KEY (id)
 )ENGINE = InnoDB  DEFAULT CHARSET = utf8;
 
+
+-- 签到信息
+DROP TABLE IF EXISTS app_sign;
+CREATE TABLE app_sign (
+  id         INT AUTO_INCREMENT,
+  uid   INT (10)  NOT NULL  COMMENT 'user id',
+  oid   INT (10)  NOT NULL  COMMENT 'order id',
+  longitude        DOUBLE (11,8)   COMMENT '经度',
+  latitude   DOUBLE (11,8)   COMMENT '纬度',
+  address VARCHAR(2000) COMMENT '地址',
+  TYPE  CHAR(1) COMMENT '类型 1： 出发签到，2：到达签到，3：离开签到 ',
+  time   TIMESTAMP COMMENT '定位时间',
+  PRIMARY KEY (id)
+)ENGINE = InnoDB  DEFAULT CHARSET = utf8;

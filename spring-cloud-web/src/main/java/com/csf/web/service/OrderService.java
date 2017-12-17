@@ -1,12 +1,10 @@
 package com.csf.web.service;
 
-import com.csf.web.entity.Order;
-import com.csf.web.entity.OrderDevice;
-import com.csf.web.entity.OrderServer;
-import com.csf.web.entity.User;
+import com.csf.web.entity.*;
 import com.csf.web.repository.OrderDao;
 import com.csf.web.repository.OrderDeviceDao;
 import com.csf.web.repository.OrderServerDao;
+import com.csf.web.repository.SignDao;
 import com.csf.web.util.OAUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,6 +32,9 @@ public class OrderService {
     @Autowired
     private OrderDeviceDao orderDeviceDao;
 
+    @Autowired
+    private SignDao signDao;
+
     public OrderServer splitOrder(OrderServer orderServer) {
         return orderServerDao.save(orderServer);
     }
@@ -52,6 +53,15 @@ public class OrderService {
             order.setOrder_id(OAUtil.generateOrderId());
         }
         return orderDao.save(order);
+    }
+
+    public Sign addSign(Sign sign) {
+        Sign sig = signDao.findUserOrderTypeSign(sign.getUser(), sign.getOrder(), sign.getType());
+        if (sig != null && sig.getId() != null){
+            sig.setAddress(sign.getAddress());
+            return signDao.save(sig);
+        }
+        return signDao.save(sign);
     }
 
     public OrderDevice saveOrderDevice(OrderDevice orderDevice) {
