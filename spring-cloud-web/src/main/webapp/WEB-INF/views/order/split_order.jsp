@@ -209,7 +209,7 @@
             success: function (json) {
                 console.log(json);
                if(json.code ==  '200'){
-                    location.href =  "/order/service.html";
+                    location.href =  "/order/service_split.html";
                }else{
                    alertMess("操作失败");
                }
@@ -297,7 +297,7 @@
 
 
     function splitOrder() {
-
+        page = 0;
         var orderid = ${data.id};
         var uids = "";
         $("input[name='user_ids']").each(function () {
@@ -320,7 +320,7 @@
             success: function (json) {
                 if (json.code == '200') {
                     alertMess('派工成功');
-                    location.href = "/order/service.html";
+                    location.href = "/order/service_split.html";
                 } else {
                     alertMess(json.msg+'，请重新提交');
                 }

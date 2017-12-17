@@ -43,24 +43,19 @@
         </a>
     </li>
 
-    <li class="hide">
-        <a href="/order/service.html">
+    <li class="">
+        <a href="/order/after_sale.html">
             <img src="/images/yscx.png"/>
             <p>工单处理</p>
         </a>
     </li>
-    <li class="hide">
+    <li class="">
         <a href="/order/service_ing.html">
             <img src="/images/fw.png"/>
             <p>我的工单</p>
         </a>
     </li>
-    <li class="hide">
-        <a href="/order/service_split.html">
-            <img src="/images/cx.png"/>
-            <p>服务派工</p>
-        </a>
-    </li>
+
     <li>
         <a href="/technician/deal.html">
             <img src="/images/az.png"/>

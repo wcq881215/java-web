@@ -46,7 +46,6 @@
 
 <script type="text/javascript">
 
-    var status = "2"; // 待安装
     var page = 0;
     var pageSize = 4;
     var ajaxFlag = true;
@@ -63,7 +62,7 @@
         }
         $.ajax({
             type: 'get',
-            url: '/web/order/manage/query',
+            url: '/web/order/manage/split/select',
             data: {
                 page: page,
                 pageSize: pageSize
@@ -95,10 +94,10 @@
             var data = array[i];
             html += "<div class='c-comment'>";
             html += "<span class='c-comment-num'>订单编号：" + data.id + "</span>";
-            html += "<span class='c-comment-suc'>" + data.state  + "</span>";
+            html += "<span class='c-comment-suc'>" + "已发货等待安装"  + "</span>";
             html += "</div>";
             html += "<div class='c-comment-list' style='border: 0;'>";
-            html += "<a class='o-con' target='_top' href='/web/order/office/detail/"+data.id+"'>";
+            html += "<a class='o-con' target='_top' href='/web/order/manage/split/detail/"+data.id+"'>";
 
             var total = 0;
             if(data.devices && data.devices.length > 0){

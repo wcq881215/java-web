@@ -17,7 +17,7 @@ public class OrderServer {
     private Long  order;
     @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = true)
     @JoinColumn(name = "pid")
-    private User service;
+    private User pub;
     @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = true)
     @JoinColumn(name = "uid")
     private User user;
@@ -46,13 +46,13 @@ public class OrderServer {
         this.order = order;
     }
 
-    public User getService() {
-        return service;
-    }
+   public User getPub(){
+        return pub;
+   }
 
-    public void setService(User service) {
-        this.service = service;
-    }
+   public void setPub(User pub){
+       this.pub = pub;
+   }
 
     public User getUser() {
         return user;

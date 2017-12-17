@@ -17,6 +17,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
@@ -98,7 +99,7 @@ public class OrderController extends APIService {
         Order order = orderService.findById(id);
         boolean isEdit = false;
         if (order != null) {
-            if("1".equals(order.getState())){
+            if ("1".equals(order.getState())) {
                 isEdit = true;
             }
             setStatus(order);
@@ -123,15 +124,15 @@ public class OrderController extends APIService {
     }
 
     private void setStatus(Order order) {
-        if ("1".equals(order.getState()) ) {
+        if ("1".equals(order.getState())) {
             order.setState("等待发货");
             return;
         }
-        if ("2".equals(order.getState()) ) {
+        if ("2".equals(order.getState())) {
             order.setState("已发货等待安装");
             return;
         }
-        if ("3".equals(order.getState()) ) {
+        if ("3".equals(order.getState())) {
             order.setState("安装完成");
             return;
         }
@@ -165,10 +166,10 @@ public class OrderController extends APIService {
         boolean isEdit = false; // 物流
         boolean isSplit = false; // 派工
         if (order != null) {
-            if("1".equals(order.getState())){
+            if ("1".equals(order.getState())) {
                 isEdit = true;
             }
-            if("2".equals(order.getState())){
+            if ("2".equals(order.getState()) && CollectionUtils.isEmpty(order.getService())) {
                 isSplit = true;
             }
             setStatus(order);
@@ -181,9 +182,9 @@ public class OrderController extends APIService {
 
     @RequestMapping("/manage/logistics")
     @ResponseBody
-    public BaseDto addLogstic( Long id,String logistics ,String iphone,String driver,String logphone,String delatime) {
+    public BaseDto addLogstic(Long id, String logistics, String iphone, String driver, String logphone, String delatime) {
         Order order = orderService.findById(id);
-        if(order != null && "1".equals(order.getState())){
+        if (order != null && "1".equals(order.getState())) {
             order.setLogistics(logistics);
             order.setIphone(iphone);
             order.setDriver(driver);
@@ -199,7 +200,7 @@ public class OrderController extends APIService {
     @RequestMapping("/manage/split")
     public BaseDto serviceSplit(Long id, String uids) {
         Order order = orderService.findById(id);
-        if(order==null || "2".equals(order.getState())){
+        if (order == null || !"2".equals(order.getState())) {
             return BaseDto.failure("订单无效");
         }
         User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
@@ -209,9 +210,12 @@ public class OrderController extends APIService {
         for (String uid : uids.split(",")) {
             Long ud = Long.parseLong(uid);
             User u = userService.findById(ud);
+            if (orderService.isExit(order, u)) {
+                continue;
+            }
             OrderServer orderTeah = new OrderServer();
             orderTeah.setOrder(id);
-            orderTeah.setService(user);
+            orderTeah.setPub(user);
             orderTeah.setState("0");
             orderTeah.setTime(new Date());
             orderTeah.setUser(u);
@@ -222,17 +226,75 @@ public class OrderController extends APIService {
 
 
     @ResponseBody
-    @RequestMapping("/srv/select")
-    public BaseDto queryForSrv(Integer page, Integer pageSize) {
+    @RequestMapping("/manage/split/select")
+    public BaseDto queryForManagerSplit(String status, Integer page, Integer pageSize) {
         if (page == null) {
             page = 0;
         }
         if (pageSize == null) {
             pageSize = 30;
         }
-        return BaseDto.newDto(orderService.querySrvOrder(page, pageSize));
+        return BaseDto.newDto(orderService.querySplitOrder(page, pageSize));
     }
 
+    @RequestMapping("/manage/split/detail/{id}")
+    public String getManageSplitOrderDetail(@PathVariable("id") Long id) {
+        getManageOrderDetail(id);
+        return "/order/split_order";
+    }
 
+    @ResponseBody
+    @RequestMapping("/srv/select")
+    public BaseDto queryForSrvSplit(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "30") Integer pageSize) {
+        User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
+        return BaseDto.newDto(orderService.querySrvUserSplitOrder(user, page, pageSize));
+    }
 
+    @ResponseBody
+    @RequestMapping("/srv/order")
+    public BaseDto queryForSrv(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "30") Integer pageSize) {
+        User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
+        return BaseDto.newDto(orderService.querySrvUserOrder(user, page, pageSize));
+    }
+
+    @RequestMapping("/srv/detail/{id}")
+    public String getSrvOrderDetail(@PathVariable("id") Long id) {
+        Order order = orderService.findById(id);
+        boolean isEdit = false; // 接受
+        if (order != null) {
+            if (!CollectionUtils.isEmpty(order.getService())) {
+                User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
+                for (OrderServer u : order.getService()) {
+                    if (user.getId().equals(u.getUser().getId())) {
+                        isEdit = true;
+                    }
+                }
+            }
+            setStatus(order);
+        }
+        attr("data", order);
+        attr("isEdit", isEdit);
+        return "/order/srv_order";
+    }
+
+    @ResponseBody
+    @RequestMapping("/srv/status")
+    public BaseDto updateForSrvState(Long id,String status,String reason) {
+        User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
+        Order order = orderService.findById(id);
+        if(order == null){
+            return BaseDto.failure("订单不正确");
+        }
+        if(!CollectionUtils.isEmpty(order.getService())){
+            for (OrderServer u : order.getService()) {
+                if (user.getId().equals(u.getUser().getId())) {
+                    u.setState(status);
+                    u.setRemark(reason);
+                    orderService.updateOrderSrvState(u);
+                    return BaseDto.newDto(APIStatus.success);
+                }
+            }
+        }
+        return BaseDto.failure("订单不正确,未发现派工信息");
+    }
 }

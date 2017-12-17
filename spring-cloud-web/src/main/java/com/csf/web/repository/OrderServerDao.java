@@ -22,9 +22,9 @@ public interface OrderServerDao extends CrudRepository<OrderServer, Long> {
     public Page<OrderServer> queryUserOrderServer(@Param("user") User user, Pageable pageable);
 
     @Query("from OrderServer o where o.user = :user and o.order = :order ")
-    public OrderServer queryUserOrderServer(@Param("user") User user, @Param("order") Order order);
+    public OrderServer queryUserOrderServer(@Param("user") User user, @Param("order") Long order);
 
     @Query("from OrderServer o where  o.order = :order and o.state <> -1 ")
-    public List<OrderServer> queryOrderServer(@Param("order") Order order);
+    public List<OrderServer> queryOrderServer(@Param("order") Long order);
 
 }
