@@ -92,7 +92,7 @@
         var array = json.obj.content;
         for (var i in array) {
             var data = array[i];
-            var stateMsg = '已派工' ;
+            var stateMsg = '待接受派工' ;
             html += "<div class='c-comment'>";
             html += "<span class='c-comment-num'>订单编号：" + data.id + "</span>";
             html += "<span class='c-comment-suc'>" + stateMsg  + "</span>";

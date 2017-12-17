@@ -142,6 +142,41 @@ public class OrderController extends APIService {
         }
     }
 
+    private void setDetailStatus(Order order,User user) {
+
+        if ("1".equals(order.getState())) {
+            order.setState("等待发货");
+            return;
+        }
+        if ("2".equals(order.getState())) {
+            if(CollectionUtils.isEmpty(order.getService())){
+                order.setState("已发货等待安装");
+                return;
+            }
+            if(user == null){
+                order.setState("已派工");
+                return;
+            }
+            for(OrderServer u : order.getService()){
+                if(u.getUser().getId().equals(user.getId())){
+                    order.setState("待接受派工");
+                    return;
+                }
+            }
+
+            order.setState("已派工");
+            return;
+        }
+        if ("3".equals(order.getState())) {
+            order.setState("安装完成");
+            return;
+        }
+        if ("4".equals(order.getState())) {
+            order.setState("已完成");
+            return;
+        }
+    }
+
     @ResponseBody
     @RequestMapping("/manage/query")
     public BaseDto queryForMgr(Integer page, Integer pageSize) {
@@ -254,11 +289,17 @@ public class OrderController extends APIService {
     @RequestMapping("/srv/order")
     public BaseDto queryForSrv(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "30") Integer pageSize) {
         User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
-        return BaseDto.newDto(orderService.querySrvUserOrder(user, page, pageSize));
+        Page<Order> orders = orderService.querySrvUserOrder(user, page, pageSize);
+        if(orders != null && !CollectionUtils.isEmpty(orders.getContent())){
+            for(Order o : orders.getContent()){
+                setDetailStatus(o,user);
+            }
+        }
+        return BaseDto.newDto(orders);
     }
 
     @RequestMapping("/srv/detail/{id}")
-    public String getSrvOrderDetail(@PathVariable("id") Long id) {
+    public String getSrvOrderSelDetail(@PathVariable("id") Long id) {
         Order order = orderService.findById(id);
         boolean isEdit = false; // 接受
         if (order != null) {
@@ -275,6 +316,28 @@ public class OrderController extends APIService {
         attr("data", order);
         attr("isEdit", isEdit);
         return "/order/srv_order";
+    }
+
+    @RequestMapping("/srv/order/detail/{id}")
+    public String getSrvOrderDetail(@PathVariable("id") Long id) {
+        Order order = orderService.findById(id);
+        String state = ""; //
+        if (order != null) {
+            if("2".equals(order.getState())) {
+                if (!CollectionUtils.isEmpty(order.getService())) {
+                    User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
+                    for (OrderServer u : order.getService()) {
+                        if (user.getId().equals(u.getUser().getId())) {
+                            state = u.getState();
+                        }
+                    }
+                }
+            }
+            setStatus(order);
+        }
+        attr("data", order);
+        attr("state", state);
+        return "/order/srv_order_detail";
     }
 
     @ResponseBody

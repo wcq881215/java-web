@@ -59,7 +59,7 @@ public interface OrderDao extends JpaRepository<Order, Long> {
      * @param limit
      * @return
      */
-    @Query(value = "select  * from app_order o where o.state = 2 and o.id   in (select t.order_id from app_order_tech t where t.uid = ? and t.state <> -1 ) limit ?,? ",nativeQuery = true)
+    @Query(value = "select  * from app_order o where o.state = 2 and o.id   in (select t.order_id from app_order_tech t where t.uid = ? and t.state = 0 ) limit ?,? ",nativeQuery = true)
     public List<Order> querySrvOrder(Long uid,Integer offset,Integer limit);
 
     /**
@@ -67,7 +67,7 @@ public interface OrderDao extends JpaRepository<Order, Long> {
      * @param uid
      * @return
      */
-    @Query(value = "select  count(*) from app_order o where o.state = 2 and o.id  in (select t.order_id from app_order_tech t where t.uid = ? and t.state <> -1) ",nativeQuery = true)
+    @Query(value = "select  count(*) from app_order o where o.state = 2 and o.id  in (select t.order_id from app_order_tech t where t.uid = ? and t.state =0 ) ",nativeQuery = true)
     public Long querySrvOrderNo(Long uid);
 
     /**
