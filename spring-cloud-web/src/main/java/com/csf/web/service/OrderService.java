@@ -90,7 +90,7 @@ public class OrderService {
 
     public Page<Order> querySplitOrder(Integer page, Integer pageSize) {
         Pageable pageable = new PageRequest(page, pageSize);
-        Integer offset = (page - 1) * pageSize;
+        Integer offset = page * pageSize;
         List<Order> contents = orderDao.querySplitOrder(offset, pageSize);
         Long total = orderDao.querySplitOrderNo();
         Page<Order> data = new PageImpl<Order>(contents, pageable, total);

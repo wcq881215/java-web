@@ -124,23 +124,26 @@ public class OrderController extends APIService {
     }
 
     private void setStatus(Order order) {
-        if ("1".equals(order.getState())) {
-            order.setState("等待发货");
-            return;
-        }
-        if ("2".equals(order.getState())) {
-            order.setState("已发货等待安装");
-            return;
-        }
-        if ("3".equals(order.getState())) {
-            order.setState("安装完成");
-            return;
-        }
-        if ("4".equals(order.getState())) {
-            order.setState("已完成");
-            return;
-        }
+        setDetailStatus(order,null);
     }
+//    private void setStatus(Order order) {
+//        if ("1".equals(order.getState())) {
+//            order.setState("等待发货");
+//            return;
+//        }
+//        if ("2".equals(order.getState())) {
+//            order.setState("已发货等待安装");
+//            return;
+//        }
+//        if ("3".equals(order.getState())) {
+//            order.setState("安装完成");
+//            return;
+//        }
+//        if ("4".equals(order.getState())) {
+//            order.setState("已完成");
+//            return;
+//        }
+//    }
 
     private void setDetailStatus(Order order,User user) {
 
@@ -150,7 +153,7 @@ public class OrderController extends APIService {
         }
         if ("2".equals(order.getState())) {
             if(CollectionUtils.isEmpty(order.getService())){
-                order.setState("已发货等待安装");
+                order.setState("待派工");
                 return;
             }
             if(user == null){
@@ -159,7 +162,11 @@ public class OrderController extends APIService {
             }
             for(OrderServer u : order.getService()){
                 if(u.getUser().getId().equals(user.getId())){
-                    order.setState("待接受派工");
+                    if(u.getState().equals("0")){
+                        order.setState("待接受派工");
+                    }else {
+                        order.setState("已发货等待安装");
+                    }
                     return;
                 }
             }
