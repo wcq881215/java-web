@@ -93,6 +93,7 @@
     var names = "";
     var dnumber = "";
     var device = [];
+    var index = 0;
     function addDevice() {
         var did = $('#device-name').val();
         var dnum = $('#dnumber').val();
@@ -101,13 +102,16 @@
             return
         }
         if (dnum == '') {
-            alertMess('请选择设备数量');
+            alertMess('请输入设备数量');
             return
         }
         var dname = $("#device-name").find("option:selected").html();
         var info = "";
+        info += "<div class='addition"+index+"'>";
         info += "设备: " + dname;
         info += "  设备数量: " + dnum;
+        info += "<span onclick='deleDiv("+index+")' style='float: right;margin-right: 20px;color: #ff0000;'>X</span>";
+        info += "</div>";
         info += "<br>";
         $('.device-label').append(info);
 
@@ -122,6 +126,16 @@
         dids += did + ",";
         names += dname + ",";
         dnumber += dnum + ",";
+        index++;
+    }
+    
+    function deleDiv(index) {
+        console.log($('.device-label div:eq('+index+')'));
+        $('.device-label div:eq('+index+')').remove();
+        //delete  divice number
+        var devs = [];
+
+        index--;
     }
 
     function showDevice() {
@@ -225,8 +239,11 @@
         }
 
         if (device == '') {
-            alertMess("请添加设备信息");
-            return false;
+            addDevice();
+            if(device == '') {
+                alertMess("请添加设备信息");
+                return false;
+            }
         }
 
         if (dnumber == '') {

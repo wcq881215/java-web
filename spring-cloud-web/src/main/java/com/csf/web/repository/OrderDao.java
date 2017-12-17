@@ -16,32 +16,32 @@ import java.util.List;
  */
 public interface OrderDao extends JpaRepository<Order, Long> {
 
-    @Query("from Order o where o.state <> 0 and o.pub.id = :pid ")
+    @Query("from Order o where o.state <> 0 and o.pub.id = :pid  ORDER  by o.time desc ")
     public Page<Order> queryUserOrder(@Param("pid")Long pid, Pageable pageable);
 
 
-    @Query("from Order o where o.state = :state and o.pub.id = :pid ")
+    @Query("from Order o where o.state = :state and o.pub.id = :pid ORDER  by o.time desc")
     public Page<Order> queryUserStateOrder(@Param("pid")Long pid,@Param("state")String state, Pageable pageable);
 
 
-    @Query("from Order o where o.state = :state ")
+    @Query("from Order o where o.state = :state ORDER  by o.time desc")
     public Page<Order> queryWorkStateOrder(@Param("state")String state, Pageable pageable);
 
     @Query("select max(id) from Order ")
     public Long getMaxId();
 
 
-    @Query("from Order o where o.state  <> 0  ")
+    @Query("from Order o where o.state  <> 0  ORDER  by o.time desc ")
     public Page<Order> queryMgrOrder(Pageable pageable);
 
-    @Query("from Order o where o.state = 1 ")
+    @Query("from Order o where o.state = 1 ORDER  by o.time desc")
     public Page<Order> querySrvOrder(Pageable pageable);
 
     /**
      * 查询未派工订单
      * @return
      */
-    @Query(value = "select  * from app_order o where o.state = 2 and o.id  not in (select order_id from app_order_tech ) limit ?,? ",nativeQuery = true)
+    @Query(value = "select  * from app_order o where o.state = 2 and o.id  not in (select order_id from app_order_tech ) ORDER  by o.time desc limit ?,? ",nativeQuery = true)
     public List<Order> querySplitOrder(Integer offset,Integer limit);
 
     /**
@@ -59,7 +59,7 @@ public interface OrderDao extends JpaRepository<Order, Long> {
      * @param limit
      * @return
      */
-    @Query(value = "select  * from app_order o where o.state = 2 and o.id   in (select t.order_id from app_order_tech t where t.uid = ? and t.state = 0 ) limit ?,? ",nativeQuery = true)
+    @Query(value = "select  * from app_order o where o.state = 2 and o.id   in (select t.order_id from app_order_tech t where t.uid = ? and t.state = 0 ) ORDER  by o.time desc limit ?,? ",nativeQuery = true)
     public List<Order> querySrvOrder(Long uid,Integer offset,Integer limit);
 
     /**
@@ -77,7 +77,7 @@ public interface OrderDao extends JpaRepository<Order, Long> {
      * @param limit
      * @return
      */
-    @Query(value = "select  * from app_order o where  o.id   in (select t.order_id from app_order_tech t where t.uid = ? and t.state <> -1) limit ?,? ",nativeQuery = true)
+    @Query(value = "select  * from app_order o where  o.id   in (select t.order_id from app_order_tech t where t.uid = ? and t.state <> -1) ORDER  by o.time desc  limit ?,? ",nativeQuery = true)
     public List<Order> queryUserSrvOrder(Long uid,Integer offset,Integer limit);
 
     /**

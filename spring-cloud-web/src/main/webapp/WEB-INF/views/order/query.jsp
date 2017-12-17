@@ -16,7 +16,12 @@
         .order-style li {
             width: 30%;
         }
-
+        .c-com-money span.del{
+            background-color: #ff0000;
+            padding: 3px 10px;
+            border-radius: 3px;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
@@ -149,10 +154,12 @@
                     html += "<div class='o-con-txt'>";
                     html += "<p>" + devi.device.name + "</p>";
                     html += "</div>";
-
                     html += "<div class='o-con-much'> <h4>" + devi.numb + "台</h4></div>";
                 }
 
+                if(data.state == '等待发货'){
+                    html += "<div class='c-com-money '><a href='javascript:dele("+data.id+")' ><span class='del'>删除</span></a></div>";
+                }
             }else {
                 html += "<p></p>";
             }
@@ -166,6 +173,22 @@
         return html;
     }
 
+    function dele(id) {
+        $.ajax({
+            type: 'post',
+            url: '/web/order/delete/'+id,
+            data: {
+            },
+            dataType: 'json',
+            success: function (json) {
+                if (json.code == '200') {
+                    location.href = '/order/service.html';
+                } else {
+                    alertMess(json.msg);
+                }
+            }
+        });
+    }
 
 </script>
 

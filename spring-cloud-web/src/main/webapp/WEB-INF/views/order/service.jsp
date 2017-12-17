@@ -131,7 +131,7 @@
             html += "</a>";
             html += "<div class='c-com-money '>合计：<span>" + total + "台设备</span></div>";
             if(stateMsg == '等待发货'){
-                html += "<div class='c-com-money '><a href='/web/order/delete/"+data.id+"' ><span class='del'>删除</span></a></div>";
+                html += "<div class='c-com-money '><a href='javascript:dele("+data.id+")' ><span class='del'>删除</span></a></div>";
             }
             html += "</div>";
             html += "<div class='clear'></div>";
@@ -148,9 +148,7 @@
             dataType: 'json',
             success: function (json) {
                 if (json.code == '200') {
-                    alertMess('删除成功');
                     location.href = '/order/service.html';
-                    return;
                 } else {
                     alertMess(json.msg);
                 }
