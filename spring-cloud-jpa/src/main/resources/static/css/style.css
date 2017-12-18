@@ -314,7 +314,8 @@ li{ list-style-type: none;}
     width: 25%;
     text-align: right;
     padding: 2%;
-    margin-top: 25px;
+    margin-top: 2px;
+    margin-bottom: 20px;
     color: #afafaf;
 }
 .c-com-btn a {

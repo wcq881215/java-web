@@ -16,6 +16,8 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column
+    private String order_id;
+    @Column
     private Long pid;
     @Column
     private String buser;
@@ -50,19 +52,70 @@ public class Order {
     @Column
     private String dtime;
     @Column
-    private String driver;
-    @Column
     private String logistics;
     @Column
+    private String iphone;
+    @Column
+    private String driver;
+    @Column
     private String logphone;
+    @Column
+    private String delatime;
     @Column
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date time;
     @Column
-    private String state;
+    private String state;//状态 0 无效（废弃，重录） 1 - 2 -3 -4 -5 ... -> over  1:内勤录入等待生产，2生产中待发货，3已发货待安装 4安装完成等待客户确认 5 已完成
     @Column
     private Long proxy;
 
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = true)
+    @JoinColumn(name = "fqid")
+    private Order dirty;//废弃订单
+
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = true)
+    @JoinColumn(name = "prod")
+    private User producer;//生产人
+
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = true)
+    @JoinColumn(name = "srv")
+    private User service;//售后服务
+
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = true)
+    @JoinColumn(name = "pack")
+    private User pack;//安装
+
+    public User getProducer() {
+        return producer;
+    }
+
+    public void setProducer(User producer) {
+        this.producer = producer;
+    }
+
+    public User getService() {
+        return service;
+    }
+
+    public void setService(User service) {
+        this.service = service;
+    }
+
+    public User getPack() {
+        return pack;
+    }
+
+    public void setPack(User pack) {
+        this.pack = pack;
+    }
+
+    public Order getDirty() {
+        return dirty;
+    }
+
+    public void setDirty(Order dirty) {
+        this.dirty = dirty;
+    }
 
     public Long getDid() {
         return did;
@@ -254,5 +307,29 @@ public class Order {
 
     public void setBphone(String bphone) {
         this.bphone = bphone;
+    }
+
+    public String getOrder_id() {
+        return order_id;
+    }
+
+    public void setOrder_id(String order_id) {
+        this.order_id = order_id;
+    }
+
+    public String getIphone() {
+        return iphone;
+    }
+
+    public void setIphone(String iphone) {
+        this.iphone = iphone;
+    }
+
+    public String getDelatime() {
+        return delatime;
+    }
+
+    public void setDelatime(String delatime) {
+        this.delatime = delatime;
     }
 }

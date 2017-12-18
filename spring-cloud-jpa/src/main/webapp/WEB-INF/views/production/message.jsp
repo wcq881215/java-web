@@ -11,6 +11,10 @@
     <link rel="stylesheet" href="/css/style.css"/>
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script type="text/javascript" src="/js/amazeui.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="/mobile/zdialog.css"/>
+    <script type="text/javascript" src="/mobile/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="/mobile/zdialog.js"></script>
+    <script type="text/javascript" src="/js/alert.js?v=1.0"></script>
 </head>
 <body>
 
@@ -26,9 +30,9 @@
 
 <ul class="member-nav" style="margin-top:50px;">
 
-    <li><a href="/admin/sendMsg.html"><i class="am-icon-newspaper-o"></i><span>短信群发</span></a></li>
+    <li class="hide"><a href="/message/sendMsg.html"><i class="am-icon-newspaper-o"></i><span>短信群发</span></a></li>
 
-    <li><a href="/admin/send.html"><i class="am-icon-bell-o"></i><span>信息推送</span></a></li>
+    <li><a href="/message/myMsg.html"><i class="am-icon-bell-o"></i><span>我的消息</span></a></li>
 </ul>
 <br>
 

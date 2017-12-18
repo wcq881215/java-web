@@ -13,15 +13,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class IndexController extends APIService{
 
 
-    @RequestMapping(path ={"/","/index","/home"})
+    @RequestMapping(path ={"/"})
     public String index(){
 
+        return "home";
+    }
+
+    @RequestMapping(path ={"/index","/home","/admin","/root","/admin/login"})
+    public String admin(){
         return "index";
     }
 
-    @RequestMapping(path ={"/admin","/root","/admin/login"})
-    public String admin(){
-
+    @RequestMapping(path ={"/cust/work","/cust/message","/cust/my"})
+    public String logincheck(){
         return "index";
     }
 

@@ -1,7 +1,4 @@
-# Created by .ignore support plugin (hsz.mobi)
-/spring-boot/spring-boot.iml
-/logs/
-/.idea/
-/.idea/workspace.xml
-/spring-cloud-jpa/spring-cloud-jpa.iml
-/wchat-service/wchat-service.iml
+/spring-cloud-web/.idea/
+/spring-cloud-web/target/
+/spring-cloud-web/spring-cloud-web.iml
+/tools/tools.iml

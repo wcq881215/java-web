@@ -11,6 +11,10 @@
     <link rel="stylesheet" href="/css/style.css"/>
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script type="text/javascript" src="/js/amazeui.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="/mobile/zdialog.css"/>
+    <script type="text/javascript" src="/mobile/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="/mobile/zdialog.js"></script>
+    <script type="text/javascript" src="/js/alert.js?v=1.0"></script>
 </head>
 <body>
 
@@ -36,7 +40,12 @@
             <p>问题汇总</p>
         </a>
     </li>
-
+    <li class="">
+        <a href="/order/teah.html">
+            <img src="/images/yscx.png"/>
+            <p>我的工单</p>
+        </a>
+    </li>
     <li class="hide">
         <a href="/technician/deal.html">
             <img src="/images/yscx.png"/>

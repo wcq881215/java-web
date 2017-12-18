@@ -24,8 +24,11 @@ public class Device {
     private String desc;
     @Column
     private String type;
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = true)
+    @JoinColumn(name = "pid")
+    private Proxy proxy;//办事处
     @Column
-    private Long number;
+    private Integer number;
     @Column
     private Double price;
     @Column
@@ -33,7 +36,7 @@ public class Device {
     @Column
     private Date time;
 
-    @OneToMany(mappedBy="did")
+    @OneToMany(mappedBy = "did")
     private List<DeviceImg> imgs;
 
     public List<DeviceImg> getImgs() {
@@ -84,11 +87,11 @@ public class Device {
         this.type = type;
     }
 
-    public Long getNumber() {
+    public Integer getNumber() {
         return number;
     }
 
-    public void setNumber(Long number) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 
@@ -114,5 +117,13 @@ public class Device {
 
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    public Proxy getProxy() {
+        return proxy;
+    }
+
+    public void setProxy(Proxy proxy) {
+        this.proxy = proxy;
     }
 }
