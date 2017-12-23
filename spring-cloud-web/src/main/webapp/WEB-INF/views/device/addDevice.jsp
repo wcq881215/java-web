@@ -58,11 +58,11 @@
 <div class="am-tabs qiehuan" data-am-tabs style="margin-top:50px; ">
     <div class="am-tabs-bd">
         <div class="am-tab-panel am-fade am-in am-active" id="tab1">
-            <input type="text" placeholder="设备编号" id="sn" name="sn" class="tab-input"/>
+            <input type="text" placeholder="设备型号" id="sn" name="sn" class="tab-input"/>
             <input type="text" placeholder="设备名称" id="_name" name="_name" class="tab-input"/>
             <input type="text" placeholder="设备分类" id="type" name="type" class="tab-input"/>
 
-            <div style="border: 1px solid #eee;line-height: 35px;">
+            <div class="hide" style="border: 1px solid #eee;line-height: 35px;">
                 <label style="color:#716f6f">请选择设备所属办事处：</label>
                 <select id="proxy" name="proxy" style="color:#716f6f">
 

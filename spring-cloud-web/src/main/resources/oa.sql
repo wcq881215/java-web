@@ -116,8 +116,8 @@ DROP TABLE IF EXISTS app_device_img;
 CREATE TABLE app_device_img (
   id         INT AUTO_INCREMENT,
   did   INT (30)  NOT NULL  COMMENT 'device id',
-  src   VARCHAR(50) NOT NULL  COMMENT '图片url',
-  path   VARCHAR(50) NOT NULL  COMMENT '图片路径',
+  src   VARCHAR(500) NOT NULL  COMMENT '图片url',
+  path   VARCHAR(500) NOT NULL  COMMENT '图片路径',
   alt        VARCHAR(50)   COMMENT 'alt',
   upload   DATE COMMENT '上传时间',
   state  BOOLEAN COMMENT '状态 0 不可用 1可用',
