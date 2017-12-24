@@ -1,5 +1,8 @@
 package com.csf.web.location;
 
+import com.csf.web.util.JsonUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,10 +20,15 @@ public class LocationRequest {
         param.put("get_poi",0);
         param.put("location",lat+","+lan);
 
-        return   HttpUtils.httpGet(url,param);
+        String json =    HttpUtils.httpGet(url,param);
+        if(StringUtils.isNotBlank(json)){
+            LocationLBSDto dto = JsonUtils.format(json,LocationLBSDto.class);
+            if(dto != null && dto.getStatus() != null && dto.getStatus() == 0){
+                System.out.println("find address " +dto.getResult().getAddress());
+                return  dto.getResult().getAddress();
+            }
+        }
+        return null;
     }
 
-    public static void main(String[] args) {
-        getAddress(31.19817833333333,121.62592166666667);
-    }
 }

@@ -47,11 +47,11 @@ public class HttpUtils {
             while ((ch = in.read()) != -1) {
                 sb2.append((char) ch);
             }
-            System.out.println("response : " + (resp = new String(sb2.toString().getBytes(),charset)));
+            resp = new String(sb2.toString().getBytes("iso-8859-1"),charset);
+            System.out.println("response : " + resp);
         }
         connection.disconnect();
 
-        System.out.println(resp);
         return resp;
     }
 
