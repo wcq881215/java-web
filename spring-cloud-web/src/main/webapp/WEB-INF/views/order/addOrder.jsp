@@ -99,11 +99,11 @@
         var dnum = $('#dnumber').val();
         if (did == '') {
             alertMess('请选择一台设备');
-            return
+            return;
         }
         if (dnum == '') {
             alertMess('请输入设备数量');
-            return
+            return;
         }
         var dname = $("#device-name").find("option:selected").html();
         var info = "";
@@ -292,7 +292,7 @@
             success: function (json) {
                 if (json.code == '200') {
                     alertMess('提交成功');
-                    location.href = '/${sessionScope.role}/work';
+                    location.href = '/order/query.html';
                     return;
                 } else {
                     alertMess(json.msg);

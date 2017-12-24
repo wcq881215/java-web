@@ -54,14 +54,14 @@
             <li>客户信息
                 <input type="text" name="cust" id="cust" value="${data.cust}" placeholder="负责人姓名" class="tab-input"/>
                 <input type="text" name="cphone" id="cphone" value="${data.phone}" placeholder="联系方式" class="tab-input"/></li>
-            <input type="text" name="caddress" id="caddress" value="${data.address}" placeholder="地址（可填多个，请用逗号隔开）" class="tab-input"/>
+            <input type="text" name="caddress" id="caddress" value="${data.address}" placeholder="联系地址" class="tab-input"/>
             <li>订单信息<br>
                 下单时间：<input type="date" name="stime" id="stime" placeholder="" value="${data.stime}" class="tab-input"/>
                 交货时间：<input type="date" name="dtime" id="dtime" placeholder="" value="${data.dtime}" class="tab-input"/></li>
 
             <li class="" style="border: 1px dashed #ddd;padding: 3px 0px 3px 10px;margin-bottom: 10px;">
                 添加设备信息 <span style=" font-size:24px; color:#00A6FF" onclick="showDevice()"> &#43;  </span><br>
-                <div id="" class="device-info hide">
+                <div id="" class="device-info ">
                     <select name="device-name" id="device-name">
                         <option value="">请选择设备型号</option>
                     </select>
@@ -89,14 +89,12 @@
         queryDevice();
     });
 
+    var dids = "";
+    var names = "";
+    var dnumber = "";
+    var device = [];
+    var index = 0;
     function addDevice() {
-        //全局  ！
-        var dids = "";
-        var names = "";
-        var dnumber = "";
-        var device = [];
-
-
         var did = $('#device-name').val();
         var dnum = $('#dnumber').val();
         if(did == ''){
@@ -104,14 +102,17 @@
             return;
         }
         if(dnum == ''){
-            alertMess('请选择设备数量');
+            alertMess('请输入设备数量');
             return;
         }
         var dname=$("#device-name").find("option:selected").html();
         var info = "";
+        info += "<div class='addition"+index+"'>";
         info += "设备: "+dname;
         info += "  设备数量: "+dnum;
-        info += "<br>";
+        info += "<span onclick='deleDiv("+index+")' style='margin-left:20px;color: #ff0000;'>X</span>";
+        info += "</div>";
+       // info += "<br>";
         $('.device-label').append(info);
 
         var dev = {};
@@ -122,11 +123,39 @@
         device.push(dev);
         console.log(device);
 
-        dids += did+",";
-        names += dname+",";
-        dnumber += dnum+",";
+        dids += did + ",";
+        names += dname + ",";
+        dnumber += dnum + ",";
+        index++;
     }
     
+    function deleDiv(ind) {
+        console.log($('.device-label div.addition'+ind));
+        $('.device-label div.addition'+ind).remove();
+        //delete  divice number
+        var devs = [];
+        dids = '';
+        names = '';
+        dnumber = '';
+        for (var i in device) {
+            if(i == ind){
+                continue;
+            }
+            var data = device[i];
+            var dev = {};
+            dev["did"] = data['did'];
+            dev["dname"] = data['dname'];
+            dev["number"] = data['number'];
+            devs.push(dev);
+
+            dids += data['did'] + ",";
+            names += data['dname'] + ",";
+            dnumber += data['number'] + ",";
+        }
+        device = devs;
+        index--;
+    }
+
     function showDevice() {
         var device_inf_div = $('.device-info');
         if (device_inf_div.hasClass('hide')) {
@@ -230,8 +259,11 @@
         }
 
         if (device == '') {
+            addDevice();
+            if(device == '') {
             alertMess("请添加设备信息");
             return false;
+            }
         }
 
         if (dnumber == '') {
@@ -254,7 +286,7 @@
                 ext: selfInf,
                 remark: remark,
                 proxy: proxy,
-//                did: device,
+//                device: JSON.stringify(device),
 //                number: dnumber
                 dids: dids,
                 names: names,
