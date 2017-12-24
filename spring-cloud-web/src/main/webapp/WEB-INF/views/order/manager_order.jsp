@@ -81,7 +81,7 @@
 
 
     <c:if test="${isEdit == true}">
-        <ul class="fixed-btn" style="text-align: center;padding-left: 0px;">
+        <ul class="fixed-btn hide" style="text-align: center;padding-left: 0px;">
             <li style="width: 150px;float: none;display: inline-block;"><a href="javascript:delivery()" class="current">发货</a></li>
         </ul>
     </c:if>

@@ -16,6 +16,25 @@
     <script type="text/javascript" src="/mobile/jquery-1.11.2.min.js"></script>
     <script type="text/javascript" src="/mobile/zdialog.js"></script>
     <script type="text/javascript" src="/js/alert.js?v=1.0"></script>
+    <style type="text/css">
+        .qiehuan{
+
+        }
+
+        #wuliu_infor{
+            background-color: rgba(0,0,0,0.5);
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top:0px;
+
+        }
+
+        #wuliu_infor .am-tabs-bd{
+            background-color: transparent;
+        }
+
+    </style>
 </head>
 <body>
 <header data-am-widget="header" class="am-header am-header-default header" style="position:fixed;top:0; z-index:1000">
@@ -64,16 +83,46 @@
     <c:if test="${isEdit == true}">
         <ul class="fixed-btn">
             <li style="width: 40%;"><a href="javascript:edit(${data.id})" class="current">编辑</a></li>
-            <li style="width: 40%;"><a href="javascript:dele(${data.id})">删除</a></li>
+            <li style="width: 40%;"><a href="javascript:delivery()" class="current">发货</a></li>
         </ul>
     </c:if>
 
 </div>
+
+
+<div class="hide" id="wuliu_infor">
+    <div class="am-tabs qiehuan"  onClick="event.cancelBubble = true" style="width: 90%;margin: 50% auto;border-radius: 8px;">
+        <div class="">
+            <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+                <li>
+                    <input type="text" name="logistics" id="logistics"  value="${data.logistics}" placeholder="物流公司" class="tab-input"/>
+                    <input type="text" name="iphone" id="iphone"  value="${data.iphone}" placeholder="联系电话" class="tab-input"/>
+                    <input type="text" name="driver" id="driver" value="${data.driver}" placeholder="司机" class="tab-input"/>
+                    <input type="text" name="logphone" id="logphone" value="${data.logphone}" placeholder="司机电话" class="tab-input"/>
+                    <input type="date" name="delatime" id="delatime" value="${data.delatime}" placeholder="发货时间" class="tab-input"/>
+                    <button type="button" onclick="addLogistics()" class="tab-btn" style="padding: 2px;width: 150px;text-align: center;margin: auto 25% ;margin-top:20px;">确认提交</button>
+                </li>
+            </div>
+        </div>
+    </div>
+
+</div>
+
 </body>
 <script type="text/javascript">
     function edit(id) {
         location.href = "/web/order/office/edit/"+${data.id};
     }
+
+    function delivery() {
+        $('#wuliu_infor').removeClass('hide');
+    }
+
+    $('#wuliu_infor').click(function (e) {
+        $('#wuliu_infor').addClass('hide');
+    });
+
+    $('#wuliu_infor .am-tabs').unbind();
 
     function dele(id) {
         $.ajax({
@@ -88,6 +137,59 @@
                     location.href = "/order/query.html";
                 } else {
                     alertMess("操作失败")
+                }
+            }
+        });
+    }
+
+
+    function addLogistics() {
+        var oid = ${data.id};
+        var logistics = $('#logistics').val();
+        var iphone = $('#iphone').val();
+        var driver = $('#driver').val();
+        var logphone = $('#logphone').val();
+        var delatime = $('#delatime').val();
+
+        if (logistics == '') {
+            alert('请输入物流公司');
+            return;
+        }
+        if (iphone == '') {
+            alert('请输入物流公司联系电话');
+            return;
+        }
+        if (driver == '') {
+            alert('请输入司机');
+            return;
+        }
+        if (logphone == '') {
+            alert('请输入司机联系电话');
+            return;
+        }
+        if (delatime == '') {
+            alert('请输入发货时间');
+            return;
+        }
+
+        $.ajax({
+            type: 'post',
+            url: '/web/order/manage/logistics',
+            data: {
+                id: oid,
+                logistics: logistics,
+                iphone: iphone,
+                driver: driver,
+                logphone: logphone,
+                delatime: delatime
+            },
+            dataType: 'json',
+            success: function (json) {
+                console.log(json);
+                if(json.code ==  '200'){
+                    location.href =  "/order/query.html";
+                }else{
+                    alertMess("操作失败");
                 }
             }
         });

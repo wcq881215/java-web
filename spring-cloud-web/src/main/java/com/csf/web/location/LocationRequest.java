@@ -15,6 +15,13 @@ public class LocationRequest {
     private static final String url = "http://apis.map.qq.com/ws/geocoder/v1/";
 
     public static String getAddress(Double lat,Double lan){
+        return getAddress(lat+"",lan+"");
+    }
+    public static String getAddress(String lat,String lan){
+        if(StringUtils.isBlank(lat) || StringUtils.isBlank(lan)){
+            System.err.println("经纬度丢失！！");
+            return null;
+        }
         Map<String ,Object> param = new HashMap<String ,Object>();
         param.put("key",ak);
         param.put("get_poi",0);

@@ -48,7 +48,7 @@
         <div class="am-tab-panel am-fade am-in am-active" id="tab1">
             <li> 业务员信息
                 <input type="text" name="buser" id="buser" value="${data.buser}" placeholder="姓名" class="tab-input"/>
-                <input type="text" name="bphone" id="bphone" value="${data.bphone}" placeholder="联系电话（可填多个，请用逗号隔开）" class="tab-input"/>
+                <input type="text" name="bphone" id="bphone" value="${data.bphone}" placeholder="联系电话" class="tab-input"/>
 
             </li>
             <li>客户信息
@@ -60,7 +60,7 @@
                 交货时间：<input type="date" name="dtime" id="dtime" placeholder="" value="${data.dtime}" class="tab-input"/></li>
 
             <li class="" style="border: 1px dashed #ddd;padding: 3px 0px 3px 10px;margin-bottom: 10px;">
-                添加设备信息 <span style=" font-size:24px; color:#00A6FF" onclick="showDevice()"> &#43;  </span><br>
+                添加设备信息 <span style=" font-size:24px; color:#00A6FF" onclick="addDevice()"> &#43;  </span><br>
                 <div id="" class="device-info ">
                     <select name="device-name" id="device-name">
                         <option value="">请选择设备型号</option>
@@ -227,8 +227,8 @@
         var remark = $('#remark').val();
 
         var proxy = $('#proxy').val();
-        var device = $("select[name='device-name']").val();
-        var dnumber = $('#dnumber').val();
+//        var device = $("select[name='device-name']").val();
+//        var dnumber = $('#dnumber').val();
 
 
         if (buser == '') {

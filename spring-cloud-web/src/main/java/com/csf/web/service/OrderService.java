@@ -94,6 +94,10 @@ public class OrderService {
         orderDao.delete(id);
     }
 
+    public void delOrderDevice(Long oid) {
+        orderDeviceDao.deleteByOid(oid);
+    }
+
     public boolean sign(User user,Order order){
        List<Sign> sings =  signDao.findUserTypeSign(user,order);
         if(sings !=null  && sings.size() == 3){

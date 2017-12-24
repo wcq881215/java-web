@@ -4,8 +4,10 @@ import com.csf.web.constants.OAConstants;
 import com.csf.web.dto.APIStatus;
 import com.csf.web.dto.BaseDto;
 import com.csf.web.entity.*;
+import com.csf.web.location.LocationRequest;
 import com.csf.web.rest.APIService;
 import com.csf.web.service.DeviceService;
+import com.csf.web.service.LocationService;
 import com.csf.web.service.OrderService;
 import com.csf.web.service.UserService;
 import com.csf.web.util.JsonUtils;
@@ -43,8 +45,8 @@ public class OrderController extends APIService {
         if (order == null || StringUtils.isEmpty(dids) || StringUtils.isEmpty(numbs)) {
             return BaseDto.newDto(APIStatus.param_error);
         }
-        System.out.println(JsonUtils.toJson(order));
-        System.out.println(dids);
+        logger.info("add order ==>"+ JsonUtils.toJson(order));
+        logger.info("add order device ==>"+dids);
         User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
         order.setState("1");
         order.setTime(new Date());
@@ -65,7 +67,45 @@ public class OrderController extends APIService {
             od.setOid(order.getId());
             orderService.saveOrderDevice(od);
         }
-        saveMsg(UserRole.MANAGER, user, "有新订单待发货", "订单编号" + order.getId() + ",请在我的工单里面查收");
+        saveMsg(UserRole.OFFICE,user, user, "有新订单待发货", "订单编号" + order.getId() + ",请在我的工单里面查收");
+        return BaseDto.newDto(order);
+    }
+
+    @ResponseBody
+    @RequestMapping("/update")
+    public BaseDto editOrder(Order order, String dids, String numbs, String weights){
+        if (order == null || order.getId() == null|| StringUtils.isEmpty(dids) || StringUtils.isEmpty(numbs)) {
+            return BaseDto.newDto(APIStatus.param_error);
+        }
+        logger.info("new order is ==> "+JsonUtils.toJson(order));
+        logger.info("new devices is --> "+dids);
+
+        Order o = orderService.findById(order.getId());
+        if(o != null){
+            orderService.delOrderDevice(order.getId());
+        }
+
+        User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
+        order.setState("1");
+        order.setTime(new Date());
+        order.setPub(user);
+        order = orderService.saveOrder(order);
+
+        String[] did = dids.split(",");
+        String[] nums = numbs.split(",");
+        for (int i = 0; i < did.length; i++) {
+            String d = did[i];
+            String nu = nums[i];
+            Long di = Long.valueOf(d);
+            Integer no = Integer.valueOf(nu);
+            Device device = deviceService.findById(di);
+            OrderDevice od = new OrderDevice();
+            od.setDevice(device);
+            od.setNumb(no);
+            od.setOid(order.getId());
+            orderService.saveOrderDevice(od);
+        }
+        saveMsg(UserRole.OFFICE,user, user, "有新订单待发货", "订单编号" + order.getId() + ",请在我的工单里面查收");
         return BaseDto.newDto(order);
     }
 
@@ -234,6 +274,8 @@ public class OrderController extends APIService {
             order.setDelatime(delatime);
             order.setState("2");
             orderService.saveOrder(order);
+            User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
+            saveMsg(UserRole.MANAGER, user, "有新订单待派工", "订单编号" + order.getId() + ",请在我的工单里面查收");
         }
         return BaseDto.newDto(APIStatus.success);
     }
@@ -363,8 +405,10 @@ public class OrderController extends APIService {
         }
         if(!CollectionUtils.isEmpty(order.getService())){
             boolean isAllFinish = true;
+            User pub = null;
             for (OrderServer u : order.getService()) {
                 if (user.getId().equals(u.getUser().getId())) {
+                    pub = u.getPub();
                     u.setState(status);
                     u.setRemark(reason);
                     orderService.updateOrderSrvState(u);
@@ -377,6 +421,20 @@ public class OrderController extends APIService {
                 order.setState("3");//全部服务人员完成
                 orderService.saveOrder(order);
             }
+            //1处理中 2处理完毕 -1 已拒绝',
+            String title = null,content = null;
+            if("1".equals(status)){
+                title = "订单派工已接受";
+                content = "订单编号" + order.getId() + " 服务人员：" +user.getName()+ ",请在我的工单里面查收";
+            } else if("2".equals(status)){
+                title = "订单派工已处理完毕";
+                content = "订单编号" + order.getId()+ " 服务人员：" +user.getName() + ",请在我的工单里面查收";
+            }else{
+                title = "订单派工已拒绝";
+                content = "订单编号" + order.getId() + " 服务人员：" +user.getName()+" \t 原因: " + reason;
+            }
+
+            saveMsg(UserRole.MANAGER, pub,user, title,content );
             return BaseDto.newDto(APIStatus.success);
         }
         return BaseDto.failure("订单不正确,未发现派工信息");
@@ -398,7 +456,13 @@ public class OrderController extends APIService {
         if(StringUtils.isEmpty(latitude)){
             latitude = "";
         }
-        String address = "浙江省临海市江南街道汇丰南路328号";
+
+        String address =  LocationRequest.getAddress(latitude,longitude);
+        if(StringUtils.isBlank(address)){
+            address = "浙江省临海市江南街道汇丰南路328号";
+            logger.warn("获取定位失败!!!");
+        }
+
         Sign sign = new Sign();
         sign.setOrder(order);
         sign.setAddress(address);
@@ -406,6 +470,27 @@ public class OrderController extends APIService {
         sign.setType(type);
         sign.setTime(new Date());
         orderService.addSign(sign);
+
+        String title = null,content = null;
+        User pub = null;
+        if(!CollectionUtils.isEmpty(order.getService())) {
+            OrderServer server = order.getService().get(0);
+            pub = server.getPub();
+        }
+
+        //1： 出发签到，2：到达签到，3：离开签到 '
+        if("1".equals(type)){
+            title = "订单派工出发签到";
+            content = "订单编号" + order.getId() + " 服务人员：" +user.getName()+",请在我的工单里面查收";
+        }else if("2".equals(type)){
+            title = "订单派工到达签到";
+            content = "订单编号" + order.getId() + " 服务人员：" +user.getName()+",请在我的工单里面查收";
+        }if("3".equals(type)){
+            title = "订单派工离开签到";
+            content = "订单编号" + order.getId() + " 服务人员：" +user.getName()+",请在我的工单里面查收";
+        }
+
+        saveMsg(UserRole.MANAGER, pub,user, title,content );
 
         return BaseDto.newDto(APIStatus.success);
     }

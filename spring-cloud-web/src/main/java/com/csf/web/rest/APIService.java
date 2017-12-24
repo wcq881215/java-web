@@ -205,6 +205,24 @@ public class APIService {
         }
     }
 
+    protected void saveMsg(UserRole role, User recieve, User user, String title, String content) {
+        if(recieve == null){
+            saveMsg(role,user,title,content);
+            return;
+        }
+        Message message = new Message();
+        message.setContent(content);
+        message.setTitle(title);
+        message.setTime(new Date());
+        message.setState(true);
+        message.setUser(user);
+        Message msg = message;
+        msg.setUid(recieve.getId());
+        msg.setDept(recieve.getDept());
+        msg.setTeam(recieve.getTeam());
+        messageService.saveMsg(msg);
+    }
+
 
     protected static final SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
     protected static final SimpleDateFormat dsf = new SimpleDateFormat("yyyyMMdd");
