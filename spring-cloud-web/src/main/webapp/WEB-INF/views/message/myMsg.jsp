@@ -103,8 +103,8 @@
             html += "<p class='order-add1'>" + data.title + "</p>";
             html += "<hr>";
             html += "<div class='address-cz'>";
-            html += "<label class='am-radio am-warning'>" + data.time + "</label>";
-            html += "<a target='_top' class='hide' href='/web/msg/detail/" + data.id + "'>查看详情</a>";
+            html += "<label class=' am-warning'>" + data.time + "</label>";
+            html += "<a target='_top' class='' href='/web/msg/detail/" + data.id + "'>查看详情</a>";
             html += "<a target='_top' class='hide' href=''>删除</a>";
             html += "</div>";
             html += "</li>";

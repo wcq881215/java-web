@@ -190,7 +190,7 @@
                 if(json.code ==  '200'){
                     alertMess("签到成功");
                 }else{
-                    alertMess("操作失败");
+                    alertMess("签到失败");
                 }
             }
         });

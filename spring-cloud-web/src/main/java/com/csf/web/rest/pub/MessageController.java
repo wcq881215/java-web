@@ -86,6 +86,7 @@ public class MessageController extends APIService {
     public String queryMsg(@PathVariable("id") Long id){
         Message msg = messageService.findOne(id);
         attr("data",msg);
+
         return "/message/detail";
     }
 

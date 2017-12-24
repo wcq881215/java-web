@@ -340,3 +340,13 @@ CREATE TABLE app_sign (
   time   TIMESTAMP COMMENT '定位时间',
   PRIMARY KEY (id)
 )ENGINE = InnoDB  DEFAULT CHARSET = utf8;
+
+-- 消息阅读
+DROP TABLE IF EXISTS app_message_reader;
+CREATE TABLE app_message_reader (
+  id         INT AUTO_INCREMENT,
+  uid   INT (10)  NOT NULL  COMMENT 'user id',
+  mid   INT (10)  NOT NULL  COMMENT 'message id',
+  time   TIMESTAMP COMMENT '阅读时间',
+  PRIMARY KEY (id)
+)ENGINE = InnoDB  DEFAULT CHARSET = utf8;

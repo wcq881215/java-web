@@ -27,7 +27,7 @@
 </div>
 <ul class="member-nav">
     <li><a href="/user/self.html"><i class="am-icon-map-marker"></i><span>个人资料</span></a></li>
-    <li><a href="/user/notify.html"><i class="am-icon-bell-o"></i><span>系统通知</span></a></li>
+    <li class="hide" ><a href="/user/notify.html"><i class="am-icon-bell-o"></i><span>系统通知</span></a></li>
     <li><a href="/web/about.html"><i class="am-icon-credit-card"></i><span>关于系统</span></a></li>
     <li><a href="/web/contact.html"><i class="am-icon-phone"></i>联系我们</a></li>
 </ul>
