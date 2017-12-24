@@ -125,7 +125,6 @@ public class DeviceController extends FileUploadService {
             deviceService.saveDeviceImg(im);
         }
 
-
         return BaseDto.newDto("");
     }
 }

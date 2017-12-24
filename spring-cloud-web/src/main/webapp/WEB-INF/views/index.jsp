@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="/css/amazeui.min.css"/>
     <link rel="stylesheet" href="/css/style.css"/>
     <script type="text/javascript" src="/js/jquery-1.10.2.js"></script>
-    <script type="text/javascript" src="/js/location.js?v=1.3"></script>
+    <script type="text/javascript" src="/js/location.js?v=1.4"></script>
 
 </head>
 <body style="background: rgb(50, 149, 251);">

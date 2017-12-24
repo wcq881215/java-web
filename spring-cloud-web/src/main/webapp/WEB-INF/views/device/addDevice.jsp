@@ -69,7 +69,7 @@
 
                 </select>
             </div>
-            <input type="text" placeholder="设备数量" id="number" name="number" class="tab-input"/>
+            <input type="number" placeholder="设备数量" id="number" name="number" class="tab-input"/>
             <input type="text" placeholder="销售价格" id="price" name="price" class="tab-input"/>
             <textarea placeholder="填写设备简介" id="_desc" name="_desc" class="tab-input"
                       style="height:300px;"></textarea>
