@@ -49,12 +49,12 @@
             <p>常见维修问题</p>
         </a>
     </li>
-    <%--<li>--%>
-    <%--<a href="/admin/service.html">--%>
-    <%--<img src="/images/fw.png"/>--%>
-    <%--<p>服务内容</p>--%>
-    <%--</a>--%>
-    <%--</li>--%>
+    <li>
+        <a href="/attach/add.html">
+            <img src="/images/fw.png"/>
+            <p>配件库</p>
+        </a>
+    </li>
     <li>
         <a href="/admin/video.html">
             <img src="/images/az.png"/>
