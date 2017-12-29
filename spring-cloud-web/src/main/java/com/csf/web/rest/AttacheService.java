@@ -1,5 +1,12 @@
 package com.csf.web.rest;
 
+import com.csf.web.entity.Attach;
+import com.csf.web.entity.AttachImg;
+import com.csf.web.repository.AttachDao;
+import com.csf.web.repository.AttachImgDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -8,5 +15,25 @@ import org.springframework.stereotype.Service;
 @Service
 public class AttacheService {
 
+    @Autowired
+    private AttachDao attachDao;
 
+    @Autowired
+    private AttachImgDao attachImgDao;
+
+    public Attach save(Attach attach) {
+        return attachDao.save(attach);
+    }
+
+    public void saveAttachImg(AttachImg image) {
+        attachImgDao.save(image);
+    }
+
+    public Page<Attach> findAttach(Pageable pageable) {
+        return attachDao.findAll(pageable);
+    }
+
+    public Attach findById(Long id) {
+        return attachDao.findOne(id);
+    }
 }

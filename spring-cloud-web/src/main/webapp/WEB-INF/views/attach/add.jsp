@@ -12,9 +12,6 @@
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script type="text/javascript" src="/js/amazeui.min.js"></script>
     <link type="text/css" rel="stylesheet" href="/mobile/zdialog.css"/>
-    <script type="text/javascript" src="/mobile/jquery-1.11.2.min.js"></script>
-    <script type="text/javascript" src="/mobile/zdialog.js"></script>
-    <script type="text/javascript" src="/js/alert.js?v=1.0"></script>
     <link rel="stylesheet" href="/css/ssi-uploader.min.css"/>
     <style type="text/css">
 
@@ -82,7 +79,7 @@
             </div>
 
             <br><br>
-            <button type="button" onclick="addDevice()" class="tab-btn">确认</button>
+            <button type="button" onclick="addAttach()" class="tab-btn">确认</button>
 
         </div>
 
@@ -121,12 +118,12 @@
 <script type="text/javascript">
 
 
-
-    function addDevice() {
+    function addAttach() {
 
         var name = $('#name').val();
         var price = $('#price').val();
         var product = $('#product').val();
+        var _desc = $('#_desc').val();
 
         if (name == '') {
             alertMess("请输入配件名称");
@@ -147,10 +144,10 @@
             type: "post",
             url: "${pageContext.request.contextPath}/web/attach/add",
             dataType: 'json',
-            data: 'name=' + name + '&price=' + price + '&product=' + product ,
+            data: 'name=' + name + '&price=' + price + '&product=' + product +"&_desc="+_desc,
             success: function (json) {
                 if (json.code == '200') {
-                    var did = json.obj.id;
+                    var aid = json.obj.id;
                     var img = "";
                     var fname = "";
                     var type = "";
@@ -161,10 +158,10 @@
                     });
 
                     $.ajax({
-                        url: '/web/device/image',
+                        url: '/web/attach/image',
                         type: 'POST',
                         data: {
-                            did: did,
+                            aid: aid,
                             img: img,
                             type: type,
                             alt: fname

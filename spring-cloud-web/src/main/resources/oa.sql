@@ -350,3 +350,30 @@ CREATE TABLE app_message_reader (
   time   TIMESTAMP COMMENT '阅读时间',
   PRIMARY KEY (id)
 )ENGINE = InnoDB  DEFAULT CHARSET = utf8;
+
+-- 配件库
+DROP TABLE IF EXISTS app_attach;
+CREATE TABLE app_attach (
+  id         INT AUTO_INCREMENT,
+  uid   INT (30)  NOT NULL  COMMENT 'submit user id',
+  name      VARCHAR(200)    COMMENT '名称',
+  price DOUBLE (12,2) COMMENT '单价',
+  product      VARCHAR(200)    COMMENT 'product名称',
+  _desc      VARCHAR(200)    COMMENT '简介',
+  time   TIMESTAMP COMMENT '发布时间',
+  state  tinyint DEFAULT 1 COMMENT '状态 0不可用 1可用',
+  PRIMARY KEY (id)
+)ENGINE = InnoDB  DEFAULT CHARSET = utf8;
+
+-- 配件库 图片
+DROP TABLE IF EXISTS app_attach_img;
+CREATE TABLE app_attach_img (
+  id         INT AUTO_INCREMENT,
+  aid   INT (30)  NOT NULL  COMMENT 'attach id',
+  src   VARCHAR(500) NOT NULL  COMMENT '图片url',
+  path   VARCHAR(500) NOT NULL  COMMENT '图片路径',
+  alt        VARCHAR(200)   COMMENT 'alt 原始文件名称',
+  upload   DATE COMMENT '上传时间',
+  state  BOOLEAN COMMENT '状态 0 不可用 1可用',
+  PRIMARY KEY (id)
+)ENGINE = InnoDB  DEFAULT CHARSET = utf8;

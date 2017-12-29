@@ -3,74 +3,103 @@ package com.csf.web.rest.pub;
 import com.csf.web.constants.OAConstants;
 import com.csf.web.dto.APIStatus;
 import com.csf.web.dto.BaseDto;
-import com.csf.web.entity.Case;
-import com.csf.web.entity.CaseImg;
+import com.csf.web.entity.Attach;
+import com.csf.web.entity.AttachImg;
 import com.csf.web.entity.Image;
 import com.csf.web.entity.User;
-import com.csf.web.rest.APIService;
 import com.csf.web.rest.AttacheService;
-import com.csf.web.service.CaseService;
-import com.csf.web.service.SignService;
-import com.csf.web.util.DateUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.IOException;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by changqi.wu on 17-10-6.
  */
 @Controller
 @RequestMapping("/web/attach")
-public class AttachController extends APIService {
+public class AttachController extends FileUploadService {
 
     @Autowired
     private AttacheService attacheService;
 
     @RequestMapping("/add")
     @ResponseBody
-    public BaseDto addTick( String title, String content) {
-
-        return BaseDto.newDto("");
+    public BaseDto addTick(String name, Double price, String product, String _desc) {
+        Attach attach = new Attach();
+        attach.setTime(new Date());
+        User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
+        attach.setUser(user);
+        attach.setDesc(_desc);
+        attach.setName(name);
+        attach.setPrice(price);
+        attach.setProduct(product);
+        attach.setState(true);
+        attach = attacheService.save(attach);
+        return BaseDto.newDto(attach);
     }
 
-    @RequestMapping("/update")
+    @RequestMapping("/image")
     @ResponseBody
-    public BaseDto uploadImg(String img, Long cid, String type, String alt,
+    public BaseDto uploadImg(String img, Long aid, String type, String alt,
                              HttpServletRequest request) {
-
-
+        if (aid == null) {
+            return BaseDto.newDto(APIStatus.failure);
+        }
+        if (StringUtils.isBlank(img)) {
+            return BaseDto.newDto("");
+        }
+        String imgs[] = img.split("##@##");
+        String types[] = type.split("##@##");
+        String alts[] = alt.split("##@##");
+        for (int i = 0; i < imgs.length; i++) {
+            String imag = imgs[i];
+            Image image = saveImage(imag, types[i], request);
+            AttachImg im = new AttachImg();
+            im.setUpload(image.getTime());
+            im.setState(true);
+            im.setSrc(image.getUrl());
+            im.setAid(aid);
+            im.setAlt(alts[i]);
+            im.setPath(image.getPath());
+            attacheService.saveAttachImg(im);
+        }
 
         return BaseDto.newDto("");
     }
+
 
     @RequestMapping("/list")
     @ResponseBody
-    public BaseDto listDevice(Integer page, Integer pageSize, String key, String period, String type, String sort) {
-
-
-        return BaseDto.newDto("");
+    public BaseDto listAttach(Integer page, Integer pageSize) {
+        if (page == null) {
+            page = 0;
+        }
+        if (pageSize == null) {
+            pageSize = 20;
+        }
+        Sort sort = new Sort(Sort.Direction.DESC, "time");
+        Pageable pageable = new PageRequest(page, pageSize, sort);
+        Page<Attach> data = attacheService.findAttach(pageable);
+        return BaseDto.newDto(data);
     }
 
 
     @RequestMapping("/detail/{id}")
     public String detailDevice(@PathVariable("id") Long id) {
-
-        attr("data", "");
+        Attach data = attacheService.findById(id);
+        attr("data", data);
         return "/technician/detail";
     }
-
 
 
 }
