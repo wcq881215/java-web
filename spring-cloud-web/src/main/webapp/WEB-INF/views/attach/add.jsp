@@ -15,30 +15,38 @@
     <script type="text/javascript" src="/mobile/jquery-1.11.2.min.js"></script>
     <script type="text/javascript" src="/mobile/zdialog.js"></script>
     <script type="text/javascript" src="/js/alert.js?v=1.0"></script>
+    <link rel="stylesheet" href="/css/ssi-uploader.min.css"/>
+    <style type="text/css">
 
-    <style>
-        .am-tab-panel {
-            font-size: 14px;
+        .file {
+            position: relative;
+            display: inline-block;
+            border-radius: 4px;
+            padding: 0px;
+            overflow: hidden;
+            color: #1E88C7;
+            text-decoration: none;
+            text-indent: 0;
+            line-height: 20px;
         }
 
-        .am-tab-panel li label {
-            width: 93px;
-            line-height: 35px;
-            height: 35px;
+        .file input {
+            position: absolute;
+            font-size: 100px;
+            right: 0;
+            top: 0;
+            opacity: 0;
         }
 
-        .am-tab-panel li .tab-input {
-            width: calc(98% - 93px);
+        .img-space img {
+            width: 80px;
+            height: 80px;
         }
 
-        .am-tab-panel li input {
-            padding-bottom: 5px;
-            margin: 7px auto;
-        }
     </style>
-</head>
-<body style="background: rgb(50, 149, 251);">
 
+</head>
+<body>
 <header data-am-widget="header" class="am-header am-header-default header"
         style="width:100%;position:fixed; z-index:1000;top:0;left:0;">
     <div class="am-header-left am-header-nav">
@@ -46,39 +54,76 @@
             <i class="am-header-icon am-icon-angle-left"></i>
         </a>
     </div>
-    <h1 class="am-header-title"><a href="#title-link" class="" style="color: #333;">开户</a></h1>
+    <h1 class="am-header-title"><a href="#title-link" class="" style="color: #333;">配件库</a></h1>
     <div class="am-header-right am-header-nav">
         <a href="#right-link" class=""> </a>
     </div>
 </header>
 
-<div class="page zShow" id="couponDetail" refresh="0" style="background: rgb(50, 149, 251); margin-top:120px;">
-    <div class="coupon-wrap">
 
-        <div class="am-tabs-bd">
+<div class="am-tabs qiehuan" data-am-tabs style="margin-top:50px; ">
+    <div class="am-tabs-bd">
+        <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+            <input type="text" placeholder="配件名称" id="name" name="name" class="tab-input"/>
+            <input type="number" placeholder="价格" id="price" name="price" class="tab-input"/>
+            <input type="text" placeholder="所属产品" id="product" name="product" class="tab-input"/>
 
-            <div class="am-tab-panel am-fade am-in am-active" id="tab1">
-                <li>
+            <textarea placeholder="填写配件简介" id="_desc" name="_desc" class="tab-input"
+                      style="height:300px;"></textarea>
 
-                    <label>配件名称：</label>
-                    <input type="text" placeholder="" id="name" name="name" value="" class="tab-input"/>
-                    <label>价格：</label>
-                    <input type="number" placeholder="" name="price" id="price" value="" class="tab-input"/>
-                    <label>所属产品：</label>
-                    <input type="text" placeholder="" name="product" id="product" value="" class="tab-input"/>
+            <label style="color:#716f6f">添加配件图片：</label>
+            <div class="img-space"
+                 style=" background:#f2f2f2; border-color:#939393; height:auto; width:100%; margin-bottom:20px;z-index:-1000">
+                <a href="javascript:void(0)" class="file">
+                    <input type="file" name="file" id="select_file">
+                    <img src="/images/img.png" onclick="">
+                </a>
 
             </div>
+
+            <br><br>
+            <button type="button" onclick="addDevice()" class="tab-btn">确认</button>
+
         </div>
+
+
     </div>
-
-    <div class="receive-btn" onclick="addAttach()" style="background: rgb(255, 255, 255);color:#565656">确 认</div>
-
 </div>
-</body>
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/amazeui.min.js"></script>
+<link type="text/css" rel="stylesheet" href="/mobile/zdialog.css"/>
+<script type="text/javascript" src="/mobile/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="/mobile/zdialog.js"></script>
+<script type="text/javascript" src="/js/alert.js?v=1.0"></script>
+<script type="text/javascript" src="/js/ssi-uploader.min.js"></script>
+
+<script type="text/javascript">
+
+    $(".file").on("change", "input[type='file']", function () {
+        var file = this.files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                var txt = event.target.result;
+                var img = document.createElement("img");
+                img.src = txt;
+                img.alt = file.name;
+                img.title = file.type;
+                $('.img-space').append(img);
+            };
+        }
+        reader.readAsDataURL(file);
+    });
+
+</script>
+
 <script type="text/javascript">
 
 
-    function addAttach() {
+
+    function addDevice() {
+
         var name = $('#name').val();
         var price = $('#price').val();
         var product = $('#product').val();
@@ -96,23 +141,51 @@
             return;
         }
 
-        //添加
+
+
         $.ajax({
             type: "post",
             url: "${pageContext.request.contextPath}/web/attach/add",
             dataType: 'json',
             data: 'name=' + name + '&price=' + price + '&product=' + product ,
             success: function (json) {
-                if (json.code != '200') {
-                    alertMess(json.msg);
+                if (json.code == '200') {
+                    var did = json.obj.id;
+                    var img = "";
+                    var fname = "";
+                    var type = "";
+                    $('.img-space > img').each(function () {
+                        img += $(this).attr("src") + "##@##";
+                        fname += $(this).attr("alt") + "##@##";
+                        type += $(this).attr("title") + "##@##";
+                    });
+
+                    $.ajax({
+                        url: '/web/device/image',
+                        type: 'POST',
+                        data: {
+                            did: did,
+                            img: img,
+                            type: type,
+                            alt: fname
+                        }, success: function (json) {
+                             alertMess("上传成功");
+                            location.href = "/admin/work";
+                        }
+                    });
+
                 } else {
-                    alertMess('操作成功');
-                    location.href = "/admin/work";
+                    alertMess(json.msg);
                 }
             }
         });
 
+        return true;
     }
 
+
 </script>
+</body>
+
 </html>
+
