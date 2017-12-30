@@ -30,7 +30,7 @@
 </header>
 
 <div>
-    <ul class="address-list" id="data-gallery" style="margin-top:70px; ">
+    <ul class="address-list" id="data-gallery" style="margin-top:70px;padding-left: 0px;">
 
 
     </ul>
