@@ -2,10 +2,12 @@ package com.csf.web.filter;
 
 import com.csf.web.constants.OAConstants;
 import com.csf.web.entity.User;
+import com.csf.web.service.ServiceUtil;
 import org.apache.log4j.Logger;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Enumeration;
@@ -81,7 +83,21 @@ public class SessionFilter implements HandlerInterceptor {
         } else {
             User user = (User) httpServletRequest.getSession().getAttribute(OAConstants.SESSION_USER);
             if (user == null) {
-                user = new User();
+                Cookie[] cookies = httpServletRequest.getCookies();
+                String usename = null;
+                String password = null;
+                for(Cookie ck:cookies){
+                    if(OAConstants.COOKIE_USER_NAME.equals(ck.getName())){
+                        usename = ck.getValue();
+                        continue;
+                    }
+                    if(OAConstants.COOKIE_USER_PASSWORD.equals(ck.getName())){
+                        password = ck.getValue();
+                        continue;
+                    }
+                }
+                user =  ServiceUtil.login(usename,password);
+//                user = new User();
                 httpServletRequest.getSession().setAttribute(OAConstants.SESSION_USER, user);//创建临时用户 用于无登陆访问首页
             }
             if (checkInPath(httpServletRequest.getRequestURI())) {

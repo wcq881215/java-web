@@ -57,7 +57,7 @@
     function init() {
         var htm = createHtmlNoData();
         if (!ajaxFlag) {
-            $('#data-gallery').append(htm);
+//            $('#data-gallery').append(htm);
             return;
         }
         var period = $('#period').val();
