@@ -3,6 +3,7 @@ package com.csf.web.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by changqi.wu on 17-10-12.
@@ -37,6 +38,9 @@ public class Attach implements Serializable {
     private Date time;
     @Column
     private Boolean state;
+
+    @OneToMany(mappedBy = "aid")
+    private List<AttachImg> imgs;
 
     public Long getId() {
         return id;
@@ -100,5 +104,13 @@ public class Attach implements Serializable {
 
     public void setState(Boolean state) {
         this.state = state;
+    }
+
+    public List<AttachImg> getImgs() {
+        return imgs;
+    }
+
+    public void setImgs(List<AttachImg> imgs) {
+        this.imgs = imgs;
     }
 }

@@ -98,7 +98,7 @@ public class AttachController extends FileUploadService {
     public String detailDevice(@PathVariable("id") Long id) {
         Attach data = attacheService.findById(id);
         attr("data", data);
-        return "/technician/detail";
+        return "/attach/detail";
     }
 
 

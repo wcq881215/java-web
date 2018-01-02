@@ -60,6 +60,14 @@
             <p>常规设备保养技巧</p>
         </a>
     </li>
+
+    <li>
+    <a href="/attach/query.html">
+        <img src="/images/bx.png"/>
+        <p>配件库</p>
+    </a>
+    </li>
+
 </ul>
 
 <div data-am-widget="titlebar" class="am-titlebar am-titlebar-default title">
