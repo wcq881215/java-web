@@ -86,18 +86,20 @@ public class SessionFilter implements HandlerInterceptor {
                 Cookie[] cookies = httpServletRequest.getCookies();
                 String usename = null;
                 String password = null;
-                for(Cookie ck:cookies){
-                    if(OAConstants.COOKIE_USER_NAME.equals(ck.getName())){
+                for (Cookie ck : cookies) {
+                    if (OAConstants.COOKIE_USER_NAME.equals(ck.getName())) {
                         usename = ck.getValue();
                         continue;
                     }
-                    if(OAConstants.COOKIE_USER_PASSWORD.equals(ck.getName())){
+                    if (OAConstants.COOKIE_USER_PASSWORD.equals(ck.getName())) {
                         password = ck.getValue();
                         continue;
                     }
                 }
-                user =  ServiceUtil.login(usename,password);
-//                user = new User();
+                user = ServiceUtil.login(usename, password);
+                if (user == null) {
+                    user = new User();
+                }
                 httpServletRequest.getSession().setAttribute(OAConstants.SESSION_USER, user);//创建临时用户 用于无登陆访问首页
             }
             if (checkInPath(httpServletRequest.getRequestURI())) {

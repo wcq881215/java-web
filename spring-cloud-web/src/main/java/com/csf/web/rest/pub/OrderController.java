@@ -481,13 +481,13 @@ public class OrderController extends APIService {
         //1： 出发签到，2：到达签到，3：离开签到 '
         if("1".equals(type)){
             title = "订单派工出发签到";
-            content = "订单编号" + order.getId() + " 服务人员：" +user.getName()+",请在我的工单里面查收";
+            content = "订单编号" + order.getId() + " 服务人员：" +user.getName()+",当前位置:"+address;
         }else if("2".equals(type)){
             title = "订单派工到达签到";
-            content = "订单编号" + order.getId() + " 服务人员：" +user.getName()+",请在我的工单里面查收";
+            content = "订单编号" + order.getId() + " 服务人员：" +user.getName()+",当前位置:"+address;
         }if("3".equals(type)){
             title = "订单派工离开签到";
-            content = "订单编号" + order.getId() + " 服务人员：" +user.getName()+",请在我的工单里面查收";
+            content = "订单编号" + order.getId() + " 服务人员：" +user.getName()+",当前位置:"+address;
         }
 
         saveMsg(UserRole.MANAGER, pub,user, title,content );
