@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,8 +31,24 @@ public class UserService {
     }
 
     public Page<User> findAll(Integer page, Integer pageSize) {
-        Pageable pageable = new PageRequest(page, pageSize);
+        Sort sort = new Sort(Sort.Direction.DESC,"s_time");
+        Pageable pageable = new PageRequest(page, pageSize,sort);
         return userDao.findAll(pageable);
+    }
+
+    public Page<User> findUser(String name,String mobile,Integer page, Integer pageSize) {
+        Sort sort = new Sort(Sort.Direction.DESC,"s_time");
+        Pageable pageable = new PageRequest(page, pageSize,sort);
+        if (StringUtils.isBlank(mobile)) {
+            mobile = "";
+        }
+        mobile = "%" + mobile + "%";
+
+        if (StringUtils.isBlank(name)) {
+            name = "";
+        }
+        name = "%" + name + "%";
+        return userDao.findUser(mobile,name,pageable);
     }
 
     public Page<User> findAllInner(String key, String type ,Integer page, Integer pageSize) {
@@ -75,4 +92,7 @@ public class UserService {
     }
 
 
+    public void delete(Long id) {
+        userDao.delete(id);
+    }
 }

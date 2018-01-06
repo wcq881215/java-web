@@ -4,6 +4,7 @@ import com.csf.web.entity.Attach;
 import com.csf.web.entity.AttachImg;
 import com.csf.web.repository.AttachDao;
 import com.csf.web.repository.AttachImgDao;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +32,15 @@ public class AttacheService {
 
     public Page<Attach> findAttach(Pageable pageable) {
         return attachDao.findAll(pageable);
+    }
+
+    public Page<Attach> searchAttach(String name ,Pageable pageable) {
+        if(StringUtils.isBlank(name)){
+            name = "";
+        }
+        name = "%" + name + "%";
+
+        return attachDao.findByNameLike(name,pageable);
     }
 
     public Attach findById(Long id) {

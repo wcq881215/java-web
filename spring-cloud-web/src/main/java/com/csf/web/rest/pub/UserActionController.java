@@ -149,6 +149,14 @@ public class UserActionController extends APIService {
         return BaseDto.newDto(userService.findAllInner(key,page, pageSize));
     }
 
+    @RequestMapping("/delete")
+    public BaseDto delete(Long id) {
+        if(id == null){
+            return BaseDto.newDto(APIStatus.param_error);
+        }
+        userService.delete(id);
+        return BaseDto.newDto(APIStatus.success);
+    }
 
 
 }
