@@ -65,11 +65,48 @@
                     <label>购买设备号：</label>
                     <input type="text" placeholder="购买设备号" name="sn" id="sn" value="" class="tab-input"/>
                     <label>登陆用户名：</label>
-                    <input type="text" placeholder="登陆用户名" name="username" id="reg_username" value="" class="tab-input"/>
+                    <input type="text" placeholder="登陆用户名" name="username" id="reg_username" value=""
+                           class="tab-input"/>
                     <label>姓名：</label>
                     <input type="text" placeholder="姓名" name="name" id="name" value="" class="tab-input"/>
                     <label>电话：</label>
                     <input type="text" placeholder="电话" name="phone" id="phone" value="" class="tab-input"/>
+                    <div>
+                        <label>地区：</label>
+                        <select name="area" id = "area">
+                            <option value = ' 北京市'> 北京市</option>
+                            <option value = ' 上海市'> 上海市</option>
+                            <option value = ' 天津市'> 天津市</option>
+                            <option value = ' 重庆市'> 重庆市</option>
+                            <option value = ' 陕西省'> 陕西省</option>
+                            <option value = ' 甘肃省'> 甘肃省</option>
+                            <option value = ' 四川省'> 四川省</option>
+                            <option value = ' 山西省'> 山西省</option>
+                            <option value = ' 河南省'> 河南省</option>
+                            <option value = ' 湖北省'> 湖北省</option>
+                            <option value = ' 内蒙古自治区'> 内蒙古自治区</option>
+                            <option value = ' 新疆维吾尔族自治区'> 新疆维吾尔族自治区</option>
+                            <option value = ' 安徽省'> 安徽省</option>
+                            <option value = ' 宁夏回族自治区'> 宁夏回族自治区</option>
+                            <option value = ' 山东省'> 山东省</option>
+                            <option value = ' 河北省'> 河北省</option>
+                            <option value = ' 西藏自治区'> 西藏自治区</option>
+                            <option value = ' 黑龙江省'> 黑龙江省</option>
+                            <option value = ' 吉林省'> 吉林省</option>
+                            <option value = ' 辽宁省'> 辽宁省</option>
+                            <option value = ' 江苏省'> 江苏省</option>
+                            <option value = ' 江西省'> 江西省</option>
+                            <option value = ' 福建省'> 福建省</option>
+                            <option value = ' 广东省'> 广东省</option>
+                            <option value = ' 湖南省'> 湖南省</option>
+                            <option value = ' 云南省'> 云南省</option>
+                            <option value = ' 广西壮族自治区'> 广西壮族自治区</option>
+                            <option value = ' 浙江省'> 浙江省</option>
+                            <option value = ' 海南省'> 海南省</option>
+                            <option value = ' 青海省'> 青海省</option>
+                            <option value = ' 贵州省'> 贵州省</option>
+                        </select>
+                    </div>
                     <label>登陆密码：</label>
                     <input type="text" placeholder="设置密码" name="reg_password" id="reg_password" class="tab-input"/>
                     <label>确认密码：</label>
@@ -129,13 +166,13 @@
             type: "get",
             url: "${pageContext.request.contextPath}/web/user/register",
             dataType: 'json',
-            data: 'name=' + name + '&password=' + password + '&sn=' + sn + '&phone=' + phone+ '&username=' + username+ '&mobno=' + mid+ '&role=购机客户'+'&device=' + sn,
+            data: 'name=' + name + '&password=' + password + '&sn=' + sn + '&phone=' + phone + '&username=' + username + '&mobno=' + mid + '&role=购机客户' + '&device=' + sn+'&area='+area,
             success: function (json) {
                 if (json.code != '200') {
                     alertMess('提交失败');
                 } else {
                     alertMess('注册成功');
-                    location.href = "/user/login?username="+username+"&password="+password+"&mid"+mid;
+                    location.href = "/user/login?username=" + username + "&password=" + password + "&mid" + mid;
                 }
             }
         });

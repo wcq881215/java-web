@@ -10,6 +10,7 @@
         <th>用户名</th>
         <th>电话</th>
         <th>角色</th>
+        <th>地区</th>
         <th>注册时间</th>
         <th>操作</th>
     </tr>
@@ -22,6 +23,7 @@
             <td>${list.username }</td>
             <td>${list.phone }</td>
             <td>${list.role }</td>
+            <td>${list.area }</td>
             <td><fmt:formatDate value="${list.s_time }" pattern="yyyy-MM-dd"></fmt:formatDate></td>
             <td>
                 <a href="javascript:deluser(${list.id})">删除</a>

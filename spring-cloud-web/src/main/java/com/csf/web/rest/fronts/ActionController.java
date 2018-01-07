@@ -46,19 +46,19 @@ public class ActionController extends APIService {
     }
 
     @RequestMapping("/user/list")
-    public String userList(String name, String mobile, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "30") Integer pageSize) {
+    public String userList(String name, String mobile, String area,@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "30") Integer pageSize) {
         page = page - 1; //实际下标  ： 页码 -1
         System.out.println(String.format(" user name %s ,mobile %s", name, mobile));
-        Page<User> data = userService.findUser(name, mobile, page, pageSize);
+        Page<User> data = userService.findUser(name, mobile, area,page, pageSize);
         attr("data", data);
         return "/facade/userListAjax";
     }
 
     @RequestMapping("/user/list/ajax")
     @ResponseBody
-    public Page userListAjax(String name, String mobile, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "30") Integer pageSize) {
+    public Page userListAjax(String name, String mobile, String area,@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "30") Integer pageSize) {
         System.out.println(String.format(" user name %s ,mobile %s", name, mobile));
-        Page<User> data = userService.findUser(name, mobile, page, pageSize);
+        Page<User> data = userService.findUser(name, mobile,area, page, pageSize);
         return data;
     }
 

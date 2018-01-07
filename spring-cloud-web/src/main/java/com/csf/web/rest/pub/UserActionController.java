@@ -2,10 +2,12 @@ package com.csf.web.rest.pub;
 
 import com.csf.web.dto.APIStatus;
 import com.csf.web.dto.BaseDto;
+import com.csf.web.entity.Device;
 import com.csf.web.entity.User;
 import com.csf.web.entity.UserRole;
 import com.csf.web.rest.APIService;
 import com.csf.web.rest.UserController;
+import com.csf.web.service.DeviceService;
 import com.csf.web.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -29,6 +31,9 @@ public class UserActionController extends APIService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private DeviceService deviceService;
+
     @RequestMapping("/login")
     public BaseDto login(String username, String password,String mid) throws UnsupportedEncodingException {
         User user = userService.login(username, password);
@@ -46,6 +51,12 @@ public class UserActionController extends APIService {
         HttpSession session = request.getSession();
 
         store(session, response, user, role);
+
+        if ("购机客户".equals(user.getRole())) {
+            String device = user.getDevice();
+            Boolean right = deviceService.existDevice(device);
+            session.setAttribute("cust_right",right);
+        }
 
         /****存cookie end***/
 
@@ -66,6 +77,13 @@ public class UserActionController extends APIService {
         userService.saveUser(user);
 
         store(request.getSession(), response, user, UserRole.CUSTOMER.getRole());
+
+        if ("购机客户".equals(user.getRole())) {
+            String device = user.getDevice();
+            Boolean right = deviceService.existDevice(device);
+            request.getSession().setAttribute("cust_right",right);
+        }
+
         return ajaxSuccess(user);
     }
 
@@ -78,6 +96,11 @@ public class UserActionController extends APIService {
         user.setS_time(new Date());
         user.setState(true);
         user = userService.saveUser(user);
+        if ("购机客户".equals(user.getRole())) {
+            String device = user.getDevice();
+            Boolean right = deviceService.existDevice(device);
+            request.getSession().setAttribute("cust_right",right);
+        }
         return BaseDto.newDto(user);
     }
 

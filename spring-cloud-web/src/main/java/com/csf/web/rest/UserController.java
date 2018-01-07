@@ -7,6 +7,7 @@ import com.csf.web.entity.Location;
 import com.csf.web.entity.SysConfig;
 import com.csf.web.entity.User;
 import com.csf.web.entity.UserRole;
+import com.csf.web.service.DeviceService;
 import com.csf.web.service.LocationService;
 import com.csf.web.service.UserService;
 import com.csf.web.util.JsonUtils;
@@ -37,6 +38,9 @@ public class UserController extends APIService {
     private UserService userService;
 
     @Autowired
+    private DeviceService deviceService;
+
+    @Autowired
     private LocationService locationService;
 
     @RequestMapping("/login")
@@ -60,9 +64,16 @@ public class UserController extends APIService {
         if (url != null && url.startsWith("/cust/")) {
             String[] paths = url.toString().split("/");
             url = paths[paths.length - 1];
-        }else{
+        } else {
             url = "home";
         }
+
+        if ("购机客户".equals(user.getRole())) {
+            String device = user.getDevice();
+            Boolean right = deviceService.existDevice(device);
+            session.setAttribute("cust_right",right);
+        }
+
         return "forward:/" + role + "/" + url;//跳转到相应角色页面
     }
 

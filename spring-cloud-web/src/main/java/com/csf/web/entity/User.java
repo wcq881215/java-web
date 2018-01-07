@@ -23,6 +23,8 @@ public class User implements Serializable {
     @Column
     private String name;
     @Column
+    private String area;
+    @Column
     private String mobno;
     @Column
     private String phone;
@@ -133,5 +135,13 @@ public class User implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
     }
 }

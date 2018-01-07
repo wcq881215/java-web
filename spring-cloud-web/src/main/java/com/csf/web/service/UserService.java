@@ -36,7 +36,7 @@ public class UserService {
         return userDao.findAll(pageable);
     }
 
-    public Page<User> findUser(String name,String mobile,Integer page, Integer pageSize) {
+    public Page<User> findUser(String name,String mobile,String area,Integer page, Integer pageSize) {
         Sort sort = new Sort(Sort.Direction.DESC,"s_time");
         Pageable pageable = new PageRequest(page, pageSize,sort);
         if (StringUtils.isBlank(mobile)) {
@@ -48,7 +48,12 @@ public class UserService {
             name = "";
         }
         name = "%" + name + "%";
-        return userDao.findUser(mobile,name,pageable);
+
+        if (StringUtils.isBlank(area)) {
+            area = "";
+        }
+        area = "%" + area + "%";
+        return userDao.findUser(mobile,name,area,pageable);
     }
 
     public Page<User> findAllInner(String key, String type ,Integer page, Integer pageSize) {

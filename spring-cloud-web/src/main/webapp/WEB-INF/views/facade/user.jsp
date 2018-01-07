@@ -45,6 +45,7 @@
                     <h1 class="page-head-line">用户查询</h1>
                     <div class="form-group  ">
                         <input type="text" name="name" id="name" value="" placeholder="用户姓名"/>
+                        <input type="text" name="name" id="area" value="" placeholder="地区"/>
                         <input type="text" name="mobile" id="mobile" value="" placeholder="用户手机"/>
                         <input type="button" class="button btn" value="查询" onclick="search()"/>
                     </div>
@@ -96,12 +97,13 @@
     function listAjax() {
         var name = $('#name').val();
         var mobile = $('#mobile').val();
+        var area = $('#area').val();
 
         $.ajax({
             type : "post",
             url : "/fronts/user/list",
             dataType : 'html',
-            data : 'page=' + page + '&pageSize=' + pageSize+'&mobile='+mobile+'&name='+name,
+            data : 'page=' + page + '&pageSize=' + pageSize+'&mobile='+mobile+'&name='+name+'&area='+area,
             success : function(html) {
                 $('.table-responsive').html(html);
             }

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -56,12 +57,14 @@
         </a>
     </li>
 
+    <c:if test="${sessionScope.cust_right}">
     <li class="">
         <a href="/attach/query.html">
             <img src="/images/az.png"/>
             <p>配件库</p>
         </a>
     </li>
+    </c:if>
 
 
 </ul>

@@ -48,6 +48,14 @@ public class DeviceService {
         return deviceDao.findOne(id);
     }
 
+    public Boolean existDevice(String sn) {
+        Device device = deviceDao.findBySn(sn);
+        if(device == null){
+            return  false;
+        }
+        return true;
+    }
+
 
     public Device saveDevice(Device device) {
         return deviceDao.save(device);

@@ -29,6 +29,7 @@ CREATE TABLE app_user (
   username   VARCHAR(15)  NOT NULL  COMMENT '用户名',
   password   VARCHAR(32) NOT NULL  COMMENT '密码',
   name   VARCHAR(32) NOT NULL  COMMENT '姓名',
+  area   VARCHAR(100) NOT NULL  COMMENT '地区',
   mobno   VARCHAR(50) NOT NULL  COMMENT '手机识别号',
   phone        VARCHAR(15) NOT NULL  COMMENT '手机',
   role   VARCHAR(15) NOT NULL  COMMENT '角色',
