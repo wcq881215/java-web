@@ -22,7 +22,9 @@
             border-radius: 3px;
             color: #fff;
         }
-
+        .clear{
+            background-color: inherit;
+        }
 
     </style>
 </head>
@@ -107,8 +109,8 @@
             html += "<span class='c-comment-num'>订单编号：" + data.id + "</span>";
             html += "<span class='c-comment-suc'>" + stateMsg  + "</span>";
             html += "</div>";
-            html += "<div class='c-comment-list' style='border: 0;'>";
-            html += "<a class='o-con' target='_top' href='/web/order/manage/detail/"+data.id+"'>";
+            html += "<div class='c-comment-list' style='border: 0;background-color: "+data.color+"'>";
+            html += "<a class='o-con' target='_top' style='background-color:"+data.color+" '+ href='/web/order/manage/detail/"+data.id+"'>";
 
             var total = 0;
             if(data.devices && data.devices.length > 0){

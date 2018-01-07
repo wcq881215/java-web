@@ -64,6 +64,9 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private List<OrderServer> service;//服务派工
 
+    @Transient
+    private String color;
+
 
     public Long getId() {
         return id;
@@ -247,5 +250,13 @@ public class Order {
 
     public void setService(List<OrderServer> service) {
         this.service = service;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }

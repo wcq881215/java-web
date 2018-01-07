@@ -22,6 +22,11 @@
             border-radius: 3px;
             color: #fff;
         }
+
+        .clear{
+            background-color: inherit;
+        }
+
     </style>
 </head>
 <body>
@@ -124,8 +129,8 @@
             html += "<div class='c-comment'>";
             html += "<span class='c-comment-num'>订单编号：" + data.id + "</span>";
             html += "</div>";
-            html += "<div class='c-comment-list' style='border: 0;'>";
-            html += "<a target='_top' class='o-con' href='/customer/purchar/detail/"+data.id+"' >";
+            html += "<div class='c-comment-list' style='border: 0;background-color: "+data.color+"'>";
+            html += "<a class='o-con' target='_top' style='background-color:"+data.color+" '+ href='/customer/purchar/detail/"+data.id+"' >";
             html += "<div class='o-con-txt'>";
             html += "<p>" + data.type + "</p>";
             html += "</div>";

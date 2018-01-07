@@ -16,7 +16,9 @@
         .order-style li {
             width: 30%;
         }
-
+        .clear{
+            background-color: inherit;
+        }
     </style>
 </head>
 <body>
@@ -106,8 +108,8 @@
             html += "<span class='c-comment-num'>订单编号：" + data.id + "</span>";
             html += "<span class='c-comment-suc'>已发货等待安装 / "+stateMsg+"</span>";
             html += "</div>";
-            html += "<div class='c-comment-list' style='border: 0;'>";
-            html += "<a target='_top' class='o-con' href='/web/order/tech/detail/"+tech_order.id+"' >";
+            html += "<div class='c-comment-list' style='border: 0;background-color: "+data.color+"'>";
+            html += "<a class='o-con' target='_top' style='background-color:"+data.color+" '+ href='/web/order/tech/detail/"+tech_order.id+"' >";
             html += "<div class='o-con-txt'>";
             html += "<p>" + data.device + "</p>";
             html += "</div>";

@@ -16,7 +16,9 @@
         .order-style li {
             width: 30%;
         }
-
+        .clear{
+            background-color: inherit;
+        }
     </style>
 </head>
 <body>
@@ -97,8 +99,8 @@
             html += "<span class='c-comment-num'>订单编号：" + data.id + "</span>";
             html += "<span class='c-comment-suc'>" + data.state  + "</span>";
             html += "</div>";
-            html += "<div class='c-comment-list' style='border: 0;'>";
-            html += "<a class='o-con' target='_top' href='/web/order/srv/order/detail/"+data.id+"'>";
+            html += "<div class='c-comment-list' style='border: 0;background-color: "+data.color+"'>";
+            html += "<a class='o-con' target='_top' style='background-color:"+data.color+" '+ href='/web/order/srv/order/detail/"+data.id+"'>";
 
             var total = 0;
             if(data.devices && data.devices.length > 0){

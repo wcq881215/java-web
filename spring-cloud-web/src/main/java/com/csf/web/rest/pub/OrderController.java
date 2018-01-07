@@ -189,36 +189,43 @@ public class OrderController extends APIService {
 
         if ("1".equals(order.getState())) {
             order.setState("等待发货");
+            order.setColor("#b9d5f3;");
             return;
         }
         if ("2".equals(order.getState())) {
             if(CollectionUtils.isEmpty(order.getService())){
                 order.setState("待派工");
+                order.setColor("#f3b9b9");
                 return;
             }
             if(user == null){
                 order.setState("已派工");
+                order.setColor("#b9f3d6;");
                 return;
             }
             for(OrderServer u : order.getService()){
                 if(u.getUser().getId().equals(user.getId())){
                     if(u.getState().equals("0")){
                         order.setState("待接受派工");
+                        order.setColor("#e7f3b9;");
                     }else {
                         order.setState("已发货等待安装");
+                        order.setColor("#e8cec3;");
                     }
                     return;
                 }
             }
-
+            order.setColor("#b9f3d6;");
             order.setState("已派工");
             return;
         }
         if ("3".equals(order.getState())) {
             order.setState("安装完成");
+            order.setColor("#c9b1de");
             return;
         }
         if ("4".equals(order.getState())) {
+            order.setColor("#c0cec8;");
             order.setState("已完成");
             return;
         }
