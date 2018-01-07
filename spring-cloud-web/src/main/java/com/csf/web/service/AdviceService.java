@@ -3,6 +3,7 @@ package com.csf.web.service;
 import com.csf.web.entity.Advice;
 import com.csf.web.repository.AdviceDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,7 @@ public class AdviceService {
     }
 
     public List<Advice> findAll(){
-        return adviceDao.findAll();
+        Sort sort = new Sort(Sort.Direction.DESC,"time");
+        return adviceDao.findAll(sort);
     }
 }

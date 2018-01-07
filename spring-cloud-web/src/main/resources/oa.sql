@@ -92,25 +92,6 @@ CREATE TABLE app_device (
 
 INSERT  INTO  app_device (sn,_name,_desc,type,`number`,price,state,time) VALUES ('1111222333','机床螺丝','xxxxxx NB','螺丝',1000,0.1,1,now());
 
--- 设备
-DROP TABLE IF EXISTS app_device_detail;
-CREATE TABLE app_device_detail (
-  id         INT AUTO_INCREMENT,
-  sn   VARCHAR(50)  NOT NULL  COMMENT 'sn',
-  _name   VARCHAR(200) NOT NULL  COMMENT '设备名称',
-  _desc        text NOT NULL  COMMENT '简介',
-  type   VARCHAR(100) NOT NULL  COMMENT '类别',
-  pid   INT (30)  NOT NULL  COMMENT 'proxy id',
-  `number`   INT COMMENT '数量',
-  price DOUBLE (12,2) COMMENT '单价',
-  state  BOOLEAN COMMENT '状态 0 不可用 1可用',
-  time TIMESTAMP COMMENT '发布时间',
-  PRIMARY KEY (id)
-)ENGINE = InnoDB  DEFAULT CHARSET = utf8;
-
-INSERT  INTO  app_device_detail (sn,_name,_desc,type,pid,`number`,price,state,time) VALUES ('NH11222333','机床螺丝','xxxxxx NB','螺丝',1,1000,0.1,1,now());
-
-
 -- 设备图片
 DROP TABLE IF EXISTS app_device_img;
 CREATE TABLE app_device_img (
@@ -377,3 +358,19 @@ CREATE TABLE app_attach_img (
   state  BOOLEAN COMMENT '状态 0 不可用 1可用',
   PRIMARY KEY (id)
 )ENGINE = InnoDB  DEFAULT CHARSET = utf8;
+
+-- 意向设备
+DROP TABLE IF EXISTS app_purchase_device;
+CREATE TABLE app_purchase_device (
+  id         INT AUTO_INCREMENT,
+  _name   VARCHAR(200) NOT NULL  COMMENT '设备名称',
+  type   VARCHAR(100) NOT NULL  COMMENT '类别',
+  number         INT DEFAULT 1,
+  remark    VARCHAR(100)   COMMENT '备注信息',
+  state    CHAR(1)   COMMENT '处理状态', -- 1 提交 2已处理
+  time TIMESTAMP COMMENT '发布时间',
+  PRIMARY KEY (id)
+)ENGINE = InnoDB  DEFAULT CHARSET = utf8;
+
+
+

@@ -62,12 +62,14 @@
             <p>售后解决方案</p>
         </a>
     </li>
-    <li class="hide">
-        <a href=".html">
+
+    <li class="">
+        <a href="/attach/query.html">
             <img src="/images/az.png"/>
             <p>配件库</p>
         </a>
     </li>
+
     <li>
         <a href="/technician/problem.html">
             <img src="/images/az.png"/>

@@ -61,7 +61,7 @@
         </a>
     </li>
 
-    <li>
+    <li class="hide">
         <a href="/attach/query.html">
             <img src="/images/bx.png"/>
             <p>配件库</p>
@@ -73,7 +73,7 @@
 <div data-am-widget="titlebar" class="am-titlebar am-titlebar-default title">
     <h2 class="am-titlebar-title ">保养指南</h2>
     <nav class="am-titlebar-nav">
-        <a href="#more" class="">更多 &raquo;</a>
+        <a href="/web/maintain/more" class="">更多 &raquo;</a>
     </nav>
 </div>
 <div data-am-widget="intro" class="am-intro am-cf am-intro-default" style="margin-left:10px;">

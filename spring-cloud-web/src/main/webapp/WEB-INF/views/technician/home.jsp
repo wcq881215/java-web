@@ -61,7 +61,7 @@
         </a>
     </li>
 
-    <li>
+    <li class="hide">
         <a href="/attach/query.html">
             <img src="/images/bx.png"/>
             <p>配件库</p>

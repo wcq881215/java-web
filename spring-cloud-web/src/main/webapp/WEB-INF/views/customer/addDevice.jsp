@@ -39,7 +39,10 @@
 
             <li>填写设备信息
                 <input type="text" placeholder="设备名称" id="name" name="name" class="tab-input"/>
-                <input type="text" placeholder="设备型号" id="type" name="type" class="tab-input"/></li>
+                <input type="text" placeholder="设备型号" id="type" name="type" class="tab-input"/>
+                <input type="number" placeholder="设备数量" id="number" name="number" class="tab-input"/>
+
+            </li>
 
             <li>备注信息<br>
 
@@ -63,6 +66,7 @@
     function submitDevice() {
         var name = $('#name').val();
         var type = $('#type').val();
+        var number = $('#number').val();
         var remark = $('#remark').val();
         if (name == '') {
             alertMess("请输入设备名称");
@@ -74,12 +78,18 @@
             return;
         }
 
+        if (number == '') {
+            alertMess("请输入设备数量");
+            return;
+        }
+
         $.ajax({
             type: 'post',
             url: '/customer/purchar/device',
             data: {
                 name: name,
                 type: type,
+                number: number,
                 remark: remark
             },
             dataType: 'json',
@@ -91,7 +101,7 @@
                     return;
                 } else {
                     alertMess(json.msg);
-                    return
+                    return;
                 }
             }
         });

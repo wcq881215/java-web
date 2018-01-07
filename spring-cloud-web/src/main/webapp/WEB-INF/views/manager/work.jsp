@@ -37,7 +37,7 @@
 <hr>
 <ul class="nav">
 
-    <li >
+    <li>
         <a href="/order/service.html">
             <img src="/images/yscx.png"/>
             <p>订单查询</p>
@@ -51,7 +51,7 @@
         </a>
     </li>
     <li>
-        <a href="/technician/deal.html">
+        <a href="/technician/upload.html">
             <img src="/images/az.png"/>
             <p>售后解决方案</p>
         </a>
@@ -61,6 +61,13 @@
         <a href="/technician/problem.html">
             <img src="/images/az.png"/>
             <p>问题汇总</p>
+        </a>
+    </li>
+
+    <li class="">
+        <a href="attach/query.html">
+            <img src="/images/az.png"/>
+            <p>配件库</p>
         </a>
     </li>
 
@@ -76,13 +83,6 @@
         <a href="html">
             <img src="/images/cx.png"/>
             <p>设备报修</p>
-        </a>
-    </li>
-
-    <li class="hide">
-        <a href=".html">
-            <img src="/images/az.png"/>
-            <p>配件库</p>
         </a>
     </li>
 

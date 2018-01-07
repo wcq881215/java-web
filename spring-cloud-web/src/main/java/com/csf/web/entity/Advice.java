@@ -1,5 +1,7 @@
 package com.csf.web.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -20,6 +22,7 @@ public class Advice implements Serializable {
     @Column
     private String content;
     @Column
+    @JsonFormat(pattern = "yyyy-MM-dd" ,timezone = "GMT+8")
     private Date time;
     @Column
     private Boolean state;

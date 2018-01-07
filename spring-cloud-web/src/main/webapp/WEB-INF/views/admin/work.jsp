@@ -83,6 +83,13 @@
         </a>
     </li>
 
+    <li>
+        <a href="/user/add.html">
+            <img src="/images/az.png"/>
+            <p>新用户开户</p>
+        </a>
+    </li>
+
 
 </ul>
 

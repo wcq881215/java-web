@@ -50,6 +50,20 @@
         </a>
     </li>
 
+    <li>
+        <a href="/order/purchase_query.html">
+            <img src="/images/yscx.png"/>
+            <p>意向订单查询</p>
+        </a>
+    </li>
+
+    <li class="">
+        <a href="/attach/query.html">
+            <img src="/images/az.png"/>
+            <p>配件库</p>
+        </a>
+    </li>
+
 </ul>
 
 <h3 align="center" class="hide" style="padding-top:15px;">售后管理</h3>
