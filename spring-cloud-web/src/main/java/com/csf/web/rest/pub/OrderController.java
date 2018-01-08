@@ -325,7 +325,13 @@ public class OrderController extends APIService {
         if (pageSize == null) {
             pageSize = 30;
         }
-        return BaseDto.newDto(orderService.querySplitOrder(page, pageSize));
+        Page<Order> orders = orderService.querySplitOrder(page, pageSize);
+        if(orders != null && !CollectionUtils.isEmpty(orders.getContent())){
+            for(Order o : orders.getContent()){
+                setStatus(o,null);
+            }
+        }
+        return BaseDto.newDto(orders);
     }
 
     @RequestMapping("/manage/split/detail/{id}")
@@ -360,7 +366,7 @@ public class OrderController extends APIService {
         boolean isEdit = false; // 接受
         if (order != null) {
             if (!CollectionUtils.isEmpty(order.getService())) {
-                User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
+                  User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
                 for (OrderServer u : order.getService()) {
                     if (user.getId().equals(u.getUser().getId())) {
                         isEdit = true;

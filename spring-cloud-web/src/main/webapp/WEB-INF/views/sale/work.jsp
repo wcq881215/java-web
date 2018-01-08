@@ -57,7 +57,7 @@
     </li>
 
     <li>
-        <a href="/technician/deal.html">
+        <a href="/technician/upload.html">
             <img src="/images/az.png"/>
             <p>售后解决方案</p>
         </a>

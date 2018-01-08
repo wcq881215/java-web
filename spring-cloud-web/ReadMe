@@ -71,3 +71,9 @@ http://blog.csdn.net/u010394015/article/details/52038527
 
 order
 orderDevice
+
+   try {
+        iosLoacaton();
+    }catch (err){
+        console.log(err);
+    }

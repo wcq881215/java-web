@@ -65,7 +65,7 @@
     </li>
 
     <li class="">
-        <a href="attach/query.html">
+        <a href="/attach/query.html">
             <img src="/images/az.png"/>
             <p>配件库</p>
         </a>
