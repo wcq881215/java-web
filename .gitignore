@@ -2,3 +2,11 @@
 /spring-cloud-web/target/
 /spring-cloud-web/spring-cloud-web.iml
 /tools/tools.iml
+/.idea/
+/spring-boot/target/
+/spring-boot/spring-boot.iml
+/spring-cloud-jpa/target/
+/spring-cloud-jpa/.idea/
+/spring-cloud-jpa/spring-cloud-jpa.iml
+/springboot-mvc/target/
+/springboot-mvc/springboot-mvc.iml
