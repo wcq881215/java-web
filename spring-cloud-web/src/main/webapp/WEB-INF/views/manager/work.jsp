@@ -47,9 +47,17 @@
     <li class="">
         <a href="/order/service_split.html">
             <img src="/images/cx.png"/>
-            <p>服务派工</p>
+            <p>安装派工</p>
         </a>
     </li>
+
+    <li class="">
+        <a href="/order/install_split.html">
+            <img src="/images/cx.png"/>
+            <p>维修派工</p>
+        </a>
+    </li>
+
     <li>
         <a href="/technician/upload.html">
             <img src="/images/az.png"/>

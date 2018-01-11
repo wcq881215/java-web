@@ -80,7 +80,7 @@ public class AttachController extends FileUploadService {
 
     @RequestMapping("/list")
     @ResponseBody
-    public BaseDto listAttach(Integer page, Integer pageSize) {
+    public BaseDto listAttach(String key ,Integer page, Integer pageSize) {
         if (page == null) {
             page = 0;
         }
@@ -89,7 +89,7 @@ public class AttachController extends FileUploadService {
         }
         Sort sort = new Sort(Sort.Direction.DESC, "time");
         Pageable pageable = new PageRequest(page, pageSize, sort);
-        Page<Attach> data = attacheService.findAttach(pageable);
+        Page<Attach> data = attacheService.searchAttach(key,pageable);
         return BaseDto.newDto(data);
     }
 

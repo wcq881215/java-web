@@ -19,6 +19,9 @@ public class ServiceUtil {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private DeviceService deviceService;
+
     private static ServiceUtil util;
 
     @PostConstruct
@@ -26,6 +29,7 @@ public class ServiceUtil {
         util = this;
         util.orderDao = this.orderDao;
         util.userService = this.userService;
+        util.deviceService = this.deviceService;
     }
 
     public static Long getMaxId(){
@@ -34,6 +38,10 @@ public class ServiceUtil {
 
     public static User login(String username, String password){
        return util.userService.login(username,password);
+    }
+
+    public static Boolean existDevice(String sn){
+        return util.deviceService.existDevice(sn);
     }
 
 

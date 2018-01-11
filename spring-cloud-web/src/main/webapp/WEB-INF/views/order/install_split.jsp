@@ -1,10 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title>服务派工</title>
+    <title>维修派工</title>
     <meta name="description" content="正大海工"/>
     <meta name="keywords" content="正大海工"/>
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
@@ -18,60 +17,39 @@
     <script type="text/javascript" src="/js/alert.js?v=1.0"></script>
 </head>
 <body>
-<header data-am-widget="header" class="am-header am-header-default header" style="position:fixed;top:0; z-index:1000">
+
+
+<header data-am-widget="header" class="am-header am-header-default header"
+        style="width:100%;position:fixed; z-index:1000;top:0;left:0;">
     <div class="am-header-left am-header-nav">
         <a href="javascript:history.go(-1)" class="">
             <i class="am-header-icon am-icon-angle-left"></i>
         </a>
     </div>
-    <h1 class="am-header-title"><a href="#title-link" class="" style="color: #333;">服务派工</a></h1>
+    <h1 class="am-header-title"><a href="#title-link" class="" style="color: #333;">维修派工录入</a></h1>
     <div class="am-header-right am-header-nav">
         <a href="#right-link" class=""> </a>
     </div>
 </header>
-<div class="page zShow" id="couponDetail" refresh="0" style=" margin-top:120px;">
-    <div class="coupon-wrap">
-        <img src="/images/default_photo.png" alt="logo" class="logo">
-        <p class="name">时间：2017-08-20</p>
-        <h2 class="sub-title"> 订单编号：${data.id}</h2>
-        <h2 class="sub-title">订单状态：生产已发货</h2>
-        <p class="condition">设备名称：<span></span>${data.device}</p>
-        <p class="date">设备型号：<span>${data.sn}</span></p>
-        <div class="contact-wrap">
-            <p>客户姓名：${data.cust}</p>
-            <p>电话 : <span>${data.phone}</span></p>
 
+
+<div class="am-tabs qiehuan" data-am-tabs style="margin-top:70px;" id="couponDetail">
+
+    <div class="am-tabs-bd">
+        <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+            <li>客户信息
+                <input type="text" name="cust" id="cust" placeholder="负责人姓名" class="tab-input"/>
+                <input type="text" name="cphone" id="cphone" placeholder="联系方式" class="tab-input"/></li>
+            <input type="text" name="caddress" id="caddress" placeholder="联系地址" class="tab-input"/>
+            <li>订单信息<br>
+                下单时间：<input type="date" name="stime" id="stime" placeholder="" class="tab-input"/>
+                交货时间：<input type="date" name="dtime" id="dtime" placeholder="" class="tab-input"/></li>
+
+            <textarea placeholder="设备故障信息" id="selfInf" name="selfInf" class="tab-input"></textarea>
+            <textarea placeholder="备注补充" id="remark" name="remark" class="tab-input"></textarea>
+            <button type="button" onclick="selectTech()" class="tab-btn">下一步</button>
         </div>
-        <div class="contact-wrap">
-
-            <p>预约安装时间：<span>${data.dtime}</span></p>
-        </div>
-
-        <div class="contact-wrap">
-            <p>安装要求：${data.ext}</p>
-        </div>
-
-        <div class="contact-wrap">
-            <p>物流公司：${data.logistics}</p>
-            <p>联系电话: <span>${data.iphone}</span></p>
-            <p>司机：${data.driver}</p>
-            <p>联系电话: <span>${data.logphone}</span></p>
-
-        </div>
-
     </div>
-
-
-    <div class="h50"></div>
-    <ul class="fixed-btn">
-        <c:if test="${split == true}">
-            <li class="" style="width: 40%;"><a href="#" class="">已派工</a></li>
-        </c:if>
-        <c:if test="${split == false}">
-            <li class="" style="width: 40%;"><a href="javascript:selectTech()" class="current">派工</a></li>
-        </c:if>
-        <li class="" style="width: 40%;"><a href="javascript:back(${data.id})">退回</a></li>
-    </ul>
 
 </div>
 
@@ -84,16 +62,17 @@
 
     </ul>
     <br><br>
-    <button type="button" onclick="splitOrder()" class="tab-btn">确 定</button>
+    <button type="button" onclick="addOrder()" class="tab-btn">确 定</button>
 
 </div>
 
 
-
-</body>
 <script type="text/javascript">
 
     function selectTech() {
+        if(!checkData()){
+            return ;
+        }
         $('#couponDetail').addClass("hide")
         $('#user-content').removeClass("hide")
         init(function (json) {
@@ -161,7 +140,6 @@
     }
 
     function createHtmlNoData() {
-//        return "<div>没有数据了</div>";
         return "";
     }
 
@@ -179,31 +157,41 @@
         return html;
     }
 
-    function back(id) {
-        location.href = "/order/service_split.html";
+    function checkData() {
+        var cust = $('#cust').val();
+        var cphone = $('#cphone').val();
+        var caddress = $('#caddress').val();
+        var stime = $('#stime').val().toString();
+        var dtime = $('#dtime').val().toString();
+        var selfInf = $('#selfInf').val();
+
+        if (cust == '') {
+            alertMess("请输入客户负责人姓名");
+            return false;
+        }
+        if (cphone == '') {
+            alertMess("请输入客户负责人联系方式");
+            return false;
+        }
+
+        if (stime == '') {
+            alertMess("请输入下单时间");
+            return false;
+        }
+        if (dtime == '') {
+            alertMess("请输入交货时间");
+            return false;
+        }
+
+        if (selfInf == '') {
+            alertMess("请添加设备故障信息");
+            return false;
+        }
+        return true;
     }
+    
+    function addOrder() {
 
-        function refuse(id) {
-        $.ajax({
-            type: 'get',
-            url: '/web/order/service/refuse/${data.id}',
-            data: { },
-            dataType: 'json',
-            success: function (json) {
-                console.log(json);
-                if (json.code =='200') {
-                    alertMess("操作成功");
-                    location.href = "/order/service_split.html";
-                } else {
-                    alertMess("操作失败")
-                }
-            }
-        });
-    }
-
-    function splitOrder() {
-
-        var orderid = ${data.id};
         var uids = "";
         $("input[name='user_ids']").each(function () {
             if ($(this).is(":checked")) {
@@ -215,19 +203,35 @@
             alertMess('请选择服务人员进行派工');
             return false;
         }
+
+        var cust = $('#cust').val();
+        var cphone = $('#cphone').val();
+        var caddress = $('#caddress').val();
+        var stime = $('#stime').val().toString();
+        var dtime = $('#dtime').val().toString();
+        var selfInf = $('#selfInf').val();
+        var remark = $('#remark').val();
+
         $.ajax({
-            url: '/web/order/srv/split',
-            type: 'get',
+            url: '/web/order/fix/add',
+            type: 'POST',
             data: {
-                id: orderid,
-                uids: uids
+                dids:uids,
+                cust: cust,
+                phone: cphone,
+                address: caddress,
+                stime: stime,
+                dtime: dtime,
+                ext: selfInf,
+                remark: remark
             },
             success: function (json) {
                 if (json.code == '200') {
-                    alertMess('派工成功');
-                    location.href = "/order/service_split.html";
+                    alertMess('提交成功');
+                    location.href = '/manager/work.html';
+                    return;
                 } else {
-                    alertMess('发送成功');
+                    alertMess(json.msg);
                 }
             }
         });
@@ -235,6 +239,8 @@
         return true;
     }
 
+
 </script>
 
+</body>
 </html>

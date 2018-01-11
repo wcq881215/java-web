@@ -1,5 +1,6 @@
 package com.csf.web.rest.pub;
 
+import com.csf.web.constants.OAConstants;
 import com.csf.web.dto.APIStatus;
 import com.csf.web.dto.BaseDto;
 import com.csf.web.entity.Device;
@@ -61,6 +62,13 @@ public class UserActionController extends APIService {
         /****存cookie end***/
 
         return ajaxSuccess(user);
+    }
+
+    @RequestMapping("/message")
+    public BaseDto register() {
+        User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
+        long total = userService.getMessageNo(user);
+        return BaseDto.newDto(total);
     }
 
     @RequestMapping("/register")

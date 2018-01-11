@@ -2,14 +2,20 @@ package com.csf.web.filter;
 
 import com.csf.web.constants.OAConstants;
 import com.csf.web.entity.User;
+import com.csf.web.entity.UserRole;
 import com.csf.web.service.ServiceUtil;
+import com.csf.web.util.JsonUtils;
 import org.apache.log4j.Logger;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+import sun.net.httpserver.HttpServerImpl;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
@@ -114,6 +120,59 @@ public class SessionFilter implements HandlerInterceptor {
             }
         }
         return true;// 只有返回true才会继续向下执行，返回false取消当前请求
+    }
+
+    public void session(User user, HttpServletRequest request,HttpServletResponse response){
+        String role = UserRole.getRole(user.getRole()); //获取role
+        HttpSession session = request.getSession();
+
+        store(session, response, user, role);
+
+        if ("购机客户".equals(user.getRole())) {
+            String device = user.getDevice();
+            Boolean right = ServiceUtil.existDevice(device);
+            session.setAttribute("cust_right",right);
+        }
+    }
+
+    public void store(HttpSession session, HttpServletResponse response, User user, String role) {
+        session(session, user, role);
+        cookie(response, user, role);
+    }
+
+    public void session(HttpSession session, User user, String role) {
+        session.setAttribute(OAConstants.SESSION_USER, user);
+        session.setAttribute("role", role);
+    }
+
+    public void cookie(HttpServletResponse response, User user, String role) {
+        Cookie cookie = new Cookie(OAConstants.COOKIE_USER_NAME, user.getUsername());
+        cookie.setMaxAge(30 * 24 * 3600);
+        cookie.setDomain(OAConstants.SERVER_HOST);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        cookie = new Cookie(OAConstants.COOKIE_USER_PASSWORD, user.getPassword());
+        cookie.setMaxAge(30 * 24 * 3600);
+        cookie.setDomain(OAConstants.SERVER_HOST);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+
+        try {
+            cookie = new Cookie(OAConstants.COOKIE_USER, URLEncoder.encode(JsonUtils.toJson(user), "utf-8"));
+            response.addCookie(cookie);
+            cookie.setDomain(OAConstants.SERVER_HOST);
+            cookie.setPath("/");
+            cookie.setMaxAge(30 * 24 * 3600);
+            response.addCookie(cookie);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        cookie = new Cookie(OAConstants.COOKIE_USER_ROLE, role);
+        cookie.setDomain(OAConstants.SERVER_HOST);
+        cookie.setPath("/");
+        cookie.setMaxAge(30 * 24 * 3600);
+        response.addCookie(cookie);
     }
 
     @Override

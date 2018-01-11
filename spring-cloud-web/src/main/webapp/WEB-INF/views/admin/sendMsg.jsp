@@ -207,7 +207,7 @@
         var content = $('#content').val();
         var uids = "";
         $("input[name='user_ids']").each(function () {
-            if ($(this.checked)) {
+            if ($(this).is(":checked")) {
                 uids += $(this).val() + ",";
             }
         })

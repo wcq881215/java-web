@@ -4,7 +4,7 @@
         <li>
             <a href="/${sessionScope.role}/home" class="">
                 <span class=""><img src="/images/${sessionScope.action_home_png}"/></span>
-                <span class="am-navbar-label" >首页</span>
+                <span class="am-navbar-label">首页</span>
             </a>
         </li>
         <li>
@@ -15,6 +15,8 @@
         </li>
         <li>
             <a href="/${sessionScope.role}/message" class="">
+                <span id="msg-tips"
+                      style="z-index: 1000;position: absolute;color: #ffffff;border-radius: 50%;padding: 0px; width: 20px;height: 22px;"></span>
                 <span class=""><img src="/images/${sessionScope.action_msg_png}"/></span>
                 <span class="am-navbar-label">消息</span>
             </a>
@@ -29,3 +31,31 @@
 
     </ul>
 </div>
+
+<script type="text/javascript">
+
+    queryMsg();
+    function queryMsg() {
+        $.ajax({
+            type: 'post',
+            url: '/web/user/message',
+            data: {},
+            dataType: 'json',
+            success: function (json) {
+                console.log(json);
+                var tip = '';
+                if (json.obj >= 100) {
+                    tip = '99+';
+                } else if (json.obj == 0) {
+                    tip = '';
+                    $('#msg-tips').remove();
+                    return;
+                } else {
+                    tip = json.obj;
+                }
+                $('#msg-tips').text(tip);
+                $('#msg-tips').css('background-color','#ff0000');
+            }
+        });
+    }
+</script>

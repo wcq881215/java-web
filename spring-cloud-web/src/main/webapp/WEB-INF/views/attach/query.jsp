@@ -39,8 +39,14 @@
     </div>
 </header>
 
+<div class="am-tabs qiehuan " id="user-content" data-am-tabs style="margin-top:50px; ">
+    <div class="search-input" style="">
+        <input type="text" id="key" name="key" placeholder="输入关键词查找"/>
+    </div>
+</div>
+
 <div data-am-widget="intro" id="maintain-gallery" class="am-intro am-cf am-intro-default"
-     style="margin-left:10px;margin-top: 50px;">
+     style="margin-left:10px;margin-top: 0px;">
 
 
 </div>
@@ -54,6 +60,7 @@
     var page = 0;
     var pageSize = 10;
     var ajaxFlag = true;
+    var change = false;
 
     init();
 
@@ -61,14 +68,23 @@
         init();
     });
 
+    $(".search-input").on("input", "input[type='text']", function () {
+        ajaxFlag = true;
+        change = true;
+        page = 0;
+        init();
+    });
+
     function init() {
         if (!ajaxFlag) {
             return;
         }
+        var key = $('#key').val();
         $.ajax({
             type: 'post',
             url: '/web/attach/list',
             data: {
+                key:key,
                 page: page,
                 pageSize: pageSize
             },
@@ -83,7 +99,12 @@
                 } else {
                     ajaxFlag = false;
                 }
-                $('#maintain-gallery').append(htm);
+                if(change == false){
+                    $('#maintain-gallery').append(htm);
+                }else{
+                    $('#maintain-gallery').html(htm);
+                }
+                change = false;
             }
         });
     }

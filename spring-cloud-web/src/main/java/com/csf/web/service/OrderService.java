@@ -1,10 +1,7 @@
 package com.csf.web.service;
 
 import com.csf.web.entity.*;
-import com.csf.web.repository.OrderDao;
-import com.csf.web.repository.OrderDeviceDao;
-import com.csf.web.repository.OrderServerDao;
-import com.csf.web.repository.SignDao;
+import com.csf.web.repository.*;
 import com.csf.web.util.OAUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -36,6 +33,12 @@ public class OrderService {
     @Autowired
     private SignDao signDao;
 
+    @Autowired
+    private FixOrderDao fixOrderDao;
+
+    @Autowired
+    private FixOrderServerDao fixOrderServerDao;
+
     public OrderServer splitOrder(OrderServer orderServer) {
         return orderServerDao.save(orderServer);
     }
@@ -48,6 +51,14 @@ public class OrderService {
         return true;
     }
 
+    public FixOrder saveFixOrder(FixOrder order) {
+        return fixOrderDao.save(order);
+    }
+
+    public FixOrderServer saveFixOrderServer(FixOrderServer server) {
+        return fixOrderServerDao.save(server);
+    }
+
     public Order saveOrder(Order order) {
 
         if (order != null && order.getOrder_id() == null) {
@@ -58,7 +69,7 @@ public class OrderService {
 
     public Sign addSign(Sign sign) {
         Sign sig = signDao.findUserOrderTypeSign(sign.getUser(), sign.getOrder(), sign.getType());
-        if (sig != null && sig.getId() != null){
+        if (sig != null && sig.getId() != null) {
             sig.setAddress(sign.getAddress());
             return signDao.save(sig);
         }
@@ -98,9 +109,9 @@ public class OrderService {
         orderDeviceDao.deleteByOid(oid);
     }
 
-    public boolean sign(User user,Order order){
-       List<Sign> sings =  signDao.findUserTypeSign(user,order);
-        if(sings !=null  && sings.size() == 3){
+    public boolean sign(User user, Order order) {
+        List<Sign> sings = signDao.findUserTypeSign(user, order);
+        if (sings != null && sings.size() == 3) {
             return true;
         }
         return false;

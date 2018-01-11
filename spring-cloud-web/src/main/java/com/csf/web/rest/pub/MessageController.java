@@ -62,7 +62,7 @@ public class MessageController extends APIService {
                 message.setTeam(u.getTeam());
                 message.setUser(user);
                 message.setUid(id);
-                message = messageService.saveMsg(message);
+                messageService.saveMsg(message);
             }
         }
 
@@ -86,7 +86,8 @@ public class MessageController extends APIService {
     public String queryMsg(@PathVariable("id") Long id){
         Message msg = messageService.findOne(id);
         attr("data",msg);
-
+        User u = (User)request.getSession().getAttribute(OAConstants.SESSION_USER);
+        messageService.readMsg(u,id);
         return "/message/detail";
     }
 

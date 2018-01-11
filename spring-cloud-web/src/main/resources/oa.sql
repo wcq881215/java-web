@@ -165,7 +165,6 @@ CREATE TABLE app_order (
   delatime    VARCHAR (20)   COMMENT '发货时间',
   fqid       INT   COMMENT '废弃订单id',
   time   TIMESTAMP COMMENT '发布时间',
-  srv        INT  COMMENT '服务派工',
   state  CHAR (2) DEFAULT '1'  COMMENT '状态 0 无效（废弃，重录） 1 - 2 -3 -4 -5 ... -> over  1:内勤录入等待发货，2已发货待安装  3 已完成',
   PRIMARY KEY (id)
 )ENGINE = InnoDB auto_increment=20170000001  DEFAULT CHARSET = utf8;
@@ -374,4 +373,32 @@ CREATE TABLE app_purchase_device (
 )ENGINE = InnoDB  DEFAULT CHARSET = utf8;
 
 
+DROP TABLE IF EXISTS app_fix_order;
+CREATE TABLE app_fix_order (
+  id         INT AUTO_INCREMENT,
+  pid        INT  NOT NULL  COMMENT '发布人',
+  ext    VARCHAR(100)   COMMENT '定制信息',
+  remark    VARCHAR(100)   COMMENT '补充说明',
+  cust    VARCHAR (300)   COMMENT '客户',
+  stime    VARCHAR (20)   COMMENT '下单时间',
+  dtime    VARCHAR (20)   COMMENT '送货时间',
+  address    VARCHAR (500)   COMMENT '送货地址',
+  phone    VARCHAR (30)   COMMENT '联系电话',
+  fqid       INT   COMMENT '废弃订单id',
+  time   TIMESTAMP COMMENT '发布时间',
+  state  CHAR (2) DEFAULT '1'  COMMENT '状态 0 无效（废弃，重录） 1 - 2 -3 -4 -5 ... -> over  1:内勤录入等待发货，2已发货待安装  3 已完成',
+  PRIMARY KEY (id)
+)ENGINE = InnoDB auto_increment=20170000001  DEFAULT CHARSET = utf8;
 
+DROP TABLE IF EXISTS app_fix_server;
+CREATE TABLE app_fix_server (
+  id         INT AUTO_INCREMENT,
+  order_id   INT COMMENT '工单ID',
+  uid    INT   COMMENT '派遣人员',
+  date   VARCHAR (20)    COMMENT '安装日期',
+  pid    int  COMMENT '服务派公人员',
+  time   TIMESTAMP COMMENT '发布时间',
+  remark   VARCHAR (500)    COMMENT '备注',
+  state  VARCHAR (10) DEFAULT '0' COMMENT '状态 0等待处理 1处理中 2处理完毕 -1 已拒绝',
+  PRIMARY KEY (id)
+)ENGINE = InnoDB  DEFAULT CHARSET = utf8;
