@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 
@@ -385,12 +386,27 @@ public class OrderController extends APIService {
     @RequestMapping("/srv/select")
     public BaseDto queryForSrvSplit(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "30") Integer pageSize) {
         User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
-        return BaseDto.newDto(orderService.querySrvUserSplitOrder(user, page, pageSize));
+        HttpSession session = request.getSession();
+        Boolean fix = (Boolean) session.getAttribute("fix");
+        Page<Order> obj = null;
+        if (fix == null || !fix) {  //先查询安装订单
+            obj = orderService.querySrvUserSplitOrder(user, page, pageSize);
+            if (obj != null && !CollectionUtils.isEmpty(obj.getContent())) {
+                session.setAttribute("fix", false);
+                return BaseDto.newDto(obj);
+            }
+            //首次查询维修订单，初始化page
+            page = 0;
+        }
+        session.setAttribute("fix", true);
+        Page<FixOrder> data = orderService.querySrvUserFixOrder(user, page, pageSize);
+        return BaseDto.newDto(data);
     }
 
     @ResponseBody
     @RequestMapping("/srv/order")
-    public BaseDto queryForSrv(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "30") Integer pageSize) {
+    public BaseDto queryForSrv(@RequestParam(defaultValue = "0") Integer
+                                       page, @RequestParam(defaultValue = "30") Integer pageSize) {
         User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
         Page<Order> orders = orderService.querySrvUserOrder(user, page, pageSize);
         if (orders != null && !CollectionUtils.isEmpty(orders.getContent())) {

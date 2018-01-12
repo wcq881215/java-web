@@ -41,10 +41,8 @@
                 <input type="text" name="cust" id="cust" placeholder="负责人姓名" class="tab-input"/>
                 <input type="text" name="cphone" id="cphone" placeholder="联系方式" class="tab-input"/></li>
             <input type="text" name="caddress" id="caddress" placeholder="联系地址" class="tab-input"/>
-            <li>订单信息<br>
-                下单时间：<input type="date" name="stime" id="stime" placeholder="" class="tab-input"/>
-                交货时间：<input type="date" name="dtime" id="dtime" placeholder="" class="tab-input"/></li>
-
+            <li>
+                预约维修时间：<input type="date" name="stime" id="stime" placeholder="" class="tab-input"/>
             <textarea placeholder="设备故障信息" id="selfInf" name="selfInf" class="tab-input"></textarea>
             <textarea placeholder="备注补充" id="remark" name="remark" class="tab-input"></textarea>
             <button type="button" onclick="selectTech()" class="tab-btn">下一步</button>
@@ -162,7 +160,6 @@
         var cphone = $('#cphone').val();
         var caddress = $('#caddress').val();
         var stime = $('#stime').val().toString();
-        var dtime = $('#dtime').val().toString();
         var selfInf = $('#selfInf').val();
 
         if (cust == '') {
@@ -175,11 +172,7 @@
         }
 
         if (stime == '') {
-            alertMess("请输入下单时间");
-            return false;
-        }
-        if (dtime == '') {
-            alertMess("请输入交货时间");
+            alertMess("请输入预约维修时间");
             return false;
         }
 
@@ -208,7 +201,6 @@
         var cphone = $('#cphone').val();
         var caddress = $('#caddress').val();
         var stime = $('#stime').val().toString();
-        var dtime = $('#dtime').val().toString();
         var selfInf = $('#selfInf').val();
         var remark = $('#remark').val();
 
@@ -221,7 +213,6 @@
                 phone: cphone,
                 address: caddress,
                 stime: stime,
-                dtime: dtime,
                 ext: selfInf,
                 remark: remark
             },

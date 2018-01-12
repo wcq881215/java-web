@@ -137,7 +137,16 @@ public class OrderService {
         Integer offset = page * pageSize;
         List<Order> contents = orderDao.querySrvOrder(user.getId(), offset, pageSize);
         Long total = orderDao.querySrvOrderNo(user.getId());
-        Page<Order> data = new PageImpl<Order>(contents, pageable, total);
+        Page<Order> data = new PageImpl<>(contents, pageable, total);
+        return data;
+    }
+
+    public Page<FixOrder> querySrvUserFixOrder(User user, Integer page, Integer pageSize) {
+        Pageable pageable = new PageRequest(page, pageSize);
+        Integer offset = page * pageSize;
+        List<FixOrder> orders = fixOrderDao.querySrvOrder(user.getId(), offset, pageSize);
+        Long total = fixOrderDao.querySrvOrderNo(user.getId());
+        Page<FixOrder> data = new PageImpl<>(orders, pageable, total);
         return data;
     }
 
