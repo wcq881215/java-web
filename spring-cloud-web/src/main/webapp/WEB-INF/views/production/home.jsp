@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -84,7 +85,7 @@
                 <h2>专业石材的清洁与保养方法</h2>
                 <p>不同磨损的石材翻新养护方法：1、修补破损及中缝补胶（无缝处理）...</p>
                 <div class="text" style=" margin-right:20px;">
-                    <span class="fl">2017-5-23</span>
+                    <span class="fl"><fmt:formatDate value="${data.time}" pattern="yyyy-MM-dd"></fmt:formatDate> </span>
                     <span style="float:right; margin-right:10px;">查看详情</span>
                 </div>
             </div>

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,7 +33,7 @@
 <div class="page zShow" id="couponDetail" refresh="0" style=" margin-top:120px;">
     <div class="coupon-wrap">
         <img src="/images/default_photo.png" alt="logo" class="logo">
-        <p class="name">时间：2017-08-20</p>
+        <p class="name">时间：<fmt:formatDate value="${data.time}" pattern="yyyy-MM-dd"></fmt:formatDate> </p>
         <h2 class="sub-title"> 订单编号：${data.id}</h2>
         <h2 class="sub-title">订单状态：生产已发货</h2>
         <p class="condition">设备名称：<span></span>${data.device}</p>

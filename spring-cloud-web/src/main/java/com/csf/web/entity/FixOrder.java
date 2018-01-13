@@ -34,7 +34,7 @@ public class FixOrder {
     @Column
     private String dtime;
     @Column
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date time;
     @Column
     private String state;//状态 0 无效（废弃，重录） 1 - 2 -3 -4 -5 ... -> over  1 内勤录入等待发货，2已发货待安装 3安装完成等待客户确认 4 已完成

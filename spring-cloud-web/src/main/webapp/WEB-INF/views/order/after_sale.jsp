@@ -198,7 +198,7 @@
             html += "<span class='c-comment-suc'>" + stateMsg + "</span>";
             html += "</div>";
             html += "<div class='c-comment-list' style='border: 0;'>";
-            html += "<a class='o-con' target='_top' href='/web/order/srv/fix/detail/" + data.id + "'>";
+            html += "<a class='o-con' target='_top' href='/web/order/srv/detail/fix/" + data.id + "'>";
             html += "<div class='o-con-txt'>";
             html += "<p>" + data.ext+ "</p>";
             html += "</div>";

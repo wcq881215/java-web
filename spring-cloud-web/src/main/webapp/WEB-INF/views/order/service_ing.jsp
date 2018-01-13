@@ -37,6 +37,10 @@
     </div>
 </header>
 
+<ul class="order-style" style="margin-top:50px;">
+    <li class="current"><a href="javascript:queryOrder(0)">安装订单</a></li>
+    <li><a href="javascript:queryOrder(1)">维修订单</a></li>
+</ul>
 
 <div id="data-gallery" style="margin-top: 50px;">
 
@@ -51,6 +55,30 @@
     var page = 0;
     var pageSize = 4;
     var ajaxFlag = true;
+    var flag = 0;
+
+    $(document).ready(function () {
+        $('ul.order-style li').click(function () {
+            clearLi();
+            $(this).addClass("current");
+        });
+    })
+
+    function clearLi() {
+        $('ul.order-style li').each(function () {
+            $(this).removeClass("current");
+        });
+    }
+
+    function queryOrder(type) {
+        if (flag != type) {
+            ajaxFlag = true;
+            page = 0;
+            $('#data-gallery').html('');
+        }
+        flag = type;
+        query();
+    }
 
     query();
 
@@ -62,6 +90,38 @@
         if (!ajaxFlag) {
             return;
         }
+        if(flag == 0){
+            queryInstall();
+        }else {
+            queryFix();
+        }
+    }
+
+    function queryInstall() {
+        $.ajax({
+            type: 'post',
+            url: '/web/order/srv/order',
+            data: {
+                page: page,
+                pageSize: pageSize
+            },
+            dataType: 'json',
+            success: function (json) {
+                console.log(json);
+                var htm = createHtmlNoData();
+                if (json.obj.numberOfElements > 0) {
+                    page++;
+                    htm = createHtml(json);
+                    $('.ui-loader').hide();
+                } else {
+                    ajaxFlag = false;
+                }
+                $('#data-gallery').append(htm);
+            }
+        });
+    }
+
+    function queryFix() {
         $.ajax({
             type: 'post',
             url: '/web/order/srv/order',

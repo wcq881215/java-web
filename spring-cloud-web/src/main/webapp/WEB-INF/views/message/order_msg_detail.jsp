@@ -28,7 +28,7 @@
 <div class="page zShow" id="couponDetail" refresh="0" style=" margin-top:120px;">
     <div class="coupon-wrap">
         <img src="/images/default_photo.png" alt="logo" class="logo">
-        <p class="name">时间：2017-08-20</p>
+        <p class="name">时间：<fmt:formatDate value="${data.time}" pattern="yyyy-MM-dd"></fmt:formatDate> </p>
         <h2 class="sub-title"> 订单编号：13422101114</h2>
         <h2 class="sub-title">订单状态：已发货</h2>
         <p class="condition">设备名称：<span></span>一体式红外线桥式全自动切割机 ZDH-500</p>
