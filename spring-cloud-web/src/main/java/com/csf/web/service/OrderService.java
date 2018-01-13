@@ -100,6 +100,10 @@ public class OrderService {
         return orderDao.findOne(id);
     }
 
+    public FixOrder findFixOrder(Long id) {
+        return fixOrderDao.findOne(id);
+    }
+
     public void delOrder(Long id) {
         orderDeviceDao.deleteByOid(id);
         orderDao.delete(id);

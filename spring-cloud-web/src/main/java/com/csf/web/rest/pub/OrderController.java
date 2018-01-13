@@ -95,7 +95,7 @@ public class OrderController extends APIService {
             fxs.setTime(new Date());
             fxs.setOrder(order.getId());
             fxs.setPub(user);
-            fxs.setState("1");
+            fxs.setState("0");
             fxs.setUser(server);
             orderService.saveFixOrderServer(fxs);
             saveMsg(UserRole.SERVICE, server, user, "有新维修订单待处理", "订单编号" + order.getId() + ",请在我的工单里面查收");
@@ -382,23 +382,30 @@ public class OrderController extends APIService {
         return "/order/split_order";
     }
 
+    /**
+     * 查询安装订单
+     * @param page
+     * @param pageSize
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/srv/select")
     public BaseDto queryForSrvSplit(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "30") Integer pageSize) {
         User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
-        HttpSession session = request.getSession();
-        Boolean fix = (Boolean) session.getAttribute("fix");
-        Page<Order> obj = null;
-        if (fix == null || !fix) {  //先查询安装订单
-            obj = orderService.querySrvUserSplitOrder(user, page, pageSize);
-            if (obj != null && !CollectionUtils.isEmpty(obj.getContent())) {
-                session.setAttribute("fix", false);
-                return BaseDto.newDto(obj);
-            }
-            //首次查询维修订单，初始化page
-            page = 0;
-        }
-        session.setAttribute("fix", true);
+        Page<Order>   obj = orderService.querySrvUserSplitOrder(user, page, pageSize);
+        return BaseDto.newDto(obj);
+    }
+
+    /**
+     * 查询维修订单
+     * @param page
+     * @param pageSize
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/srv/fix/select")
+    public BaseDto queryForSrvFixSplit(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "30") Integer pageSize) {
+        User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
         Page<FixOrder> data = orderService.querySrvUserFixOrder(user, page, pageSize);
         return BaseDto.newDto(data);
     }
@@ -437,6 +444,24 @@ public class OrderController extends APIService {
         return "/order/srv_order";
     }
 
+    @RequestMapping("/srv/detail/fix/{id}")
+    public String getSrvOrderSelFixDetail(@PathVariable("id") Long id) {
+        FixOrder order = orderService.findFixOrder(id);
+        boolean isEdit = false; // 接受
+        if (order != null) {
+            if (!CollectionUtils.isEmpty(order.getFixOrderServer())) {
+                User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
+                for (FixOrderServer u : order.getFixOrderServer()) {
+                    if (user.getId().equals(u.getUser().getId())) {
+                        isEdit = true;
+                    }
+                }
+            }
+        }
+        attr("data", order);
+        attr("isEdit", isEdit);
+        return "/order/srv_fix_order";
+    }
     @RequestMapping("/srv/order/detail/{id}")
     public String getSrvOrderDetail(@PathVariable("id") Long id) {
         Order order = orderService.findById(id);
@@ -490,6 +515,51 @@ public class OrderController extends APIService {
             if (isAllFinish) {
                 order.setState("3");//全部服务人员完成
                 orderService.saveOrder(order);
+            }
+            //1处理中 2处理完毕 -1 已拒绝',
+            String title = null, content = null;
+            if ("1".equals(status)) {
+                title = "订单派工已接受";
+                content = "订单编号" + order.getId() + " 服务人员：" + user.getName() + ",请在我的工单里面查收";
+            } else if ("2".equals(status)) {
+                title = "订单派工已处理完毕";
+                content = "订单编号" + order.getId() + " 服务人员：" + user.getName() + ",请在我的工单里面查收";
+            } else {
+                title = "订单派工已拒绝";
+                content = "订单编号" + order.getId() + " 服务人员：" + user.getName() + " \t 原因: " + reason;
+            }
+
+            saveMsg(UserRole.MANAGER, pub, user, title, content);
+            return BaseDto.newDto(APIStatus.success);
+        }
+        return BaseDto.failure("订单不正确,未发现派工信息");
+    }
+
+    @ResponseBody
+    @RequestMapping("/srv/fix/status")
+    public BaseDto updateForSrvFixState(Long id, String status, String reason) {
+        User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
+        FixOrder order = orderService.findFixOrder(id);
+        if (order == null) {
+            return BaseDto.failure("订单不正确");
+        }
+        if (!CollectionUtils.isEmpty(order.getFixOrderServer())) {
+            boolean isAllFinish = true;
+            User pub = null;
+            for (FixOrderServer u : order.getFixOrderServer()) {
+                if (user.getId().equals(u.getUser().getId())) {
+                    pub = u.getPub();
+                    u.setState(status);
+                    u.setRemark(reason);
+                    orderService.saveFixOrderServer(u);
+                }
+                if (!"2".equals(u.getState())) {
+                    isAllFinish = false;
+                }
+            }
+            if (isAllFinish) {
+                order.setState("2");//全部服务人员完成
+                orderService.saveFixOrder(order);
             }
             //1处理中 2处理完毕 -1 已拒绝',
             String title = null, content = null;

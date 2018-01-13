@@ -35,6 +35,11 @@
     </div>
 </header>
 
+<ul class="order-style" style="margin-top:50px;">
+    <li class="current"><a href="javascript:queryOrder(0)">安装订单</a></li>
+    <li><a href="javascript:queryOrder(1)">维修订单</a></li>
+</ul>
+
 
 <div id="data-gallery" style="margin-top: 50px;">
 
@@ -49,6 +54,30 @@
     var page = 0;
     var pageSize = 4;
     var ajaxFlag = true;
+    var flag = 0;
+
+    $(document).ready(function () {
+        $('ul.order-style li').click(function () {
+            clearLi();
+            $(this).addClass("current");
+        });
+    })
+
+    function clearLi() {
+        $('ul.order-style li').each(function () {
+            $(this).removeClass("current");
+        });
+    }
+
+    function queryOrder(type) {
+        if (flag != type) {
+            ajaxFlag = true;
+            page = 0;
+            $('#data-gallery').html('');
+        }
+        flag = type;
+        query();
+    }
 
     query();
 
@@ -60,6 +89,14 @@
         if (!ajaxFlag) {
             return;
         }
+        if (flag == 0) {
+            queryInstallOrder();
+        } else {
+            queryFixOrder();
+        }
+    }
+
+    function queryInstallOrder() {
         $.ajax({
             type: 'post',
             url: '/web/order/srv/select',
@@ -83,6 +120,30 @@
         });
     }
 
+    function queryFixOrder() {
+        $.ajax({
+            type: 'post',
+            url: '/web/order/srv/fix/select',
+            data: {
+                page: page,
+                pageSize: pageSize
+            },
+            dataType: 'json',
+            success: function (json) {
+                console.log(json);
+                var htm = createHtmlNoData();
+                if (json.obj.numberOfElements > 0) {
+                    page++;
+                    htm = createFixHtml(json);
+                    $('.ui-loader').hide();
+                } else {
+                    ajaxFlag = false;
+                }
+                $('#data-gallery').append(htm);
+            }
+        });
+    }
+
     function createHtmlNoData() {
         return "<div style='text-align: center;'>没有数据了</div>";
     }
@@ -92,17 +153,17 @@
         var array = json.obj.content;
         for (var i in array) {
             var data = array[i];
-            var stateMsg = '待接受派工' ;
+            var stateMsg = '待接受派工';
             html += "<div class='c-comment'>";
             html += "<span class='c-comment-num'>订单编号：" + data.id + "</span>";
-            html += "<span class='c-comment-suc'>" + stateMsg  + "</span>";
+            html += "<span class='c-comment-suc'>" + stateMsg + "</span>";
             html += "</div>";
             html += "<div class='c-comment-list' style='border: 0;'>";
-            html += "<a class='o-con' target='_top' href='/web/order/srv/detail/"+data.id+"'>";
+            html += "<a class='o-con' target='_top' href='/web/order/srv/detail/" + data.id + "'>";
 
             var total = 0;
-            if(data.devices && data.devices.length > 0){
-                for(var j = 0; j< data.devices.length;j++){
+            if (data.devices && data.devices.length > 0) {
+                for (var j = 0; j < data.devices.length; j++) {
                     var devi = data.devices[j];
                     total += devi.numb;
 
@@ -113,13 +174,35 @@
                     html += "<div class='o-con-much'> <h4>" + devi.numb + "台</h4></div>";
                 }
 
-            }else {
+            } else {
                 html += "<p></p>";
             }
 
 
             html += "</a>";
             html += "<div class='c-com-money '>合计：<span>" + total + "台设备</span></div>";
+            html += "</div>";
+            html += "<div class='clear'></div>";
+        }
+        return html;
+    }
+
+    function createFixHtml(json) {
+        var html = "";
+        var array = json.obj.content;
+        for (var i in array) {
+            var data = array[i];
+            var stateMsg = '待接受派工';
+            html += "<div class='c-comment'>";
+            html += "<span class='c-comment-num'>订单编号：" + data.id + "</span>";
+            html += "<span class='c-comment-suc'>" + stateMsg + "</span>";
+            html += "</div>";
+            html += "<div class='c-comment-list' style='border: 0;'>";
+            html += "<a class='o-con' target='_top' href='/web/order/srv/fix/detail/" + data.id + "'>";
+            html += "<div class='o-con-txt'>";
+            html += "<p>" + data.ext+ "</p>";
+            html += "</div>";
+            html += "</a>";
             html += "</div>";
             html += "<div class='clear'></div>";
         }
