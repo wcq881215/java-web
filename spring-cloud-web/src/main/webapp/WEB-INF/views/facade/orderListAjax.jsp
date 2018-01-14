@@ -24,7 +24,7 @@
             <td>${list.cust }</td>
             <td><fmt:formatDate value="${list.time }" pattern="yyyy-MM-dd"></fmt:formatDate></td>
             <td>
-                <a href="/fronts/order/detail/(${list.id })">详情</a> &nbsp;
+                <a href="/fronts/order/detail/${list.id }">详情</a> &nbsp;
                 <a href="javascript:deluser()">删除</a>
             </td>
         </tr>

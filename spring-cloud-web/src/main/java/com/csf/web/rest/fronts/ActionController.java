@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -82,5 +83,11 @@ public class ActionController extends APIService {
         return "/facade/attachListAjax";
     }
 
+    @RequestMapping("/order/detail/{id}")
+    public String orderDetail(@PathVariable("id") Long id) {
+        Order data = orderService.findById(id);
+        attr("data", data);
+        return "/facade/order_detail";
+    }
 
 }
