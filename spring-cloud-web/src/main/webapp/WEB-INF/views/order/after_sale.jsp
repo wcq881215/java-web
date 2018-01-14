@@ -197,14 +197,14 @@
             html += "<span class='c-comment-num'>订单编号：" + data.id + "</span>";
             html += "<span class='c-comment-suc'>" + stateMsg + "</span>";
             html += "</div>";
-            html += "<div class='c-comment-list' style='border: 0;'>";
-            html += "<a class='o-con' target='_top' href='/web/order/srv/detail/fix/" + data.id + "'>";
+            html += "<div class='c-comment-list' style='border: 0;background-color: "+data.color+"'>";
+            html += "<a class='o-con' target='_top' style='background-color:"+data.color+" '+ href='/web/order/srv/detail/fix/"+data.id+"'>";
             html += "<div class='o-con-txt'>";
             html += "<p>" + data.ext+ "</p>";
             html += "</div>";
             html += "</a>";
             html += "</div>";
-            html += "<div class='clear'></div>";
+            html += "<div class=''></div>";
         }
         return html;
     }

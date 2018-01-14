@@ -124,7 +124,7 @@
     function queryFix() {
         $.ajax({
             type: 'post',
-            url: '/web/order/srv/order',
+            url: '/web/order/srv/fix/order',
             data: {
                 page: page,
                 pageSize: pageSize
@@ -135,7 +135,7 @@
                 var htm = createHtmlNoData();
                 if (json.obj.numberOfElements > 0) {
                     page++;
-                    htm = createHtml(json);
+                    htm = createFixHtml(json);
                     $('.ui-loader').hide();
                 } else {
                     ajaxFlag = false;
@@ -183,10 +183,33 @@
             html += "</a>";
             html += "<div class='c-com-money '>合计：<span>" + total + "台设备</span></div>";
             html += "</div>";
-            html += "<div class='clear'></div>";
+            html += "<div class=''></div>";
         }
         return html;
     }
+
+    function createFixHtml(json) {
+        var html = "";
+        var array = json.obj.content;
+        for (var i in array) {
+            var data = array[i];
+            var stateMsg = data.state;
+            html += "<div class='c-comment'>";
+            html += "<span class='c-comment-num'>订单编号：" + data.id + "</span>";
+            html += "<span class='c-comment-suc'>" + stateMsg + "</span>";
+            html += "</div>";
+            html += "<div class='c-comment-list' style='border: 0;background-color: "+data.color+"'>";
+            html += "<a class='o-con' target='_top' style='background-color:"+data.color+" '+ href='/web/order/srv/order/fix/detail/"+data.id+"'>";
+            html += "<div class='o-con-txt'>";
+            html += "<p>" + data.ext+ "</p>";
+            html += "</div>";
+            html += "</a>";
+            html += "</div>";
+            html += "<div class=''></div>";
+        }
+        return html;
+    }
+
 
 
 </script>

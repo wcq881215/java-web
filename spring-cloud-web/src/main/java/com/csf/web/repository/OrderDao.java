@@ -1,6 +1,7 @@
 package com.csf.web.repository;
 
 
+import com.csf.web.entity.FixOrder;
 import com.csf.web.entity.Order;
 import com.csf.web.entity.User;
 import org.springframework.data.domain.Page;
@@ -71,7 +72,7 @@ public interface OrderDao extends JpaRepository<Order, Long> {
     public Long querySrvOrderNo(Long uid);
 
     /**
-     *查询服务用户订单
+     *查询服务用户订单 --安装订单
      * @param uid
      * @param offset
      * @param limit
@@ -81,7 +82,7 @@ public interface OrderDao extends JpaRepository<Order, Long> {
     public List<Order> queryUserSrvOrder(Long uid,Integer offset,Integer limit);
 
     /**
-     *查询服务用户订单数量
+     *查询服务用户订单数量 --安装订单
      * @param uid
      * @return
      */

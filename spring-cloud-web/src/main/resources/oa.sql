@@ -314,6 +314,8 @@ CREATE TABLE app_sign (
   id         INT AUTO_INCREMENT,
   uid   INT (10)  NOT NULL  COMMENT 'user id',
   oid   INT (10)  NOT NULL  COMMENT 'order id',
+  fid   INT (10)  NOT NULL  COMMENT 'fixorder id',
+  catalog VARCHAR(10) NOT NULL  COMMENT 'order type',
   longitude        DOUBLE (11,8)   COMMENT '经度',
   latitude   DOUBLE (11,8)   COMMENT '纬度',
   address VARCHAR(2000) COMMENT '地址',

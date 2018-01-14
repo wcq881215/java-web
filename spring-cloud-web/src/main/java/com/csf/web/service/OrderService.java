@@ -76,6 +76,15 @@ public class OrderService {
         return signDao.save(sign);
     }
 
+    public Sign addFixSign(Sign sign) {
+        Sign sig = signDao.findUserFixOrderTypeSign(sign.getUser(), sign.getFixOrder(), sign.getType());
+        if (sig != null && sig.getId() != null) {
+            sig.setAddress(sign.getAddress());
+            return signDao.save(sig);
+        }
+        return signDao.save(sign);
+    }
+
     public OrderDevice saveOrderDevice(OrderDevice orderDevice) {
         return orderDeviceDao.save(orderDevice);
     }
@@ -115,6 +124,14 @@ public class OrderService {
 
     public boolean sign(User user, Order order) {
         List<Sign> sings = signDao.findUserTypeSign(user, order);
+        if (sings != null && sings.size() == 3) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean fixSign(User user, FixOrder order) {
+        List<Sign> sings = signDao.findUserFixTypeSign(user, order);
         if (sings != null && sings.size() == 3) {
             return true;
         }
@@ -169,6 +186,15 @@ public class OrderService {
 
     public void updateOrderSrvState(OrderServer orderServer) {
         orderServerDao.save(orderServer);
+    }
+
+    public Page<FixOrder> queryFixSrvUserOrder(User user, Integer page, Integer pageSize) {
+        Pageable pageable = new PageRequest(page, pageSize);
+        Integer offset = page * pageSize;
+        List<FixOrder> contents = fixOrderDao.queryUserSrvFixOrder(user.getId(), offset, pageSize);
+        Long total = fixOrderDao.queryUserSrvFixOrderNo(user.getId());
+        Page<FixOrder> data = new PageImpl<>(contents, pageable, total);
+        return data;
     }
 
 }

@@ -435,6 +435,20 @@ public class OrderController extends APIService {
         return BaseDto.newDto(orders);
     }
 
+    @ResponseBody
+    @RequestMapping("/srv/fix/order")
+    public BaseDto queryForFixSrv(@RequestParam(defaultValue = "0") Integer
+                                       page, @RequestParam(defaultValue = "30") Integer pageSize) {
+        User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
+        Page<FixOrder> orders = orderService.queryFixSrvUserOrder(user, page, pageSize);
+        if (orders != null && !CollectionUtils.isEmpty(orders.getContent())) {
+            for (FixOrder o : orders.getContent()) {
+                setFixStatus(o, user);
+            }
+        }
+        return BaseDto.newDto(orders);
+    }
+
     @RequestMapping("/srv/detail/{id}")
     public String getSrvOrderSelDetail(@PathVariable("id") Long id) {
         Order order = orderService.findById(id);
@@ -501,6 +515,34 @@ public class OrderController extends APIService {
         attr("state", state);
         attr("issign", issign);
         return "/order/srv_order_detail";
+    }
+
+    @RequestMapping("/srv/order/fix/detail/{id}")
+    public String getSrvOrderFixDetail(@PathVariable("id") Long id) {
+        FixOrder order = orderService.findFixOrder(id);
+        String state = "-1"; //
+        boolean issign = false; //是否sign
+        if (order != null) {
+            User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
+            if ("1".equals(order.getState())) {
+                if (!CollectionUtils.isEmpty(order.getFixOrderServer())) {
+
+                    for (FixOrderServer u : order.getFixOrderServer()) {
+                        if (user.getId().equals(u.getUser().getId())) {
+                            state = u.getState();
+                        }
+                    }
+                }
+                if (orderService.fixSign(user, order)) {
+                    issign = true;
+                }
+            }
+            setFixStatus(order, user);
+        }
+        attr("data", order);
+        attr("state", state);
+        attr("issign", issign);
+        return "/order/srv_fix_order_detail";
     }
 
     /**
@@ -620,17 +662,21 @@ public class OrderController extends APIService {
                 if (u.getUser().getId().equals(user.getId())) {
                     if (u.getState().equals("0")) {
                         order.setState("待接受派工");
+                        order.setColor("#e7f3b9;");
                     } else {
                         order.setState("等待维修");
+                        order.setColor("#b9f3d6;");
                     }
                     return;
                 }
             }
             order.setState("已派工");
+            order.setColor("#b9f3d6;");
             return;
         }
         if ("2".equals(order.getState())) {
             order.setState("安装完成");
+            order.setColor("#c9b1de");
             return;
         }
     }
@@ -675,14 +721,70 @@ public class OrderController extends APIService {
 
         //1： 出发签到，2：到达签到，3：离开签到 '
         if ("1".equals(type)) {
-            title = "订单派工出发签到";
+            title = "安装订单派工出发签到";
             content = "订单编号" + order.getId() + " 服务人员：" + user.getName() + ",当前位置:" + address;
         } else if ("2".equals(type)) {
-            title = "订单派工到达签到";
+            title = "安装订单派工到达签到";
             content = "订单编号" + order.getId() + " 服务人员：" + user.getName() + ",当前位置:" + address;
         }
         if ("3".equals(type)) {
-            title = "订单派工离开签到";
+            title = "安装订单派工离开签到";
+            content = "订单编号" + order.getId() + " 服务人员：" + user.getName() + ",当前位置:" + address;
+        }
+
+        saveMsg(UserRole.MANAGER, pub, user, title, content);
+
+        return BaseDto.newDto(APIStatus.success);
+    }
+
+    @ResponseBody
+    @RequestMapping("/srv/sign/fix")
+    public BaseDto updateForFixSrvState(Long id, String type, String longitude, String latitude) {
+        User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
+        FixOrder order = orderService.findFixOrder(id);
+        if (order == null) {
+            return BaseDto.failure("订单不正确,未发现派工信息");
+        }
+
+        if (StringUtils.isEmpty(longitude)) {
+            longitude = "";
+        }
+
+        if (StringUtils.isEmpty(latitude)) {
+            latitude = "";
+        }
+
+        String address = LocationRequest.getAddress(latitude, longitude);
+        if (StringUtils.isBlank(address)) {
+            address = "浙江省临海市江南街道汇丰南路328号";
+            logger.warn("获取定位失败!!!");
+        }
+
+        Sign sign = new Sign();
+        sign.setFixOrder(order);
+        sign.setAddress(address);
+        sign.setUser(user);
+        sign.setType(type);
+        sign.setTime(new Date());
+        orderService.addFixSign(sign);
+
+        String title = null, content = null;
+        User pub = null;
+        if (!CollectionUtils.isEmpty(order.getFixOrderServer())) {
+            FixOrderServer server = order.getFixOrderServer().get(0);
+            pub = server.getPub();
+        }
+
+        //1： 出发签到，2：到达签到，3：离开签到 '
+        if ("1".equals(type)) {
+            title = "维修订单派工出发签到";
+            content = "订单编号" + order.getId() + " 服务人员：" + user.getName() + ",当前位置:" + address;
+        } else if ("2".equals(type)) {
+            title = "维修订单派工到达签到";
+            content = "订单编号" + order.getId() + " 服务人员：" + user.getName() + ",当前位置:" + address;
+        }
+        if ("3".equals(type)) {
+            title = "维修订单派工离开签到";
             content = "订单编号" + order.getId() + " 服务人员：" + user.getName() + ",当前位置:" + address;
         }
 

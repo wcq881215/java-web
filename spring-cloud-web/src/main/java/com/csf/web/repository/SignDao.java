@@ -1,5 +1,6 @@
 package com.csf.web.repository;
 
+import com.csf.web.entity.FixOrder;
 import com.csf.web.entity.Order;
 import com.csf.web.entity.Sign;
 import com.csf.web.entity.User;
@@ -14,10 +15,18 @@ import java.util.List;
  */
 public interface SignDao extends JpaRepository<Sign, Long> {
 
-    @Query("from Sign u where u.user=:user and u.order = :order and u.type = :type")
+    @Query("from Sign u where u.user=:user and u.order = :order and u.type = :type and u.catalog = 'INSTALL'  ")
     public Sign findUserOrderTypeSign(@Param("user") User user, @Param("order") Order order, @Param("type") String type);
 
-    @Query("from Sign u where u.user=:user and u.order = :order")
+    @Query("from Sign u where u.user=:user and u.order = :order and u.catalog = 'INSTALL' ")
     List<Sign> findUserTypeSign(@Param("user") User user, @Param("order") Order order);
+
+
+    @Query("from Sign u where u.user=:user and u.fixOrder = :order and u.catalog = 'FIX' ")
+    List<Sign> findUserFixTypeSign(@Param("user") User user, @Param("order") FixOrder order);
+
+    @Query("from Sign u where u.user=:user and u.fixOrder = :order and u.type = :type and u.catalog = 'FIX'  ")
+    public Sign findUserFixOrderTypeSign(@Param("user") User user, @Param("order") FixOrder order, @Param("type") String type);
+
 
 }

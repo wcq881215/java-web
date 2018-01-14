@@ -1,5 +1,7 @@
 package com.csf.web.entity;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -10,8 +12,6 @@ import java.util.Date;
 @Entity
 @Table(name = "app_sign")
 public class Sign implements Serializable {
-
-    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,6 +24,14 @@ public class Sign implements Serializable {
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = true)
     @JoinColumn(name = "oid")
     private Order order;//订单
+
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = true)
+    @JoinColumn(name = "fid")
+    private FixOrder fixOrder;//订单
+
+    @Autowired
+    @Enumerated(EnumType.STRING)
+    private SignOrderType catalog;
 
     @Column
     private Double longitude;
@@ -102,5 +110,21 @@ public class Sign implements Serializable {
 
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    public FixOrder getFixOrder() {
+        return fixOrder;
+    }
+
+    public void setFixOrder(FixOrder fixOrder) {
+        this.fixOrder = fixOrder;
+    }
+
+    public SignOrderType getCatalog() {
+        return catalog;
+    }
+
+    public void setCatalog(SignOrderType catalog) {
+        this.catalog = catalog;
     }
 }

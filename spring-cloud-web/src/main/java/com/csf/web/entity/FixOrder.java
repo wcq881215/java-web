@@ -44,6 +44,8 @@ public class FixOrder {
     @OneToMany(mappedBy = "order")
     private List<FixOrderServer> fixOrderServer;//服务派工
 
+    @Transient
+    private String color;
 
     public Long getId() {
         return id;
@@ -147,5 +149,13 @@ public class FixOrder {
 
     public void setFixOrderServer(List<FixOrderServer> fixOrderServer) {
         this.fixOrderServer = fixOrderServer;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }
