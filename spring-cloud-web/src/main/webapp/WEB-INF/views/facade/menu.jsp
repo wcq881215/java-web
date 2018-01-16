@@ -17,9 +17,9 @@
                 <a href="#"><i class="fa fa-indent nav_icon"></i>订单管理<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="/facade/order.html">订单管理</a>
+                        <a href="/facade/order.html">安装订单管理</a>
                     </li>
-                    <li>
+                    <li class="hide">
                         <a href="/facade/order_cnt.html">订单管理</a>
                     </li>
                 </ul>

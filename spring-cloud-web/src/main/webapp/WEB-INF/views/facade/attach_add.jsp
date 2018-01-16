@@ -23,6 +23,11 @@
     <link href="/front/css/basic.css" rel="stylesheet" />
     <!-- Nav CSS -->
     <link href="/front/css/custom.css" rel="stylesheet">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/mobile/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="/front/dialog/alert.js?v=1.0"></script>
+    <script type="text/javascript" src="/front/dialog/plug-in.js"></script>
+
 </head>
 <body>
 <div id="wrapper">
@@ -42,48 +47,119 @@
         <div id="page-inner">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 class="page-head-line">用户查询</h1>
-                    <div class="form-group  ">
-                        <input type="number" name="userId" id="userId" value="" placeholder="查询的用户ID"/>
-                        <input type="text" name="name" id="name" value="" placeholder="查询的用户姓名"/>
-                        <input type="button" class="button btn" value="查询" onclick="listAjax()"/>
-                    </div>
+                    <h1 class="page-head-line">配件库</h1>
 
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div>
+            <div class="row" style="padding-bottom: 100px;">
+                <div class="col-md-6">
+                    <form action="" method="post" onsubmit="">
+                        <div id="comments-sec">
+                            <div class="form-group  ">
+                                <label>配件名称:</label> <input type="text" name="name" id="name" class="form-control1 ng-invalid ng-invalid-required ng-touched" value="" />
+                            </div>
 
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="form-group  ">
+                                <label>价格</label> <input type="number" name="price" id="price" value="" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
+                            </div>
 
-                                <div class="table-responsive"></div>
-                                <hr/>
+                            <div class="form-group  ">
+                                <label>所属产品</label> <input type="text" name="product" id="product" value="" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
+                            </div>
 
-                                <hr/>
+                            <div>
+                                 <textarea placeholder="填写配件简介" id="_desc" name="_desc" class="tab-input"
+                                           style="height:300px;"></textarea>
+                            </div>
 
+                            <div class="form-group  ">
+                                <label>配件图片</label> <input type="file" name="password" value="" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
+                            </div>
+
+                            <div class="form-group">
+                                <input type="button" class="btn btn-success" onclick="addAttach()" value="确认提交" />
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
+
             </div>
 
         </div>
 
     </div>
+
+
     <!-- /#wrapper -->
 </div>
 
 </body>
 
-<script src="/front/js/jquery.min.js"></script>
-<script src="/front/js/metisMenu.min.js"></script>
-<script src="/front/js/bootstrap.min.js"></script>
-<script src="/front/js/custom.js"></script>
+
 <script type="text/javascript">
 
+    function addAttach() {
+
+        var name = $('#name').val();
+        var price = $('#price').val();
+        var product = $('#product').val();
+        var _desc = $('#_desc').val();
+
+        if (name == '') {
+            alertMess("请输入配件名称");
+            return;
+        }
+        if (price == '') {
+            alertMess("请输入价格");
+            return;
+        }
+        if (product == '') {
+            alertMess("请输入所属产品");
+            return;
+        }
+
+
+
+        $.ajax({
+            type: "post",
+            url: "${pageContext.request.contextPath}/web/attach/add",
+            dataType: 'json',
+            data: 'name=' + name + '&price=' + price + '&product=' + product +"&_desc="+_desc,
+            success: function (json) {
+                if (json.code == '200') {
+                    var aid = json.obj.id;
+                    var img = "";
+                    var fname = "";
+                    var type = "";
+                    $('.img-space > img').each(function () {
+                        img += $(this).attr("src") + "##@##";
+                        fname += $(this).attr("alt") + "##@##";
+                        type += $(this).attr("title") + "##@##";
+                    });
+
+                    $.ajax({
+                        url: '/web/attach/image',
+                        type: 'POST',
+                        data: {
+                            aid: aid,
+                            img: img,
+                            type: type,
+                            alt: fname
+                        }, success: function (json) {
+                            alertMess("上传成功");
+                            location.href = "/admin/work";
+                        }
+                    });
+
+                } else {
+                    alertMess(json.msg);
+                }
+            }
+        });
+
+        return true;
+    }
 
 </script>
 
