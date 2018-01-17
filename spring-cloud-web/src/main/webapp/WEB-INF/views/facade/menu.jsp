@@ -38,6 +38,17 @@
                 <!-- /.nav-second-level -->
             </li>
 
+            <li>
+                <a href="#"><i class="fa fa-envelope nav_icon"></i>公司动态<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="/facade/news.html">公司动态管理</a>
+                    </li>
+                    <li>
+                        <a href="/facade/news_add.html">新增公司动态</a>
+                    </li>
+            </li>
+
         </ul>
     </div>
     <!-- /.sidebar-collapse -->

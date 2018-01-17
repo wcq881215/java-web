@@ -5,12 +5,10 @@
 <table class="table table-striped table-bordered table-hover">
     <thead>
     <tr>
-        <th>订单编号</th>
-        <th>录入内勤姓名</th>
-        <th>下单时间</th>
-        <th>业务员</th>
-        <th>客户</th>
-        <th>录入时间</th>
+        <th>新闻ID</th>
+        <th>新闻标题</th>
+        <th>新闻简介</th>
+        <th>发布时间</th>
         <th>操作</th>
     </tr>
     </thead>
@@ -18,14 +16,12 @@
     <c:forEach items="${data.content}" var="list">
         <tr>
             <td>${list.id }</td>
-            <td>${list.pub.name }</td>
-            <td>${list.dtime }</td>
-            <td>${list.buser }</td>
-            <td>${list.cust }</td>
+            <td>${list.title }</td>
+            <td>${list.desc }</td>
             <td><fmt:formatDate value="${list.time }" pattern="yyyy-MM-dd"></fmt:formatDate></td>
             <td>
-                <a href="/fronts/order/detail/${list.id }">详情</a> &nbsp;
-                <a class="hide" href="javascript:deluser()">删除</a>
+                <a href="/fronts/news/detail/${list.id }">详情</a>
+                <a href="javascript:deluser(${list.id})">删除</a>
             </td>
         </tr>
     </c:forEach>

@@ -24,6 +24,7 @@
             <td>${list.desc }</td>
             <td><fmt:formatDate value="${list.time }" pattern="yyyy-MM-dd"></fmt:formatDate></td>
             <td>
+                <a href="/fronts/attach/detail/${list.id }">详情</a>
                 <a href="javascript:deluser(${list.id})">删除</a>
             </td>
         </tr>

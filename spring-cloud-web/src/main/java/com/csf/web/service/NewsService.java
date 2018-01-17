@@ -1,9 +1,11 @@
 package com.csf.web.service;
 
+import com.csf.web.entity.Attach;
 import com.csf.web.entity.News;
 import com.csf.web.entity.NewsImg;
 import com.csf.web.repository.NewsDao;
 import com.csf.web.repository.NewsImgDao;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -44,4 +46,14 @@ public class NewsService {
         return newsDao.findOne(id);
     }
 
+    public Page<News> searchNews(String name, Pageable pageable) {
+        Sort sort = new Sort(Sort.Direction.DESC, "time");
+
+        if(StringUtils.isBlank(name)){
+            name = "";
+        }
+        name = "%" + name + "%";
+
+        return newsDao.findBycontentLike(name,pageable);
+    }
 }

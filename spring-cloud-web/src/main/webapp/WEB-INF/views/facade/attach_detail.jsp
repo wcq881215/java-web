@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <!DOCTYPE HTML>
@@ -52,29 +53,43 @@
                 </div>
             </div>
 
+            <input type="hidden" name="aid" id="aid" value="${data.id}">
             <div class="row" style="padding-bottom: 100px;">
                 <div class="col-md-6">
                     <form action="" method="post" onsubmit="">
                         <div id="comments-sec">
                             <div class="form-group  ">
-                                <label>配件名称:</label> <input type="text" name="name" id="name" class="form-control1 ng-invalid ng-invalid-required ng-touched" value="" />
+                                <label>配件名称:</label> <input type="text" name="name" id="name" class="form-control1 ng-invalid ng-invalid-required ng-touched" value="${data.name}" />
                             </div>
 
                             <div class="form-group  ">
-                                <label>价格</label> <input type="number" name="price" id="price" value="" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
+                                <label>价格</label> <input type="number" name="price" id="price" value="${data.price}" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
                             </div>
 
                             <div class="form-group  ">
-                                <label>所属产品</label> <input type="text" name="product" id="product" value="" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
+                                <label>所属产品</label> <input type="text" name="product" id="product" value="${data.product}" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
                             </div>
 
                             <div>
+                                配件简介<br>
                                  <textarea placeholder="填写配件简介" id="_desc" name="_desc" class="tab-input"
-                                           style="height:300px;"></textarea>
+                                           style="height:300px;">${data.desc}</textarea>
+                            </div>
+
+                            <div class="form-group  ">
+                                配件图片<br>
+                                    <c:if test="${not empty data.imgs}" >
+                                            <c:forEach items="${data.imgs}" var="img">
+                                                    <img src="${img.src}" width="100px" height="100px;" />
+
+                                            </c:forEach>
+
+                                    </c:if>
+
                             </div>
 
                             <div class="form-group file ">
-                                <label>配件图片</label> <input type="file" name="password" value="" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
+                                <label>上传新配件图片</label> <input type="file" name="password" value="" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
                                 <div class="img-space"
                                      style="display: none">
                                 </div>
@@ -120,7 +135,7 @@
 
 
     function addAttach() {
-
+        var aid = $('#aid').val();
         var name = $('#name').val();
         var price = $('#price').val();
         var product = $('#product').val();
@@ -143,9 +158,9 @@
 
         $.ajax({
             type: "post",
-            url: "${pageContext.request.contextPath}/web/attach/add",
+            url: "${pageContext.request.contextPath}/web/attach/update",
             dataType: 'json',
-            data: 'name=' + name + '&price=' + price + '&product=' + product +"&_desc="+_desc,
+            data: 'name=' + name + '&price=' + price + '&product=' + product +"&desc="+_desc+"&id="+aid,
             success: function (json) {
                 if (json.code == '200') {
                     var aid = json.obj.id;

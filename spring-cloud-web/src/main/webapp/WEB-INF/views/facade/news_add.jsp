@@ -57,31 +57,23 @@
                     <form action="" method="post" onsubmit="">
                         <div id="comments-sec">
                             <div class="form-group  ">
-                                <label>配件名称:</label> <input type="text" name="name" id="name" class="form-control1 ng-invalid ng-invalid-required ng-touched" value="" />
-                            </div>
-
-                            <div class="form-group  ">
-                                <label>价格</label> <input type="number" name="price" id="price" value="" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
-                            </div>
-
-                            <div class="form-group  ">
-                                <label>所属产品</label> <input type="text" name="product" id="product" value="" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
+                                <label>标题:</label> <input type="text" name="title" id="title" class="form-control1 ng-invalid ng-invalid-required ng-touched" value="" />
                             </div>
 
                             <div>
-                                 <textarea placeholder="填写配件简介" id="_desc" name="_desc" class="tab-input"
+                                 <textarea placeholder="填写新闻内容" id="content" name="content" class="tab-input"
                                            style="height:300px;"></textarea>
                             </div>
 
                             <div class="form-group file ">
-                                <label>配件图片</label> <input type="file" name="password" value="" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
+                                <label>新闻图片</label> <input type="file" name="password" value="" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
                                 <div class="img-space"
                                      style="display: none">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <input type="button" class="btn btn-success" onclick="addAttach()" value="确认提交" />
+                                <input type="button" class="btn btn-success" onclick="addNews()" value="确认提交" />
                             </div>
                         </div>
                     </form>
@@ -119,36 +111,29 @@
     });
 
 
-    function addAttach() {
-
-        var name = $('#name').val();
-        var price = $('#price').val();
-        var product = $('#product').val();
-        var _desc = $('#_desc').val();
-
-        if (name == '') {
-            alertMess("请输入配件名称");
-            return;
+    function addNews() {
+        var title = $('#title').val();
+        var content = $('#content').val();
+        if (title == '') {
+            alertMess("请输入标题");
+            return false;
         }
-        if (price == '') {
-            alertMess("请输入价格");
-            return;
+        if (content == '') {
+            alertMess("请输入内容");
+            return false;
         }
-        if (product == '') {
-            alertMess("请输入所属产品");
-            return;
-        }
-
 
 
         $.ajax({
-            type: "post",
-            url: "${pageContext.request.contextPath}/web/attach/add",
-            dataType: 'json',
-            data: 'name=' + name + '&price=' + price + '&product=' + product +"&_desc="+_desc,
+            url: '/web/news/add',
+            type: 'POST',
+            data: {
+                title: title,
+                content: content
+            },
             success: function (json) {
                 if (json.code == '200') {
-                    var aid = json.obj.id;
+                    var cid = json.obj.id;
                     var img = "";
                     var fname = "";
                     var type = "";
@@ -159,16 +144,17 @@
                     });
 
                     $.ajax({
-                        url: '/web/attach/image',
+                        url: '/web/news/image',
                         type: 'POST',
                         data: {
-                            aid: aid,
+                            cid: cid,
                             img: img,
                             type: type,
                             alt: fname
                         }, success: function (json) {
+                            console.log("upload " + fname + " image ");
                             alertMsg("上传成功");
-                            location.href = "/facade/attach.html";
+                            location.href = "/facade/news.html"
                         }
                     });
 

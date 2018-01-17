@@ -1,10 +1,12 @@
 package com.csf.web.rest.fronts;
 
 import com.csf.web.entity.Attach;
+import com.csf.web.entity.News;
 import com.csf.web.entity.Order;
 import com.csf.web.entity.User;
 import com.csf.web.rest.APIService;
 import com.csf.web.rest.AttacheService;
+import com.csf.web.service.NewsService;
 import com.csf.web.service.OrderService;
 import com.csf.web.service.UserService;
 import com.csf.web.util.JsonUtils;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,6 +40,9 @@ public class ActionController extends APIService {
 
     @Autowired
     private AttacheService attacheService;
+
+    @Autowired
+    private NewsService newsService;
 
 
     @RequestMapping("/user/login")
@@ -77,7 +83,7 @@ public class ActionController extends APIService {
         System.out.println(String.format(" user %s , ", name));
         page = page - 1; //实际下标  ： 页码 -1
         Sort sort = new Sort(Sort.Direction.DESC,"time");
-        Pageable pageable = new PageRequest(page,pageSize);
+        Pageable pageable = new PageRequest(page,pageSize,sort);
         Page<Attach> data = attacheService.searchAttach(name, pageable);
         attr("data", data);
         return "/facade/attachListAjax";
@@ -89,5 +95,36 @@ public class ActionController extends APIService {
         attr("data", data);
         return "/facade/order_detail";
     }
+
+    @RequestMapping("/attach/detail//{id}")
+    public String attachDetail(@PathVariable("id") Long id) {
+        Attach data = attacheService.findById(id);
+        attr("data", data);
+        return "/facade/attach_detail";
+    }
+
+    @RequestMapping("/news/list")
+    public String newsList(String key, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "30") Integer pageSize) {
+        System.out.println(String.format(" user %s , ", key));
+        page = page - 1; //实际下标  ： 页码 -1
+        Sort sort = new Sort(Sort.Direction.DESC,"time");
+        Pageable pageable = new PageRequest(page,pageSize,sort);
+        Page<News> data = newsService.searchNews(key, pageable);
+//        if (!CollectionUtils.isEmpty(data.getContent())){
+//            for(News news : data.getContent()){
+//                news.getContent();
+//            }
+//        }
+        attr("data", data);
+        return "/facade/newsListAjax";
+    }
+
+    @RequestMapping("/news/detail/{id}")
+    public String newsDetail(@PathVariable("id") Long id) {
+        Order data = orderService.findById(id);
+        attr("data", data);
+        return "/facade/news_detail";
+    }
+
 
 }

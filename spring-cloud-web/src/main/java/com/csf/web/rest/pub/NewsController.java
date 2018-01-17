@@ -50,6 +50,7 @@ public class NewsController extends FileUploadService {
         if (StringUtils.isBlank(img)) {
             return BaseDto.newDto("");
         }
+
         String imgs[] = img.split("##@##");
         String types[] = type.split("##@##");
         String alts[] = alt.split("##@##");
@@ -91,6 +92,16 @@ public class NewsController extends FileUploadService {
         News news = newsService.findById(id);
         attr("data", news);
         return "/news/detail";
+    }
+
+    @RequestMapping("/update")
+    @ResponseBody
+    public BaseDto updateNews(News news) {
+       if(news == null){
+           return BaseDto.newDto(APIStatus.param_error);
+       }
+        news = newsService.saveNews(news);
+        return BaseDto.newDto(news);
     }
 
 

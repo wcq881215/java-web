@@ -8,6 +8,7 @@ import com.csf.web.entity.AttachImg;
 import com.csf.web.entity.Image;
 import com.csf.web.entity.User;
 import com.csf.web.rest.AttacheService;
+import com.csf.web.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,6 +32,8 @@ public class AttachController extends FileUploadService {
 
     @Autowired
     private AttacheService attacheService;
+    @Autowired
+    private UserService userService;
 
     @RequestMapping("/add")
     @ResponseBody
@@ -58,6 +61,10 @@ public class AttachController extends FileUploadService {
         if (StringUtils.isBlank(img)) {
             return BaseDto.newDto("");
         }
+
+        //clear old img
+        attacheService.deleteAttachImg(aid);
+
         String imgs[] = img.split("##@##");
         String types[] = type.split("##@##");
         String alts[] = alt.split("##@##");
@@ -99,6 +106,21 @@ public class AttachController extends FileUploadService {
         Attach data = attacheService.findById(id);
         attr("data", data);
         return "/attach/detail";
+    }
+
+    @RequestMapping("/update")
+    @ResponseBody
+    public BaseDto updateAttach(Attach attach ) {
+        if(attach ==null){
+            return BaseDto.newDto(APIStatus.param_error);
+        }
+        User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
+        if(user == null){
+            user = userService.findById(1L);
+        }
+        attach.setUser(user);
+        attach = attacheService.save(attach);
+        return BaseDto.newDto(attach);
     }
 
 
