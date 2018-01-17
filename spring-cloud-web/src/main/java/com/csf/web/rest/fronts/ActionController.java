@@ -121,7 +121,7 @@ public class ActionController extends APIService {
 
     @RequestMapping("/news/detail/{id}")
     public String newsDetail(@PathVariable("id") Long id) {
-        Order data = orderService.findById(id);
+        News data = newsService.findById(id);
         attr("data", data);
         return "/facade/news_detail";
     }

@@ -36,7 +36,7 @@
     </ul>
 </div>
 
-<div id="detail_page">
+<div id="detail_page" style="position: absolute;width: 100%;">
 
 
 </div>
@@ -102,10 +102,10 @@
         for (var i in array) {
             var data = array[i];
             var color = '#fff'; //已读 深色
-            if(data.state == false){//未读 浅色
+            if (data.state == false) {//未读 浅色
                 color = '#8695ab';
             }
-            html += "<li style='background-color: "+color+ "'>";
+            html += "<li style='background-color: " + color + "'>";
             html += "<p>来源：&nbsp;&nbsp;" + data.user.role + " - " + data.user.name + " </p>";
             html += "<p class='order-add1'>" + data.title + "</p>";
             html += "<hr>";
@@ -122,28 +122,31 @@
 
     $("ul#data-gallery  li").click(function () {
         console.log($(this) + "click");
-        $(this).css('background-color','#fff');
+        $(this).css('background-color', '#fff');
     });
 
     function showdetail(id) {
         $.ajax({
             type: 'get',
-            url: '/web/msg/detail/'+id,
-            data: { },
+            url: '/web/msg/detail/' + id,
+            data: {},
             dataType: 'html',
             success: function (html) {
                 $('#data-gallery').addClass('hide');
                 $('#detail_page').html(html);
-                $('#detail_page').removeClass('hide')
+                $('#detail_page').removeClass('hide');
+                var height = $('#detail_page').height();
+                var top = parseInt(($(window).height() - height) / 2) - 80;
+                $('#detail_page').css('margin-top', top);
             }
         });
     }
-    
+
     function back() {
-        if($('#data-gallery').hasClass('hide')){
+        if ($('#data-gallery').hasClass('hide')) {
             $('#data-gallery').removeClass('hide');
             $('#detail_page').addClass('hide');
-        }else {
+        } else {
             history.go(-1);
         }
     }

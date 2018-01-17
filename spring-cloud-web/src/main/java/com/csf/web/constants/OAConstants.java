@@ -26,7 +26,7 @@ public class OAConstants {
 
     public static String upload_path = null;
 
-    public static final String upload_path_default_dir = "/upload";
+    public static final String upload_path_default_dir = "upload";
 
     public static String getUploadPath(HttpServletRequest request) {
         if (StringUtils.isBlank(upload_path)) {

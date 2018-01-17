@@ -51,6 +51,8 @@ public class NewsController extends FileUploadService {
             return BaseDto.newDto("");
         }
 
+        //clear
+        newsService.clearImg(cid);
         String imgs[] = img.split("##@##");
         String types[] = type.split("##@##");
         String alts[] = alt.split("##@##");

@@ -29,12 +29,6 @@
     <script type="text/javascript" src="/front/dialog/alert.js?v=1.0"></script>
     <script type="text/javascript" src="/front/dialog/plug-in.js"></script>
 
-    <style type="text/css">
-        .file .img-space img{
-            width:  100px;
-            height:100px;
-        }
-    </style>
 </head>
 <body>
 <div id="wrapper">
@@ -54,7 +48,7 @@
         <div id="page-inner">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 class="page-head-line">公司动态</h1>
+                    <h1 class="page-head-line">配件库</h1>
 
                 </div>
             </div>
@@ -65,17 +59,25 @@
                     <form action="" method="post" onsubmit="">
                         <div id="comments-sec">
                             <div class="form-group  ">
-                                <label>标题:</label> <input type="text" name="title" id="title" class="form-control1 ng-invalid ng-invalid-required ng-touched" value="${data.title}" />
-                            </div>
-
-                            <div>
-                                新闻内容<br>
-                                 <textarea placeholder="填写新闻内容" id="content" name="content" class="tab-input"
-                                           style="height:300px;">${data.content}</textarea>
+                                <label>配件名称:</label> <input type="text" name="name" id="name" class="form-control1 ng-invalid ng-invalid-required ng-touched" value="${data.name}" />
                             </div>
 
                             <div class="form-group  ">
-                                新闻图片<br>
+                                <label>价格</label> <input type="number" name="price" id="price" value="${data.price}" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
+                            </div>
+
+                            <div class="form-group  ">
+                                <label>所属产品</label> <input type="text" name="product" id="product" value="${data.product}" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
+                            </div>
+
+                            <div>
+                                配件简介<br>
+                                 <textarea placeholder="填写配件简介" id="_desc" name="_desc" class="tab-input"
+                                           style="height:300px;">${data.desc}</textarea>
+                            </div>
+
+                            <div class="form-group  ">
+                                配件图片<br>
                                     <c:if test="${not empty data.imgs}" >
                                             <c:forEach items="${data.imgs}" var="img">
                                                     <img src="${img.src}" width="100px" height="100px;" />
@@ -87,14 +89,14 @@
                             </div>
 
                             <div class="form-group file ">
-                                <label>上传新新闻图片</label> <input type="file" name="password" value="" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
+                                <label>上传新配件图片</label> <input type="file" name="password" value="" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
                                 <div class="img-space"
-                                     style="">
+                                     style="display: none">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <input type="button" class="btn btn-success" onclick="updateNews()" value="确认提交" />
+                                <input type="button" class="btn btn-success" onclick="addAttach()" value="确认提交" />
                             </div>
                         </div>
                     </form>
@@ -132,24 +134,33 @@
     });
 
 
-    function updateNews() {
+    function addAttach() {
         var aid = $('#aid').val();
-        var title = $('#title').val();
-        var content = $('#content').val();
+        var name = $('#name').val();
+        var price = $('#price').val();
+        var product = $('#product').val();
+        var _desc = $('#_desc').val();
 
-        if (title == '') {
-            alertMess("请输入新闻标题");
+        if (name == '') {
+            alertMess("请输入配件名称");
             return;
         }
-        if (content == '') {
-            alertMess("请输入新闻内容");
+        if (price == '') {
+            alertMess("请输入价格");
             return;
         }
+        if (product == '') {
+            alertMess("请输入所属产品");
+            return;
+        }
+
+
+
         $.ajax({
             type: "post",
-            url: "${pageContext.request.contextPath}/web/news/update",
+            url: "${pageContext.request.contextPath}/web/attach/update",
             dataType: 'json',
-            data: 'title=' + title +"&content="+content+"&id="+aid,
+            data: 'name=' + name + '&price=' + price + '&product=' + product +"&desc="+_desc+"&id="+aid,
             success: function (json) {
                 if (json.code == '200') {
                     var aid = json.obj.id;
@@ -163,16 +174,16 @@
                     });
 
                     $.ajax({
-                        url: '/web/news/image',
+                        url: '/web/attach/image',
                         type: 'POST',
                         data: {
-                            cid: aid,
+                            aid: aid,
                             img: img,
                             type: type,
                             alt: fname
                         }, success: function (json) {
                             alertMsg("上传成功");
-                            location.href = "/facade/news.html";
+                            location.href = "/facade/attach.html";
                         }
                     });
 

@@ -56,4 +56,8 @@ public class NewsService {
 
         return newsDao.findBycontentLike(name,pageable);
     }
+
+    public void clearImg(Long cid) {
+        newsImgDao.deleteNewsImg(cid);
+    }
 }

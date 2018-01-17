@@ -16,7 +16,7 @@
         <li>
             <a href="/${sessionScope.role}/message" class="">
                 <span id="msg-tips"
-                      style="z-index: 1000;position: absolute;color: #ffffff;border-radius: 50%;padding: 0px; width: 20px;height: 22px;"></span>
+                      style="z-index: 1000;position: absolute;color: #ffffff;border-radius: 50%;padding: 0px; width: 16px;height: 16px;line-height: 16px;font-size:10px;"></span>
                 <span class=""><img src="/images/${sessionScope.action_msg_png}"/></span>
                 <span class="am-navbar-label">消息</span>
             </a>

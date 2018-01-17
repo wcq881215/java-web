@@ -46,7 +46,7 @@
     <li>
         <a href="/device/maintentceAdd.html">
             <img src="/images/yscx.png"/>
-            <p>常见维修问题</p>
+            <p>常见问题</p>
         </a>
     </li>
     <li>
@@ -65,21 +65,21 @@
     <li>
         <a href="/device/addDevice.html">
             <img src="/images/az.png"/>
-            <p>录入设备信息</p>
+            <p>设备录入</p>
         </a>
     </li>
 
     <li>
         <a href="/proxy/addProxy.html">
             <img src="/images/az.png"/>
-            <p>办事处信息</p>
+            <p>办事处</p>
         </a>
     </li>
 
     <li>
         <a href="/user/add.html">
             <img src="/images/az.png"/>
-            <p>新用户开户</p>
+            <p>开户</p>
         </a>
     </li>
 

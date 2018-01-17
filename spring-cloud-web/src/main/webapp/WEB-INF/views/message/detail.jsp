@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<div class="page zShow" id="couponDetail" refresh="0" style=" margin-top:120px;">
+<div class="page zShow" id="couponDetail" refresh="0" style=" margin-top:0px;">
     <div class="coupon-wrap">
         <img src="/images/default_photo.png" alt="logo" class="logo">
         <h2 class="sub-title"> ${data.title}</h2>

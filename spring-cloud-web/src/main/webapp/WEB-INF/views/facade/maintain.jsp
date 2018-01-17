@@ -96,7 +96,7 @@
         var name = $('#name').val();
         $.ajax({
             type : "post",
-            url : "/fronts/attach/list",
+            url : "/fronts/maintain/list",
             dataType : 'html',
             data : 'page=' + page + '&pageSize=' + pageSize+'&name='+name,
             success : function(html) {
@@ -137,7 +137,7 @@
     function deluser(id) {
         $.ajax({
             type : "post",
-            url : "/web/attach/delete",
+            url : "/web/maintain/delete",
             dataType : 'json',
             data : 'id=' + id ,
             success : function(json) {

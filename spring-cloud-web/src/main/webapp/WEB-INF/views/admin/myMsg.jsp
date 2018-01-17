@@ -19,32 +19,36 @@
 <header data-am-widget="header" class="am-header am-header-default header"
         style="width:100%;position:fixed; z-index:1000;top:0;left:0;">
     <div class="am-header-left am-header-nav">
-        <a href="javascript:history.go(-1)" class="">
+        <a href="javascript:back()" class="">
             <i class="am-header-icon am-icon-angle-left"></i>
         </a>
     </div>
-    <h1 class="am-header-title"><a href="#" class="" style="color: #333;">消息</a></h1>
+    <h1 class="am-header-title"><a href="#title-link" class="" style="color: #333;">消息</a></h1>
     <div class="am-header-right am-header-nav">
         <a href="#right-link" class=""> </a>
     </div>
 </header>
 
 <div>
-    <ul class="address-list" id="data-gallery" style="margin-top:70px;padding-left: 0px;">
+    <ul class="address-list" id="data-gallery" style="margin-top:70px; ">
 
 
     </ul>
 </div>
 
-<div class="h50"></div>
+<div id="detail_page">
+
+
+</div>
 
 
 </body>
 
+
 <script type="text/javascript">
 
     var page = 0;
-    var pageSize = 10;
+    var pageSize = 4;
     var ajaxFlag = true;
 
     init();
@@ -59,7 +63,10 @@
 //            $('#data-gallery').append(htm);
             return;
         }
-
+        var period = $('#period').val();
+        var key = $('#key').val();
+        var type = $('#type').val();
+        var sort = $('#sort').val();
         $.ajax({
             type: 'get',
             url: '/web/msg/my',
@@ -94,13 +101,17 @@
         var array = json.obj.data;
         for (var i in array) {
             var data = array[i];
-            html += "<li>";
-            html += "<p>来源：&nbsp;&nbsp;" + data.user.team + " - " + data.user.name + " </p>";
+            var color = '#fff'; //已读 深色
+            if(data.state == false){//未读 浅色
+                color = '#8695ab';
+            }
+            html += "<li style='background-color: "+color+ "'>";
+            html += "<p>来源：&nbsp;&nbsp;" + data.user.role + " - " + data.user.name + " </p>";
             html += "<p class='order-add1'>" + data.title + "</p>";
             html += "<hr>";
             html += "<div class='address-cz'>";
-            html += "<label class='am-radio am-warning'>" + data.time + "</label>";
-            html += "<a target='_top' class='' href='/web/msg/detail/" + data.id + "'>查看详情</a>";
+            html += "<label class=' am-warning'>" + data.time + "</label>";
+            html += "<a target='_top' class='' href='javascript:showdetail(" + data.id + ")'>查看详情</a>";
             html += "<a target='_top' class='hide' href=''>删除</a>";
             html += "</div>";
             html += "</li>";
@@ -109,6 +120,33 @@
         return html;
     }
 
+    $("ul#data-gallery  li").click(function () {
+        console.log($(this) + "click");
+        $(this).css('background-color','#fff');
+    });
+
+    function showdetail(id) {
+        $.ajax({
+            type: 'get',
+            url: '/web/msg/detail/'+id,
+            data: { },
+            dataType: 'html',
+            success: function (html) {
+                $('#data-gallery').addClass('hide');
+                $('#detail_page').html(html);
+                $('#detail_page').removeClass('hide')
+            }
+        });
+    }
+
+    function back() {
+        if($('#data-gallery').hasClass('hide')){
+            $('#data-gallery').removeClass('hide');
+            $('#detail_page').addClass('hide');
+        }else {
+            history.go(-1);
+        }
+    }
 </script>
 
 

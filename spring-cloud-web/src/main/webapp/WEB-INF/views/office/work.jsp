@@ -53,7 +53,7 @@
     <li>
         <a href="/order/purchase_query.html">
             <img src="/images/yscx.png"/>
-            <p>意向订单查询</p>
+            <p>意向订单</p>
         </a>
     </li>
 

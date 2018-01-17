@@ -179,7 +179,7 @@ public class APIService {
 
     protected StringBuffer getServer(HttpServletRequest request) {
         StringBuffer sb = new StringBuffer();
-        sb.append(request.getScheme()).append("://").append(request.getServerName()).append(":").append(request.getServerPort()).append(request.getContextPath());
+        sb.append(request.getScheme()).append("://").append(request.getServerName()).append(":").append(request.getServerPort()).append(request.getContextPath()).append("/");
         return sb;
     }
 

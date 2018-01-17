@@ -84,7 +84,7 @@
     <li class="hide">
         <a href="订单查询.html">
             <img src="/images/az.png"/>
-            <p>售后解决方案</p>
+            <p>解决方案</p>
         </a>
     </li>
 

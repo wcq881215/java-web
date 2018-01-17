@@ -4,7 +4,7 @@
         <ul class="nav" id="side-menu">
             <li>
                 <a href="#"><i class="fa fa-laptop nav_icon"></i>用户管理<span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
+                <ul class="nav nav-second-level ">
                     <li>
                         <a href="/facade/user.html">用户管理</a>
                     </li>
@@ -15,7 +15,7 @@
             </li>
             <li>
                 <a href="#"><i class="fa fa-indent nav_icon"></i>订单管理<span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
+                <ul class="nav nav-second-level ">
                     <li>
                         <a href="/facade/order.html">安装订单管理</a>
                     </li>
@@ -27,7 +27,7 @@
             </li>
             <li>
                 <a href="#"><i class="fa fa-envelope nav_icon"></i>配件管理<span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
+                <ul class="nav nav-second-level ">
                     <li>
                         <a href="/facade/attach.html">配件管理</a>
                     </li>
@@ -40,15 +40,30 @@
 
             <li>
                 <a href="#"><i class="fa fa-envelope nav_icon"></i>公司动态<span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
+                <ul class="nav nav-second-level ">
                     <li>
                         <a href="/facade/news.html">公司动态管理</a>
                     </li>
                     <li>
-                        <a href="/facade/news_add.html">新增公司动态</a>
+                        <a href="/facade/news_add.html">发布公司动态</a>
                     </li>
+                    </li>
+                </ul>
             </li>
 
+            <li>
+                <a href="#"><i class="fa fa-envelope nav_icon"></i>保养指南<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level ">
+                    <li>
+                        <a href="/facade/maintain.html">保养指南管理</a>
+                    </li>
+                    <li>
+                        <a href="/facade/maintain_add.html">发布保养指南</a>
+                    </li>
+                    </li>
+
+                </ul>
+            </li>
         </ul>
     </div>
     <!-- /.sidebar-collapse -->

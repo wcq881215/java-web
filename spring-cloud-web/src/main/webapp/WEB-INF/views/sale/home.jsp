@@ -57,7 +57,7 @@
     <li>
         <a href="/web/maintain/more">
             <img src="/images/icon3.jpg"/>
-            <p>常规设备保养技巧</p>
+            <p>保养技巧</p>
         </a>
     </li>
 

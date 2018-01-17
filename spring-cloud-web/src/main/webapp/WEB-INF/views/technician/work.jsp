@@ -49,13 +49,13 @@
     <li class="hide">
         <a href="/technician/deal.html">
             <img src="/images/yscx.png"/>
-            <p>售后解决方案</p>
+            <p>解决方案</p>
         </a>
     </li>
     <li>
         <a href="/technician/upload.html">
             <img src="/images/fw.png"/>
-            <p>上传技术方案</p>
+            <p>技术方案</p>
         </a>
     </li>
 
