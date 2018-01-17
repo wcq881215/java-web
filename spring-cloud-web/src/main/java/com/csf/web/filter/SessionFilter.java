@@ -8,7 +8,6 @@ import com.csf.web.util.JsonUtils;
 import org.apache.log4j.Logger;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import sun.net.httpserver.HttpServerImpl;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -92,17 +91,19 @@ public class SessionFilter implements HandlerInterceptor {
                 Cookie[] cookies = httpServletRequest.getCookies();
                 String usename = null;
                 String password = null;
-                for (Cookie ck : cookies) {
-                    if (OAConstants.COOKIE_USER_NAME.equals(ck.getName())) {
-                        usename = ck.getValue();
-                        continue;
+                if (cookies != null) {
+                    for (Cookie ck : cookies) {
+                        if (OAConstants.COOKIE_USER_NAME.equals(ck.getName())) {
+                            usename = ck.getValue();
+                            continue;
+                        }
+                        if (OAConstants.COOKIE_USER_PASSWORD.equals(ck.getName())) {
+                            password = ck.getValue();
+                            continue;
+                        }
                     }
-                    if (OAConstants.COOKIE_USER_PASSWORD.equals(ck.getName())) {
-                        password = ck.getValue();
-                        continue;
-                    }
+                    user = ServiceUtil.login(usename, password);
                 }
-                user = ServiceUtil.login(usename, password);
                 if (user == null) {
                     user = new User();
                 }
@@ -122,7 +123,7 @@ public class SessionFilter implements HandlerInterceptor {
         return true;// 只有返回true才会继续向下执行，返回false取消当前请求
     }
 
-    public void session(User user, HttpServletRequest request,HttpServletResponse response){
+    public void session(User user, HttpServletRequest request, HttpServletResponse response) {
         String role = UserRole.getRole(user.getRole()); //获取role
         HttpSession session = request.getSession();
 
@@ -131,7 +132,7 @@ public class SessionFilter implements HandlerInterceptor {
         if ("购机客户".equals(user.getRole())) {
             String device = user.getDevice();
             Boolean right = ServiceUtil.existDevice(device);
-            session.setAttribute("cust_right",right);
+            session.setAttribute("cust_right", right);
         }
     }
 
