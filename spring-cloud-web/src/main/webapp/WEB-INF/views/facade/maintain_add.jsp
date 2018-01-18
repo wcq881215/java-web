@@ -47,7 +47,7 @@
         <div id="page-inner">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 class="page-head-line">配件库</h1>
+                    <h1 class="page-head-line">养护指南</h1>
 
                 </div>
             </div>
@@ -57,31 +57,16 @@
                     <form action="" method="post" onsubmit="">
                         <div id="comments-sec">
                             <div class="form-group  ">
-                                <label>配件名称:</label> <input type="text" name="name" id="name" class="form-control1 ng-invalid ng-invalid-required ng-touched" value="" />
-                            </div>
-
-                            <div class="form-group  ">
-                                <label>价格</label> <input type="number" name="price" id="price" value="" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
-                            </div>
-
-                            <div class="form-group  ">
-                                <label>所属产品</label> <input type="text" name="product" id="product" value="" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
+                                <label>标题:</label> <input type="text" name="title" id="title" class="form-control1 ng-invalid ng-invalid-required ng-touched" value="" />
                             </div>
 
                             <div>
-                                 <textarea placeholder="填写配件简介" id="_desc" name="_desc" class="tab-input"
+                                 <textarea placeholder="养护指南" id="content" name="content" class="tab-input"
                                            style="height:300px;"></textarea>
                             </div>
 
-                            <div class="form-group file ">
-                                <label>配件图片</label> <input type="file" name="password" value="" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
-                                <div class="img-space"
-                                     style="display: none">
-                                </div>
-                            </div>
-
                             <div class="form-group">
-                                <input type="button" class="btn btn-success" onclick="addAttach()" value="确认提交" />
+                                <input type="button" class="btn btn-success" onclick="submitAdv()" value="确认提交" />
                             </div>
                         </div>
                     </form>
@@ -101,84 +86,38 @@
 
 
 <script type="text/javascript">
-
-    $(".file").on("change", "input[type='file']", function () {
-        var file = this.files[0];
-        if (file) {
-            var reader = new FileReader();
-            reader.onload = function (event) {
-                var txt = event.target.result;
-                var img = document.createElement("img");
-                img.src = txt;
-                img.alt = file.name;
-                img.title = file.type;
-                $('.img-space').append(img);
-            };
-        }
-        reader.readAsDataURL(file);
-    });
-
-
-    function addAttach() {
-
-        var name = $('#name').val();
-        var price = $('#price').val();
-        var product = $('#product').val();
-        var _desc = $('#_desc').val();
-
-        if (name == '') {
-            alertMess("请输入配件名称");
+    function submitAdv() {
+        var title = $('#title').val();
+        var content = $('#content').val();
+        if (title == '') {
+            alertMess("请输入标题");
             return;
         }
-        if (price == '') {
-            alertMess("请输入价格");
+        if (content == '') {
+            alertMess("请输入内容");
             return;
         }
-        if (product == '') {
-            alertMess("请输入所属产品");
-            return;
-        }
-
-
 
         $.ajax({
-            type: "post",
-            url: "${pageContext.request.contextPath}/web/attach/add",
+            type: 'post',
+            url: '/web/maintain/add',
+            data: {
+                title: title,
+                content: content
+            },
             dataType: 'json',
-            data: 'name=' + name + '&price=' + price + '&product=' + product +"&_desc="+_desc,
             success: function (json) {
+                console.log(json);
                 if (json.code == '200') {
-                    var aid = json.obj.id;
-                    var img = "";
-                    var fname = "";
-                    var type = "";
-                    $('.img-space > img').each(function () {
-                        img += $(this).attr("src") + "##@##";
-                        fname += $(this).attr("alt") + "##@##";
-                        type += $(this).attr("title") + "##@##";
-                    });
-
-                    $.ajax({
-                        url: '/web/attach/image',
-                        type: 'POST',
-                        data: {
-                            aid: aid,
-                            img: img,
-                            type: type,
-                            alt: fname
-                        }, success: function (json) {
-                            alertMsg("上传成功");
-                            location.href = "/facade/attach.html";
-                        }
-                    });
-
+                    alertMsg('提交成功');
+                    history.go(-1);
+                    return;
                 } else {
                     alertMess(json.msg);
+                    return
                 }
             }
         });
-
-        return true;
     }
 
 </script>

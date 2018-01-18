@@ -1,6 +1,8 @@
 package com.csf.web.repository;
 
 import com.csf.web.entity.Video;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -8,7 +10,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface VideoDao extends JpaRepository<Video, Long> {
 
-
-
-
+    Page<Video> findByTitleLikeAndContentLike(String title, String content, Pageable pageable);
 }

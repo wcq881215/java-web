@@ -5,6 +5,7 @@ import com.csf.web.entity.Video;
 import com.csf.web.entity.VideoSrc;
 import com.csf.web.repository.VideoDao;
 import com.csf.web.repository.VideoSrcDao;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -47,4 +48,11 @@ public class VideoService {
     }
 
 
+    public Page<Video> search(String key, Pageable pageable) {
+        if(StringUtils.isBlank(key)){
+            key = "";
+        }
+        key = "%"+ key+ "%";
+        return videoDao.findByTitleLikeAndContentLike(key,key,pageable);
+    }
 }

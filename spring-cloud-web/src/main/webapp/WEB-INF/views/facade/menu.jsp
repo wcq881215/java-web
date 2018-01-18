@@ -61,9 +61,22 @@
                         <a href="/facade/maintain_add.html">发布保养指南</a>
                     </li>
                     </li>
-
                 </ul>
             </li>
+
+            <li>
+                <a href="#"><i class="fa fa-envelope nav_icon"></i>安装教程<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level ">
+                    <li>
+                        <a href="/facade/video.html">安装教程</a>
+                    </li>
+                    <li>
+                        <a href="/facade/video_add.html">发布安装教程</a>
+                    </li>
+                    </li>
+                </ul>
+            </li>
+
         </ul>
     </div>
     <!-- /.sidebar-collapse -->

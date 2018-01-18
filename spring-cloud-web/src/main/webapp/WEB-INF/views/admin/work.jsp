@@ -46,7 +46,7 @@
     <li>
         <a href="/device/maintentceAdd.html">
             <img src="/images/yscx.png"/>
-            <p>常见问题</p>
+            <p>养护指南</p>
         </a>
     </li>
     <li>

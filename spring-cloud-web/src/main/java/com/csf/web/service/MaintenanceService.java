@@ -2,6 +2,7 @@ package com.csf.web.service;
 
 import com.csf.web.entity.Maintenance;
 import com.csf.web.repository.MaintenanceDao;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,9 +33,20 @@ public class MaintenanceService {
     }
 
 
-    public void saveDevice(Maintenance maintenance) {
-        maintenanceDao.save(maintenance);
+    public Maintenance saveDevice(Maintenance maintenance) {
+        return maintenanceDao.save(maintenance);
     }
 
 
+    public Page<Maintenance> search(String key, Pageable pageable) {
+        if (StringUtils.isBlank(key)) {
+            key = "";
+        }
+        key = "%" + key + "%";
+        return maintenanceDao.findByContentLike(key, pageable);
+    }
+
+    public void deleteMaintance(Long id) {
+        maintenanceDao.delete(id);
+    }
 }

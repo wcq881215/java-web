@@ -5,7 +5,7 @@
 <table class="table table-striped table-bordered table-hover">
     <thead>
     <tr>
-        <th>配件编号</th>
+        <th>视频编号</th>
         <th>标题</th>
         <th>简介</th>
         <th>发布时间</th>
@@ -20,7 +20,7 @@
             <td>${list.content }</td>
             <td><fmt:formatDate value="${list.time }" pattern="yyyy-MM-dd"></fmt:formatDate></td>
             <td>
-                <a href="/fronts/maintain/detail/${list.id }">详情</a>
+                <a href="/fronts/video/detail/${list.id }">详情</a>
                 <a href="javascript:deluser(${list.id})">删除</a>
             </td>
         </tr>

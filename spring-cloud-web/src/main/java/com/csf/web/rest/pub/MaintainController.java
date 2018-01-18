@@ -1,6 +1,7 @@
 package com.csf.web.rest.pub;
 
 import com.csf.web.constants.OAConstants;
+import com.csf.web.dto.APIStatus;
 import com.csf.web.dto.BaseDto;
 import com.csf.web.entity.Maintenance;
 import com.csf.web.entity.User;
@@ -57,6 +58,13 @@ public class MaintainController extends APIService {
         return "/device/maintDetail";
     }
 
+    @RequestMapping("/delete")
+    @ResponseBody
+    public BaseDto deleteMaintance(Long id) {
+        maintenanceService.deleteMaintance(id);
+        return BaseDto.newDto(APIStatus.success);
+    }
+
     @RequestMapping("/add")
     @ResponseBody
     public BaseDto addMaintentce(String title, String content) {
@@ -73,4 +81,25 @@ public class MaintainController extends APIService {
         maintenanceService.saveDevice(maintenance);
         return BaseDto.newDto("");
     }
+
+    @RequestMapping("/update")
+    @ResponseBody
+    public BaseDto updateMaintentce(Long id,String title, String content) {
+        int lenth = 20;//简介长度
+        lenth = lenth > content.length() ? content.length() : lenth;
+        Maintenance maintenance = maintenanceService.findById(id);
+        if(maintenance == null){
+            return BaseDto.newDto(APIStatus.param_error);
+        }
+        maintenance.setContent(content);
+        maintenance.setDesc(content.substring(0,lenth));
+        maintenance.setState(true);
+        maintenance.setTime(new Date());
+        maintenance.setTitle(title);
+        User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
+        maintenance.setUser(user);
+        maintenance = maintenanceService.saveDevice(maintenance);
+        return BaseDto.newDto(maintenance);
+    }
+
 }

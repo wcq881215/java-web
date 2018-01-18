@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <!DOCTYPE HTML>
@@ -23,6 +24,11 @@
     <link href="/front/css/basic.css" rel="stylesheet" />
     <!-- Nav CSS -->
     <link href="/front/css/custom.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/mobile/video.css"/>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/js/html5media.js"></script>
+
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script type="text/javascript" src="/mobile/jquery-1.11.2.min.js"></script>
     <script type="text/javascript" src="/front/dialog/alert.js?v=1.0"></script>
@@ -54,33 +60,55 @@
         <div id="page-inner">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 class="page-head-line">配件库</h1>
+                    <h1 class="page-head-line">安装视频</h1>
 
                 </div>
             </div>
 
+            <input type="hidden" name="aid" id="aid" value="${data.id}">
             <div class="row" style="padding-bottom: 100px;">
                 <div class="col-md-6">
                     <form action="" method="post" onsubmit="">
                         <div id="comments-sec">
                             <div class="form-group  ">
-                                <label>标题:</label> <input type="text" name="title" id="title" class="form-control1 ng-invalid ng-invalid-required ng-touched" value="" />
+                                <label>标题:</label> <input type="text" name="name" id="name" class="form-control1 ng-invalid ng-invalid-required ng-touched" value="${data.title}" />
                             </div>
 
                             <div>
-                                 <textarea placeholder="填写新闻内容" id="content" name="content" class="tab-input"
-                                           style="height:300px;"></textarea>
+                                视频简介<br>
+                                 <textarea placeholder="填写视频简介" id="content" name="content" class="tab-input"
+                                           style="height:300px;">${data.content}</textarea>
+                            </div>
+
+                            <div class="form-group  ">
+                                视频播放<br>
+                                    <c:if test="${not empty data.videos}" >
+                                            <c:forEach items="${data.videos}" var="img">
+                                                    <img src="${img.path}" width="100px" height="100px;" />
+                                                <div class="" style="text-align: center;">
+                                                    <video style="margin: 0px auto;" class="video" width="100%" height="347" controls preload>
+                                                        <source src="${img.path}" media="only screen and (min-device-width: 568px)"></source>
+                                                        <source src="${img.path}" media="only screen and (max-device-width: 568px)"></source>
+                                                        <source src="${img.path}"></source>
+                                                    </video>
+                                                    <div class="clear"></div>
+                                                </div>
+
+                                            </c:forEach>
+
+                                    </c:if>
+
                             </div>
 
                             <div class="form-group file ">
-                                <label>新闻图片</label> <input type="file" name="password" value="" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
+                                <label>上传新视频(视频文件（视频格式 mp4，swf）：)</label> <input type="file" name="video" value="" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
                                 <div class="img-space"
                                      style="">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <input type="button" class="btn btn-success" onclick="addNews()" value="确认提交" />
+                                <input type="button" class="btn btn-success" onclick="addAttach()" value="确认提交" />
                             </div>
                         </div>
                     </form>
@@ -101,46 +129,36 @@
 
 <script type="text/javascript">
 
-    $(".file").on("change", "input[type='file']", function () {
-        var file = this.files[0];
-        if (file) {
-            var reader = new FileReader();
-            reader.onload = function (event) {
-                var txt = event.target.result;
-                var img = document.createElement("img");
-                img.src = txt;
-                img.alt = file.name;
-                img.title = file.type;
-                $('.img-space').append(img);
-            };
-        }
-        reader.readAsDataURL(file);
-    });
+    function addAttach() {
+        var aid = $('#aid').val();
+        var name = $('#name').val();
+        var price = $('#price').val();
+        var product = $('#product').val();
+        var _desc = $('#_desc').val();
 
+        if (name == '') {
+            alertMess("请输入配件名称");
+            return;
+        }
+        if (price == '') {
+            alertMess("请输入价格");
+            return;
+        }
+        if (product == '') {
+            alertMess("请输入所属产品");
+            return;
+        }
 
-    function addNews() {
-        var title = $('#title').val();
-        var content = $('#content').val();
-        if (title == '') {
-            alertMess("请输入标题");
-            return false;
-        }
-        if (content == '') {
-            alertMess("请输入内容");
-            return false;
-        }
 
 
         $.ajax({
-            url: '/web/news/add',
-            type: 'POST',
-            data: {
-                title: title,
-                content: content
-            },
+            type: "post",
+            url: "${pageContext.request.contextPath}/web/attach/update",
+            dataType: 'json',
+            data: 'name=' + name + '&price=' + price + '&product=' + product +"&desc="+_desc+"&id="+aid,
             success: function (json) {
                 if (json.code == '200') {
-                    var cid = json.obj.id;
+                    var aid = json.obj.id;
                     var img = "";
                     var fname = "";
                     var type = "";
@@ -151,17 +169,16 @@
                     });
 
                     $.ajax({
-                        url: '/web/news/image',
+                        url: '/web/attach/image',
                         type: 'POST',
                         data: {
-                            cid: cid,
+                            aid: aid,
                             img: img,
                             type: type,
                             alt: fname
                         }, success: function (json) {
-                            console.log("upload " + fname + " image ");
                             alertMsg("上传成功");
-                            location.href = "/facade/news.html"
+                            location.href = "/facade/attach.html";
                         }
                     });
 

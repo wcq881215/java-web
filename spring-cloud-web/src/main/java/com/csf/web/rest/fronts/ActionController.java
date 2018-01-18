@@ -1,14 +1,10 @@
 package com.csf.web.rest.fronts;
 
-import com.csf.web.entity.Attach;
-import com.csf.web.entity.News;
-import com.csf.web.entity.Order;
-import com.csf.web.entity.User;
+import com.csf.web.entity.*;
 import com.csf.web.rest.APIService;
 import com.csf.web.rest.AttacheService;
-import com.csf.web.service.NewsService;
-import com.csf.web.service.OrderService;
-import com.csf.web.service.UserService;
+import com.csf.web.rest.pub.MaintainController;
+import com.csf.web.service.*;
 import com.csf.web.util.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -44,6 +40,12 @@ public class ActionController extends APIService {
     @Autowired
     private NewsService newsService;
 
+    @Autowired
+    private MaintenanceService maintenanceService;
+
+    @Autowired
+    private VideoService videoService;
+
 
     @RequestMapping("/user/login")
     public String login(String username, String password) {
@@ -53,19 +55,19 @@ public class ActionController extends APIService {
     }
 
     @RequestMapping("/user/list")
-    public String userList(String name, String mobile, String area,@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "30") Integer pageSize) {
+    public String userList(String name, String mobile, String area, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "30") Integer pageSize) {
         page = page - 1; //实际下标  ： 页码 -1
         System.out.println(String.format(" user name %s ,mobile %s", name, mobile));
-        Page<User> data = userService.findUser(name, mobile, area,page, pageSize);
+        Page<User> data = userService.findUser(name, mobile, area, page, pageSize);
         attr("data", data);
         return "/facade/userListAjax";
     }
 
     @RequestMapping("/user/list/ajax")
     @ResponseBody
-    public Page userListAjax(String name, String mobile, String area,@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "30") Integer pageSize) {
+    public Page userListAjax(String name, String mobile, String area, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "30") Integer pageSize) {
         System.out.println(String.format(" user name %s ,mobile %s", name, mobile));
-        Page<User> data = userService.findUser(name, mobile,area, page, pageSize);
+        Page<User> data = userService.findUser(name, mobile, area, page, pageSize);
         return data;
     }
 
@@ -82,8 +84,8 @@ public class ActionController extends APIService {
     public String attachList(String name, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "30") Integer pageSize) {
         System.out.println(String.format(" user %s , ", name));
         page = page - 1; //实际下标  ： 页码 -1
-        Sort sort = new Sort(Sort.Direction.DESC,"time");
-        Pageable pageable = new PageRequest(page,pageSize,sort);
+        Sort sort = new Sort(Sort.Direction.DESC, "time");
+        Pageable pageable = new PageRequest(page, pageSize, sort);
         Page<Attach> data = attacheService.searchAttach(name, pageable);
         attr("data", data);
         return "/facade/attachListAjax";
@@ -107,8 +109,8 @@ public class ActionController extends APIService {
     public String newsList(String key, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "30") Integer pageSize) {
         System.out.println(String.format(" user %s , ", key));
         page = page - 1; //实际下标  ： 页码 -1
-        Sort sort = new Sort(Sort.Direction.DESC,"time");
-        Pageable pageable = new PageRequest(page,pageSize,sort);
+        Sort sort = new Sort(Sort.Direction.DESC, "time");
+        Pageable pageable = new PageRequest(page, pageSize, sort);
         Page<News> data = newsService.searchNews(key, pageable);
 //        if (!CollectionUtils.isEmpty(data.getContent())){
 //            for(News news : data.getContent()){
@@ -126,5 +128,48 @@ public class ActionController extends APIService {
         return "/facade/news_detail";
     }
 
+    @RequestMapping("/maintain/list")
+    public String maintainList(String key, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "30") Integer pageSize) {
+        System.out.println(String.format(" user %s , ", key));
+        page = page - 1; //实际下标  ： 页码 -1
+        Sort sort = new Sort(Sort.Direction.DESC, "time");
+        Pageable pageable = new PageRequest(page, pageSize, sort);
+        Page<Maintenance> data = maintenanceService.search(key, pageable);
+        if (!CollectionUtils.isEmpty(data.getContent())) {
+            for (Maintenance maintenance : data.getContent()) {
+                String desc = maintenance.getContent();
+                if (desc != null && desc.length() > 20) {
+                    maintenance.setContent(desc.substring(0, 20));
+                }
+            }
+        }
+        attr("data", data);
+        return "/facade/maintainListAjax";
+    }
+
+    @RequestMapping("/maintain/detail/{id}")
+    public String maintainDetail(@PathVariable("id") Long id) {
+        Maintenance data = maintenanceService.findById(id);
+        attr("data", data);
+        return "/facade/maintain_detail";
+    }
+
+    @RequestMapping("/video/list")
+    public String videoinList(String key, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "30") Integer pageSize) {
+        System.out.println(String.format(" user %s , ", key));
+        page = page - 1; //实际下标  ： 页码 -1
+        Sort sort = new Sort(Sort.Direction.DESC, "time");
+        Pageable pageable = new PageRequest(page, pageSize, sort);
+        Page<Video> data = videoService.search(key, pageable);
+        attr("data", data);
+        return "/facade/videoListAjax";
+    }
+
+    @RequestMapping("/video/detail/{id}")
+    public String videoDetail(@PathVariable("id") Long id) {
+        Video data = videoService.findById(id);
+        attr("data", data);
+        return "/facade/video_detail";
+    }
 
 }

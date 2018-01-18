@@ -42,9 +42,9 @@
         <div id="page-inner">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 class="page-head-line">保养指南</h1>
+                    <h1 class="page-head-line">安装教程</h1>
                     <div class="form-group  ">
-                        <input type="text" name="name" id="name" value="" placeholder="检索内容"/>
+                        <input type="text" name="name" id="name" value="" placeholder="关键字"/>
                         <input type="button" class="button btn" value="查询" onclick="search()"/>
                     </div>
 
@@ -96,9 +96,9 @@
         var name = $('#name').val();
         $.ajax({
             type : "post",
-            url : "/fronts/maintain/list",
+            url : "/fronts/video/list",
             dataType : 'html',
-            data : 'page=' + page + '&pageSize=' + pageSize+'&key='+name,
+            data : 'page=' + page + '&pageSize=' + pageSize+'&name='+name,
             success : function(html) {
                 $('.table-responsive').html(html);
             }
@@ -137,7 +137,7 @@
     function deluser(id) {
         $.ajax({
             type : "post",
-            url : "/web/maintain/delete",
+            url : "/web/video/delete",
             dataType : 'json',
             data : 'id=' + id ,
             success : function(json) {

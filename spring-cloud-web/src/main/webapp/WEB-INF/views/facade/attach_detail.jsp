@@ -29,6 +29,13 @@
     <script type="text/javascript" src="/front/dialog/alert.js?v=1.0"></script>
     <script type="text/javascript" src="/front/dialog/plug-in.js"></script>
 
+    <style type="text/css">
+        .file .img-space img{
+            width:  100px;
+            height:100px;
+        }
+    </style>
+
 </head>
 <body>
 <div id="wrapper">
@@ -91,7 +98,7 @@
                             <div class="form-group file ">
                                 <label>上传新配件图片</label> <input type="file" name="password" value="" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
                                 <div class="img-space"
-                                     style="display: none">
+                                     style="">
                                 </div>
                             </div>
 
