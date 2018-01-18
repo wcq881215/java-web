@@ -108,7 +108,7 @@
                             </div>
 
                             <div class="form-group">
-                                <input type="button" class="btn btn-success" onclick="addAttach()" value="确认提交" />
+                                <input type="button" class="btn btn-success" onclick="addCase()" value="确认提交" />
                             </div>
                         </div>
                     </form>
@@ -129,62 +129,48 @@
 
 <script type="text/javascript">
 
-    function addAttach() {
+    function addCase() {
         var aid = $('#aid').val();
-        var name = $('#name').val();
-        var price = $('#price').val();
-        var product = $('#product').val();
-        var _desc = $('#_desc').val();
-
-        if (name == '') {
-            alertMess("请输入配件名称");
-            return;
+        var title = $('#title').val();
+        var content = $('#content').val();
+        if (title == '') {
+            alertMess("请输入标题");
+            return false;
         }
-        if (price == '') {
-            alertMess("请输入价格");
-            return;
-        }
-        if (product == '') {
-            alertMess("请输入所属产品");
-            return;
+        if (content == '') {
+            alertMess("请输入视频简介");
+            return false;
         }
 
-
-
+        var formData = new FormData();
+        formData.append("file", $("#select_file1")[0].files[0]);
+        formData.append("title", title);
+        formData.append("id", aid);
+        formData.append("content", content);
         $.ajax({
-            type: "post",
-            url: "${pageContext.request.contextPath}/web/attach/update",
-            dataType: 'json',
-            data: 'name=' + name + '&price=' + price + '&product=' + product +"&desc="+_desc+"&id="+aid,
-            success: function (json) {
-                if (json.code == '200') {
-                    var aid = json.obj.id;
-                    var img = "";
-                    var fname = "";
-                    var type = "";
-                    $('.img-space > img').each(function () {
-                        img += $(this).attr("src") + "##@##";
-                        fname += $(this).attr("alt") + "##@##";
-                        type += $(this).attr("title") + "##@##";
-                    });
-
-                    $.ajax({
-                        url: '/web/attach/image',
-                        type: 'POST',
-                        data: {
-                            aid: aid,
-                            img: img,
-                            type: type,
-                            alt: fname
-                        }, success: function (json) {
-                            alertMsg("上传成功");
-                            location.href = "/facade/attach.html";
-                        }
-                    });
+            url: '/web/video/update',
+            type: 'POST',
+            data: formData,
+            //不去处理发送的数据
+            processData: false,
+            //不去设置Content-Type请求头
+            contentType: false,
+            beforeSend: function () {
+                console.log("正在进行，请稍候");
+            },
+            success: function (responseStr) {
+                if (responseStr.code == '200') {
+                    alertMess('提交成功');
+                    console.log("成功" + responseStr);
+                    location.href = "/facade/video.html";
 
                 } else {
-                    alertMess(json.msg);
+                    alertMess('提交失败');
+                    console.log("失败");
                 }
+            },
+            error: function (responseStr) {
+                console.log("error");
             }
         });
 

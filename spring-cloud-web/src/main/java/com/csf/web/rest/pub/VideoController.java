@@ -1,6 +1,7 @@
 package com.csf.web.rest.pub;
 
 import com.csf.web.constants.OAConstants;
+import com.csf.web.dto.APIStatus;
 import com.csf.web.dto.BaseDto;
 import com.csf.web.entity.User;
 import com.csf.web.entity.Video;
@@ -8,16 +9,13 @@ import com.csf.web.entity.VideoSrc;
 import com.csf.web.service.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -110,5 +108,35 @@ public class VideoController extends FileUploadService {
         return BaseDto.newDto(video.getId());
     }
 
+    @RequestMapping("/update")
+    @ResponseBody
+    public BaseDto saveVideo(Long id,String title, String content, MultipartFile file, HttpServletRequest request) {
+        Video video = videoService.findById(id);
+        if(video == null){
+            return BaseDto.newDto(APIStatus.param_error);
+        }
+        //upload
+        Map<String, String> map = upload(file, request);
+        //content
+        video.setContent(content);
+        video.setState(true);
+        video.setTime(new Date());
+        video.setTitle(title);
+        User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
+        video.setUser(user);
+        video = videoService.saveVideo(video);
+
+        //video
+        VideoSrc vds = new VideoSrc();
+        vds.setAlt(map.get("file"));
+        vds.setPath(map.get("src"));
+        vds.setSrc(map.get("url"));
+        vds.setVid(video.getId());
+        vds.setState(true);
+        vds.setUpload(new Date());
+        videoService.saveVideoSrc(vds);
+
+        return BaseDto.newDto(video.getId());
+    }
 
 }

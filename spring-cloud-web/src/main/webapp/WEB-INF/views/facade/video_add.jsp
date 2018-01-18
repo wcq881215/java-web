@@ -64,31 +64,24 @@
                     <form action="" method="post" onsubmit="">
                         <div id="comments-sec">
                             <div class="form-group  ">
-                                <label>配件名称:</label> <input type="text" name="name" id="name" class="form-control1 ng-invalid ng-invalid-required ng-touched" value="" />
+                                <label>标题:</label> <input type="text" name="title" id="title" class="form-control1 ng-invalid ng-invalid-required ng-touched" value="" />
                             </div>
 
-                            <div class="form-group  ">
-                                <label>价格</label> <input type="number" name="price" id="price" value="" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
-                            </div>
-
-                            <div class="form-group  ">
-                                <label>所属产品</label> <input type="text" name="product" id="product" value="" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
-                            </div>
 
                             <div>
-                                 <textarea placeholder="填写配件简介" id="_desc" name="_desc" class="tab-input"
+                                 <textarea placeholder="视频简介" id="_desc" name="_desc" class="tab-input"
                                            style="height:300px;"></textarea>
                             </div>
 
                             <div class="form-group file ">
-                                <label>配件图片</label> <input type="file" name="password" value="" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
+                                <label>配件图片</label> <input type="file" name="file" id="select_file1" value="" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
                                 <div class="img-space"
                                      style="">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <input type="button" class="btn btn-success" onclick="addAttach()" value="确认提交" />
+                                <input type="button" class="btn btn-success" onclick="addCase()" value="确认提交" />
                             </div>
                         </div>
                     </form>
@@ -108,80 +101,46 @@
 
 
 <script type="text/javascript">
-
-    $(".file").on("change", "input[type='file']", function () {
-        var file = this.files[0];
-        if (file) {
-            var reader = new FileReader();
-            reader.onload = function (event) {
-                var txt = event.target.result;
-                var img = document.createElement("img");
-                img.src = txt;
-                img.alt = file.name;
-                img.title = file.type;
-                $('.img-space').append(img);
-            };
+    function addCase() {
+        var title = $('#title').val();
+        var content = $('#content').val();
+        if (title == '') {
+            alertMess("请输入标题");
+            return false;
         }
-        reader.readAsDataURL(file);
-    });
-
-
-    function addAttach() {
-
-        var name = $('#name').val();
-        var price = $('#price').val();
-        var product = $('#product').val();
-        var _desc = $('#_desc').val();
-
-        if (name == '') {
-            alertMess("请输入配件名称");
-            return;
-        }
-        if (price == '') {
-            alertMess("请输入价格");
-            return;
-        }
-        if (product == '') {
-            alertMess("请输入所属产品");
-            return;
+        if (content == '') {
+            alertMess("请输入视频简介");
+            return false;
         }
 
-
-
+        var formData = new FormData();
+        formData.append("file", $("#select_file1")[0].files[0]);
+        formData.append("title", title);
+        formData.append("content", content);
         $.ajax({
-            type: "post",
-            url: "${pageContext.request.contextPath}/web/attach/add",
-            dataType: 'json',
-            data: 'name=' + name + '&price=' + price + '&product=' + product +"&_desc="+_desc,
-            success: function (json) {
-                if (json.code == '200') {
-                    var aid = json.obj.id;
-                    var img = "";
-                    var fname = "";
-                    var type = "";
-                    $('.img-space > img').each(function () {
-                        img += $(this).attr("src") + "##@##";
-                        fname += $(this).attr("alt") + "##@##";
-                        type += $(this).attr("title") + "##@##";
-                    });
-
-                    $.ajax({
-                        url: '/web/attach/image',
-                        type: 'POST',
-                        data: {
-                            aid: aid,
-                            img: img,
-                            type: type,
-                            alt: fname
-                        }, success: function (json) {
-                            alertMsg("上传成功");
-                            location.href = "/facade/attach.html";
-                        }
-                    });
+            url: '/web/video/add',
+            type: 'POST',
+            data: formData,
+            //不去处理发送的数据
+            processData: false,
+            //不去设置Content-Type请求头
+            contentType: false,
+            beforeSend: function () {
+                console.log("正在进行，请稍候");
+            },
+            success: function (responseStr) {
+                if (responseStr.code == '200') {
+                    alertMess('提交成功');
+                    console.log("成功" + responseStr);
+                    location.href = "/facade/video.html";
 
                 } else {
-                    alertMess(json.msg);
+                    alertMess('提交失败');
+                    console.log("失败");
                 }
+            },
+            error: function (responseStr) {
+                console.log("error");
             }
         });
 
