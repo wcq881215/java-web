@@ -167,7 +167,7 @@
             url: '/web/order/srv/sign/fix',
             data: {
                 id: ${data.id},
-                type: 1,
+                type: 3,
                 longitude: longitude,
                 latitude: latitude
             },
@@ -217,7 +217,7 @@
             url: '/web/order/srv/sign/fix',
             data: {
                 id: ${data.id},
-                type: 3,
+                type: 1,
                 longitude: longitude,
                 latitude: latitude
             },
@@ -265,7 +265,7 @@
 
         $.ajax({
             type: 'post',
-            url: '/web/order/srv/status',
+            url: '/web/order/srv/fix/status',
             data: {
                 id: ${data.id},
                 status: status,
@@ -275,7 +275,7 @@
             success: function (json) {
                 console.log(json);
                if(json.code ==  '200'){
-                    location.href =  "/order/after_sale.html";
+                    location.href =  "/order/service_ing.html";
                }else{
                    alertMess("操作失败");
                }

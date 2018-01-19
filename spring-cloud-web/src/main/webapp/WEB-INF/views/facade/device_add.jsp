@@ -68,7 +68,7 @@
                             </div>
 
                             <div class="form-group  ">
-                                <label>设备名称</label> <input type="number" name="_name" id="_name" value="" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
+                                <label>设备名称</label> <input type="text" name="_name" id="_name" value="" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
                             </div>
 
                             <div class="form-group  ">

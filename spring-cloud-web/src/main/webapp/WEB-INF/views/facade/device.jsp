@@ -42,9 +42,9 @@
         <div id="page-inner">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 class="page-head-line">配件查询</h1>
+                    <h1 class="page-head-line">设备管理</h1>
                     <div class="form-group  ">
-                        <input type="text" name="key" id="key" value="" placeholder="配件名称"/>
+                        <input type="text" name="key" id="key" value="" placeholder="设备名称"/>
                         <input type="button" class="button btn" value="查询" onclick="search()"/>
                     </div>
 

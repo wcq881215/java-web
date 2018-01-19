@@ -675,7 +675,7 @@ public class OrderController extends APIService {
             return;
         }
         if ("2".equals(order.getState())) {
-            order.setState("安装完成");
+            order.setState("维修完成");
             order.setColor("#c9b1de");
             return;
         }
@@ -710,6 +710,7 @@ public class OrderController extends APIService {
         sign.setUser(user);
         sign.setType(type);
         sign.setTime(new Date());
+        sign.setCatalog(SignOrderType.INSTALL);
         orderService.addSign(sign);
 
         String title = null, content = null;
@@ -766,6 +767,7 @@ public class OrderController extends APIService {
         sign.setUser(user);
         sign.setType(type);
         sign.setTime(new Date());
+        sign.setCatalog(SignOrderType.FIX);
         orderService.addFixSign(sign);
 
         String title = null, content = null;

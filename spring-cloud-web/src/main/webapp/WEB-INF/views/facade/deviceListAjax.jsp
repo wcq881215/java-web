@@ -5,12 +5,12 @@
 <table class="table table-striped table-bordered table-hover">
     <thead>
     <tr>
-        <th>配件编号</th>
-        <th>配件名称</th>
-        <th>配件价格</th>
-        <th>所属产品</th>
-        <th>简介</th>
-        <th>发布时间</th>
+        <th>编号</th>
+        <th>设备型号</th>
+        <th>设备名称</th>
+        <th>设备分类</th>
+        <th>设备数量</th>
+        <th>销售价格</th>
         <th>操作</th>
     </tr>
     </thead>
@@ -18,13 +18,13 @@
     <c:forEach items="${data.content}" var="list">
         <tr>
             <td>${list.id }</td>
+            <td>${list.sn }</td>
             <td>${list.name }</td>
+            <td>${list.type }</td>
+            <td>${list.number }</td>
             <td>${list.price }</td>
-            <td>${list.product }</td>
-            <td>${list.desc }</td>
-            <td><fmt:formatDate value="${list.time }" pattern="yyyy-MM-dd"></fmt:formatDate></td>
             <td>
-                <a href="/fronts/attach/detail/${list.id }">详情</a>
+                <a href="/fronts/device/detail/${list.id }">详情</a>
                 <a href="javascript:deluser(${list.id})">删除</a>
             </td>
         </tr>

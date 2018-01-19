@@ -55,7 +55,7 @@
         <div id="page-inner">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 class="page-head-line">配件库</h1>
+                    <h1 class="page-head-line">设备管理</h1>
 
                 </div>
             </div>
@@ -66,25 +66,42 @@
                     <form action="" method="post" onsubmit="">
                         <div id="comments-sec">
                             <div class="form-group  ">
-                                <label>配件名称:</label> <input type="text" name="name" id="name" class="form-control1 ng-invalid ng-invalid-required ng-touched" value="${data.name}" />
+                                <label>设备型号:</label> <input type="text" name="sn" id="sn" class="form-control1 ng-invalid ng-invalid-required ng-touched" value="${data.sn}" />
                             </div>
 
                             <div class="form-group  ">
-                                <label>价格</label> <input type="number" name="price" id="price" value="${data.price}" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
+                                <label>设备名称</label> <input type="text" name="_name" id="_name" value="${data.name}" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
                             </div>
 
                             <div class="form-group  ">
-                                <label>所属产品</label> <input type="text" name="product" id="product" value="${data.product}" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
+                                <label>设备分类</label> <input type="text" name="type" id="type" value="${data.type}" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
                             </div>
 
                             <div>
-                                配件简介<br>
-                                 <textarea placeholder="填写配件简介" id="_desc" name="_desc" class="tab-input"
-                                           style="height:300px;">${data.desc}</textarea>
+                                <label>请选择设备所属办事处：</label>
+                                <select id="proxy" name="proxy" class="form-control1 ng-invalid ng-invalid-required">
+
+
+                                </select>
+                            </div>
+
+
+                            <div class="form-group  ">
+                                <label>设备数量</label> <input type="text" name="number" id="number" value="${data.number}" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
                             </div>
 
                             <div class="form-group  ">
-                                配件图片<br>
+                                <label>销售价格</label> <input type="text" name="price" id="price" value="${data.price}" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
+                            </div>
+
+                            <div>
+                                 <textarea placeholder="设备简介" id="_desc" name="_desc" class="tab-input"
+                                           style="height:300px;">${data.desc}</textarea>
+                            </div>
+
+
+                            <div class="form-group  ">
+                                设备图片<br>
                                     <c:if test="${not empty data.imgs}" >
                                             <c:forEach items="${data.imgs}" var="img">
                                                     <img src="${img.src}" width="100px" height="100px;" />
@@ -103,7 +120,7 @@
                             </div>
 
                             <div class="form-group">
-                                <input type="button" class="btn btn-success" onclick="addAttach()" value="确认提交" />
+                                <input type="button" class="btn btn-success" onclick="addDevice()" value="确认提交" />
                             </div>
                         </div>
                     </form>
@@ -140,37 +157,60 @@
         reader.readAsDataURL(file);
     });
 
+    $(document).ready(function () {
+        queryProxy();
+    });
 
-    function addAttach() {
+    function queryProxy() {
+        $.ajax({
+            url: '/web/proxy/list',
+            type: 'get',
+            data: {},
+            dataType: "html",
+            success: function (html) {
+                $('#proxy').html(html);
+            }
+        });
+    }
+
+    function addDevice() {
+
         var aid = $('#aid').val();
-        var name = $('#name').val();
+        var sn = $('#sn').val();
+        var _name = $('#_name').val();
+        var type = $('#type').val();
+        var proxy = $('#proxy').val();
+        var number = $('#number').val();
         var price = $('#price').val();
-        var product = $('#product').val();
         var _desc = $('#_desc').val();
 
-        if (name == '') {
-            alertMess("请输入配件名称");
-            return;
-        }
-        if (price == '') {
-            alertMess("请输入价格");
-            return;
-        }
-        if (product == '') {
-            alertMess("请输入所属产品");
-            return;
-        }
 
+        if (_name == '') {
+            alertMess("请输入设备名称");
+            return false;
+        }
+        if (_desc == '') {
+            alertMess("请输入设备简介");
+            return false;
+        }
 
 
         $.ajax({
-            type: "post",
-            url: "${pageContext.request.contextPath}/web/attach/update",
-            dataType: 'json',
-            data: 'name=' + name + '&price=' + price + '&product=' + product +"&desc="+_desc+"&id="+aid,
+            url: '/web/device/update',
+            type: 'POST',
+            data: {
+                id: aid,
+                sn: sn,
+                _name: _name,
+                type: type,
+                proxy: proxy,
+                number: number,
+                price: price,
+                _desc: _desc
+            },
             success: function (json) {
                 if (json.code == '200') {
-                    var aid = json.obj.id;
+                    var did = json.obj.id;
                     var img = "";
                     var fname = "";
                     var type = "";
@@ -181,16 +221,17 @@
                     });
 
                     $.ajax({
-                        url: '/web/attach/image',
+                        url: '/web/device/image',
                         type: 'POST',
                         data: {
-                            aid: aid,
+                            did: did,
                             img: img,
                             type: type,
                             alt: fname
                         }, success: function (json) {
-                            alertMsg("上传成功");
-                            location.href = "/facade/attach.html";
+                            console.log("upload " + fname + " image ");
+                            alertMess("上传成功");
+                            location.href = "/facade/device.html"
                         }
                     });
 

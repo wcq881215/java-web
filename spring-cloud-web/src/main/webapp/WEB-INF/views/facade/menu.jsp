@@ -90,6 +90,19 @@
                 </ul>
             </li>
 
+            <li>
+                <a href="#"><i class="fa fa-envelope nav_icon"></i>设备管理<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level ">
+                    <li>
+                        <a href="/facade/device.html">设备管理</a>
+                    </li>
+                    <li>
+                        <a href="/facade/device_add.html">发布设备信息</a>
+                    </li>
+                    </li>
+                </ul>
+            </li>
+
         </ul>
     </div>
     <!-- /.sidebar-collapse -->
