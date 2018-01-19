@@ -1,5 +1,6 @@
 package com.csf.web.rest.pub;
 
+import com.csf.web.dto.APIStatus;
 import com.csf.web.dto.BaseDto;
 import com.csf.web.entity.Proxy;
 import com.csf.web.rest.APIService;
@@ -43,6 +44,28 @@ public class ProxyController extends APIService {
         proxy.setState(true);
         proxy = proxyService.addProxy(proxy);
         return BaseDto.newDto(proxy);
+    }
+
+    @RequestMapping("/update")
+    @ResponseBody
+    public BaseDto updateProxy(Proxy proxy) {
+        if(proxy == null){
+            return BaseDto.newDto(APIStatus.param_error);
+        }
+        proxy.setTime(new Date());
+        proxy.setState(true);
+        proxy = proxyService.addProxy(proxy);
+        return BaseDto.newDto(proxy);
+    }
+
+    @RequestMapping("/delete")
+    @ResponseBody
+    public BaseDto deleteProxy(Long id) {
+        if(id == null){
+            return BaseDto.newDto(APIStatus.param_error);
+        }
+        proxyService.delete(id);
+        return BaseDto.newDto(APIStatus.success);
     }
 
 }

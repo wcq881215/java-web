@@ -2,8 +2,10 @@ package com.csf.web.service;
 
 import com.csf.web.entity.Proxy;
 import com.csf.web.repository.ProxyDao;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,5 +31,17 @@ public class ProxyService {
 
     public Proxy findOne(Long id) {
         return proxyDao.findOne(id);
+    }
+
+    public Page<Proxy> search(String key, Pageable pageable) {
+        if (StringUtils.isBlank(key)) {
+            key = "";
+        }
+        key = "%" + key + "%";
+        return proxyDao.findByPnameLike(key, pageable);
+    }
+
+    public void delete(Long id) {
+        proxyDao.delete(id);
     }
 }

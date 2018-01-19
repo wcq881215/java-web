@@ -6,6 +6,7 @@ import com.csf.web.entity.User;
 import com.csf.web.repository.DeviceDao;
 import com.csf.web.repository.DeviceImgDao;
 import com.csf.web.repository.UserDao;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -50,8 +51,8 @@ public class DeviceService {
 
     public Boolean existDevice(String sn) {
         Device device = deviceDao.findBySn(sn);
-        if(device == null){
-            return  false;
+        if (device == null) {
+            return false;
         }
         return true;
     }
@@ -67,4 +68,19 @@ public class DeviceService {
     }
 
 
+    public Page<Device> search(String key, Pageable pageable) {
+        if (StringUtils.isBlank(key)) {
+            key = "";
+        }
+        key = "%" + key + "%";
+        return deviceDao.findByNameLike(key, pageable);
+    }
+
+    public void clearImg(Long did) {
+        deviceImgDao.deleteByDevice(did);
+    }
+
+    public void deleteDevice(Long id) {
+        deviceDao.delete(id);
+    }
 }

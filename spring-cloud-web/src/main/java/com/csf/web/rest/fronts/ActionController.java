@@ -46,11 +46,22 @@ public class ActionController extends APIService {
     @Autowired
     private VideoService videoService;
 
+    @Autowired
+    private ProxyService proxyService;
+
+    @Autowired
+    private DeviceService deviceService;
 
     @RequestMapping("/user/login")
     public String login(String username, String password) {
         System.out.println(String.format(" user %s ,password %s", username, password));
-
+        User user = userService.login(username, password);
+        if (user == null) {
+            return webFailure("400", "用户或密码错误");
+        }
+        if (!UserRole.ADMIN.getName().equals(user.getRole())) {
+            return webFailure("400", "管理员才能登陆");
+        }
         return "/facade/home";
     }
 
@@ -170,6 +181,42 @@ public class ActionController extends APIService {
         Video data = videoService.findById(id);
         attr("data", data);
         return "/facade/video_detail";
+    }
+
+    @RequestMapping("/proxy/list")
+    public String proxyList(String key, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "30") Integer pageSize) {
+        System.out.println(String.format(" key %s , ", key));
+        page = page - 1; //实际下标  ： 页码 -1
+        Sort sort = new Sort(Sort.Direction.DESC, "time");
+        Pageable pageable = new PageRequest(page, pageSize, sort);
+        Page<Proxy> data = proxyService.search(key, pageable);
+        attr("data", data);
+        return "/facade/proxyListAjax";
+    }
+
+    @RequestMapping("/proxy/detail/{id}")
+    public String proxyDetail(@PathVariable("id") Long id) {
+        Proxy data = proxyService.findOne(id);
+        attr("data", data);
+        return "/facade/proxy_detail";
+    }
+
+    @RequestMapping("/device/list")
+    public String deviceList(String key, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "30") Integer pageSize) {
+        System.out.println(String.format(" key %s , ", key));
+        page = page - 1; //实际下标  ： 页码 -1
+        Sort sort = new Sort(Sort.Direction.DESC, "time");
+        Pageable pageable = new PageRequest(page, pageSize, sort);
+        Page<Device> data = deviceService.search(key, pageable);
+        attr("data", data);
+        return "/facade/deviceListAjax";
+    }
+
+    @RequestMapping("/device/detail/{id}")
+    public String deviceDetail(@PathVariable("id") Long id) {
+        Device data = deviceService.findById(id);
+        attr("data", data);
+        return "/facade/device_detail";
     }
 
 }

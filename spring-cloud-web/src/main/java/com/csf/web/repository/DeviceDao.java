@@ -1,9 +1,9 @@
 package com.csf.web.repository;
 
 import com.csf.web.entity.Device;
-import com.csf.web.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -17,6 +17,8 @@ public interface DeviceDao extends JpaRepository<Device, Long> {
     Device findByName(String name);
 
     List<Device> findByNameLike(String name);
+
+    Page<Device> findByNameLike(String name, Pageable pageable);
 
     Device findBySn(String sn);
 

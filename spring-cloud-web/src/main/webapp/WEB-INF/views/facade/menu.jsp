@@ -77,6 +77,19 @@
                 </ul>
             </li>
 
+            <li>
+                <a href="#"><i class="fa fa-envelope nav_icon"></i>办事处<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level ">
+                    <li>
+                        <a href="/facade/proxy.html">办事处查询</a>
+                    </li>
+                    <li>
+                        <a href="/facade/proxy_add.html">发布办事处信息</a>
+                    </li>
+                    </li>
+                </ul>
+            </li>
+
         </ul>
     </div>
     <!-- /.sidebar-collapse -->

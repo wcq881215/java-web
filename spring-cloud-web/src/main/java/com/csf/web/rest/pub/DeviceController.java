@@ -1,3 +1,4 @@
+
 package com.csf.web.rest.pub;
 
 import com.csf.web.constants.OAConstants;
@@ -102,6 +103,39 @@ public class DeviceController extends FileUploadService {
         return BaseDto.newDto(device);
     }
 
+    @RequestMapping("/update")
+    @ResponseBody
+    public BaseDto updateDevice(
+            Long id,
+            String sn,
+            String _name,
+            String type,
+            Long proxy,
+            Integer number,
+            Double price,
+            String _desc) {
+
+        if (ParamCheck.uncheck(id, sn, _name, type, proxy, number, price, _desc)) {
+            return BaseDto.newDto(APIStatus.param_error);
+        }
+        Device device = deviceService.findById(id);
+        Proxy p = proxyService.findOne(proxy);
+        if (p == null) {
+            return BaseDto.newDto(APIStatus.param_error);
+        }
+        device.setDesc(_desc);
+        device.setName(_name);
+        device.setNumber(number);
+        device.setPrice(price);
+        device.setProxy(p);
+        device.setSn(sn);
+        device.setState(true);
+        device.setTime(new Date());
+        device.setType(type);
+        deviceService.saveDevice(device);
+        return BaseDto.newDto(device);
+    }
+
     @RequestMapping("/image")
     @ResponseBody
     public BaseDto uploadImg(String img, Long did, String type, String alt,
@@ -109,6 +143,8 @@ public class DeviceController extends FileUploadService {
         if (ParamCheck.uncheck(img, did, type, alt)) {
             return BaseDto.newDto(APIStatus.param_error);
         }
+        //clear old img
+        deviceService.clearImg(did);
         String imgs[] = img.split("##@##");
         String types[] = type.split("##@##");
         String alts[] = alt.split("##@##");
@@ -127,4 +163,13 @@ public class DeviceController extends FileUploadService {
 
         return BaseDto.newDto("");
     }
+
+    @RequestMapping("/delete")
+    @ResponseBody
+    public BaseDto updateDevice(Long id) {
+        deviceService.deleteDevice(id);
+        return BaseDto.newDto("");
+    }
+
+
 }
