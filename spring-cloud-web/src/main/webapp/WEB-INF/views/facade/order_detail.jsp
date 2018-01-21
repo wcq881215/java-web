@@ -110,29 +110,6 @@
                                 <label class="col-sm-2 control-label">安装要求</label>
                                 <div class="col-sm-8 control-labe">${data.ext}</div>
                             </div>
-                            <div class="coupon-wrap" style="margin-top:0px;padding-top: 0px;">
-                                物流信息
-                            </div>
-                            <div class="form-group  ">
-                                <label class="col-sm-2 control-label">物流公司</label>
-                                <div class="col-sm-8 control-labe">${data.logistics}</div>
-                            </div>
-                            <div class="form-group  ">
-                                <label class="col-sm-2 control-label">联系电话</label>
-                                <div class="col-sm-8 control-label">${data.iphone}</div>
-                            </div>
-                            <div class="form-group  ">
-                                <label class="col-sm-2 control-label">司机</label>
-                                <div class="col-sm-8 control-labe"> ${data.driver}</div>
-                            </div>
-                            <div class="form-group  ">
-                                <label class="col-sm-2 control-label">司机电话</label>
-                                <div class="col-sm-8 control-label">${data.logphone}</div>
-                            </div>
-                            <div class="form-group  ">
-                                <label class="col-sm-2 control-label">发货时间</label>
-                                <div class="col-sm-8 control-label">${data.delatime}</div>
-                            </div>
 
                             <c:if test="${not empty data.service}">
                                 <div class="coupon-wrap" style="margin-top:0px;padding-top: 0px;">

@@ -79,7 +79,7 @@
     }
 
     var page = 0;
-    var pageSize = 4;
+    var pageSize = 400;
     var ajaxFlag = true;
 
     $(".search-input").on("input", "input[type='text']", function () {

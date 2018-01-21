@@ -100,6 +100,14 @@ public class OrderService {
         return orderDao.queryUserStateOrder(user.getId(), state, pageable);
     }
 
+    public Page<Order> queryUserInstallStateOrder(User user, Integer page, Integer pageSize) {
+        Pageable pageable = new PageRequest(page, pageSize);
+        Integer offset = page * pageSize;
+        List<Order> orders =  orderDao.queryUserInstallOrder(user.getId(),offset,pageSize);
+        Long total = orderDao.queryUserInstallOrderNo(user.getId());
+        return new PageImpl<Order>(orders,pageable,total);
+    }
+
     public Page<Order> queryMgrOrder(Integer page, Integer pageSize) {
         Pageable pageable = new PageRequest(page, pageSize);
         return orderDao.queryMgrOrder(pageable);
@@ -195,6 +203,10 @@ public class OrderService {
         Long total = fixOrderDao.queryUserSrvFixOrderNo(user.getId());
         Page<FixOrder> data = new PageImpl<>(contents, pageable, total);
         return data;
+    }
+
+    public OrderDevice findOrderDevice(Long id) {
+        return orderDeviceDao.findOne(id);
     }
 
 }

@@ -11,6 +11,7 @@ import com.csf.web.service.LocationService;
 import com.csf.web.service.OrderService;
 import com.csf.web.service.UserService;
 import com.csf.web.util.JsonUtils;
+import com.csf.web.util.ParamCheck;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,7 @@ public class OrderController extends APIService {
             od.setDevice(device);
             od.setNumb(no);
             od.setOid(order.getId());
+            od.setState("0");
             orderService.saveOrderDevice(od);
         }
         saveMsg(UserRole.OFFICE, user, user, "有新订单待发货", "订单编号" + order.getId() + ",请在我的工单里面查收");
@@ -154,6 +156,8 @@ public class OrderController extends APIService {
         Page<Order> datas = null;
         if ("-1".equals(status)) {
             datas = orderService.queryUserAllOrder(user, page, pageSize);
+        } else if ("2".equals(status)) {
+            datas = orderService.queryUserInstallStateOrder(user, page, pageSize);
         } else {
             datas = orderService.queryUserStateOrder(user, status, page, pageSize);
         }
@@ -230,6 +234,18 @@ public class OrderController extends APIService {
         }
 
         if ("1".equals(order.getState())) {
+            boolean flag = false;
+            for (OrderDevice od : order.getDevices()) {
+                if ("1".equals(od.getState())) {
+                    flag = true;
+                    break;
+                }
+            }
+            if (flag) {
+                order.setState("待派工");
+                order.setColor("#f3b9b9");
+                return;
+            }
             order.setState("等待发货");
             order.setColor("#b9d5f3;");
             return;
@@ -313,16 +329,41 @@ public class OrderController extends APIService {
 
     @RequestMapping("/manage/logistics")
     @ResponseBody
-    public BaseDto addLogstic(Long id, String logistics, String iphone, String driver, String logphone, String delatime) {
+    public BaseDto addLogstic(Long id, String dids, String logistics, String iphone, String driver, String logphone, String delatime) {
+        if (ParamCheck.uncheck(id, dids)) {
+            return BaseDto.newDto(APIStatus.param_error);
+        }
         Order order = orderService.findById(id);
+
         if (order != null && "1".equals(order.getState())) {
-            order.setLogistics(logistics);
-            order.setIphone(iphone);
-            order.setDriver(driver);
-            order.setLogphone(logphone);
-            order.setDelatime(delatime);
-            order.setState("2");
-            orderService.saveOrder(order);
+
+            for (String di : dids.split(",")) {
+                Long did = Long.valueOf(di);
+                OrderDevice orderDevice = orderService.findOrderDevice(did);
+
+                orderDevice.setLogistics(logistics);
+                orderDevice.setIphone(iphone);
+                orderDevice.setDriver(driver);
+                orderDevice.setLogphone(logphone);
+                orderDevice.setDelatime(delatime);
+                orderDevice.setState("1");
+                orderService.saveOrderDevice(orderDevice);
+            }
+
+            List<OrderDevice> devices = order.getDevices();
+            if (!CollectionUtils.isEmpty(devices)) {
+                boolean flag = true;
+                for (OrderDevice device : devices) {
+                    if (!"1".equals(device.getState())) {
+                        flag = false;
+                        break;
+                    }
+                }
+                if (flag) {  //全部发货了
+                    order.setState("2");
+                    orderService.saveOrder(order);
+                }
+            }
             User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
             saveMsg(UserRole.MANAGER, user, "有新订单待派工", "订单编号" + order.getId() + ",请在我的工单里面查收");
         }
@@ -333,7 +374,10 @@ public class OrderController extends APIService {
     @RequestMapping("/manage/split")
     public BaseDto serviceSplit(Long id, String uids) {
         Order order = orderService.findById(id);
-        if (order == null || !"2".equals(order.getState())) {
+//        if (order == null || !"2".equals(order.getState())) {
+//            return BaseDto.failure("订单无效");
+//        }
+        if (order == null) {
             return BaseDto.failure("订单无效");
         }
         User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
@@ -411,9 +455,9 @@ public class OrderController extends APIService {
         Page<FixOrder> data = orderService.querySrvUserFixOrder(user, page, pageSize);
         if (!CollectionUtils.isEmpty(data.getContent())) {
             for (FixOrder order : data.getContent()) {
-                setFixStatus(order,user);
+                setFixStatus(order, user);
                 String ext = order.getExt();
-                if(StringUtils.isNotBlank(ext) && ext.length() > 10){
+                if (StringUtils.isNotBlank(ext) && ext.length() > 10) {
                     order.setExt(ext.substring(0, 10));
                 }
             }
@@ -438,7 +482,7 @@ public class OrderController extends APIService {
     @ResponseBody
     @RequestMapping("/srv/fix/order")
     public BaseDto queryForFixSrv(@RequestParam(defaultValue = "0") Integer
-                                       page, @RequestParam(defaultValue = "30") Integer pageSize) {
+                                          page, @RequestParam(defaultValue = "30") Integer pageSize) {
         User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
         Page<FixOrder> orders = orderService.queryFixSrvUserOrder(user, page, pageSize);
         if (orders != null && !CollectionUtils.isEmpty(orders.getContent())) {
@@ -476,7 +520,7 @@ public class OrderController extends APIService {
         if (order != null) {
             if (!CollectionUtils.isEmpty(order.getFixOrderServer())) {
                 User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
-                setFixStatus(order,user);
+                setFixStatus(order, user);
                 for (FixOrderServer u : order.getFixOrderServer()) {
                     if (user.getId().equals(u.getUser().getId())) {
                         isEdit = true;
@@ -496,18 +540,16 @@ public class OrderController extends APIService {
         boolean issign = false; //是否sign
         if (order != null) {
             User user = (User) request.getSession().getAttribute(OAConstants.SESSION_USER);
-            if ("2".equals(order.getState())) {
-                if (!CollectionUtils.isEmpty(order.getService())) {
+            if (!CollectionUtils.isEmpty(order.getService())) {
 
-                    for (OrderServer u : order.getService()) {
-                        if (user.getId().equals(u.getUser().getId())) {
-                            state = u.getState();
-                        }
+                for (OrderServer u : order.getService()) {
+                    if (user.getId().equals(u.getUser().getId())) {
+                        state = u.getState();
                     }
                 }
-                if (orderService.sign(user, order)) {
-                    issign = true;
-                }
+            }
+            if (orderService.sign(user, order)) {
+                issign = true;
             }
             setStatus(order, user);
         }

@@ -18,20 +18,20 @@
     <script type="text/javascript" src="/mobile/zdialog.js"></script>
     <script type="text/javascript" src="/js/alert.js?v=1.0"></script>
     <style type="text/css">
-        .qiehuan{
+        .qiehuan {
 
         }
 
-        #wuliu_infor{
-            background-color: rgba(0,0,0,0.5);
+        #wuliu_infor {
+            background-color: rgba(0, 0, 0, 0.5);
             width: 100%;
             height: 100%;
             position: fixed;
-            top:0px;
+            top: 0px;
 
         }
 
-        #wuliu_infor .am-tabs-bd{
+        #wuliu_infor .am-tabs-bd {
             background-color: transparent;
         }
 
@@ -52,13 +52,28 @@
 <div class="page zShow" id="couponDetail" refresh="0" style=" margin-top:120px;">
     <div class="coupon-wrap">
         <img src="/images/default_photo.png" alt="logo" class="logo">
-        <p class="name">时间：<fmt:formatDate value="${data.time}" pattern="yyyy-MM-dd"></fmt:formatDate> </p>
+        <p class="name">时间：<fmt:formatDate value="${data.time}" pattern="yyyy-MM-dd"></fmt:formatDate></p>
         <h2 class="sub-title"> 订单编号：${data.id}</h2>
         <h2 class="sub-title">订单状态：${data.state}</h2>
-        <c:if test="${not empty data.devices }" >
+        <c:if test="${not empty data.devices }">
             <c:forEach items="${data.devices}" var="device">
-                <p class="condition">设备名称：<span></span>${device.device.name}</p>
+                <p class="condition">设备名称：<span></span>${device.device.name}
+                    <c:if test="${device.state eq 0}">
+                        <input type="checkbox" style="float:right;" name="did" value="${device.id}">
+                    </c:if>
+                    <c:if test="${device.state eq 1}">
+                        <span style="float: right;font-size: 12px;background-color:#e8cec3 "> 已发货</span>
+                    </c:if>
+
+                </p>
                 <p class="date">设备型号：<span>${device.device.sn}</span></p>
+                <c:if test="${device.state eq 1}">
+                    <p class="date">物流公司：<span>${device.logistics}</span></p>
+                    <p class="date">联系电话：<span>${device.iphone}</span></p>
+                    <p class="date">司机：<span>${device.driver}</span></p>
+                    <p class="date">司机电话：<span>${device.logphone}</span></p>
+                    <p class="date">发货时间：<span>${device.delatime}</span></p>
+                </c:if>
             </c:forEach>
         </c:if>
 
@@ -92,16 +107,19 @@
 
 
 <div class="hide" id="wuliu_infor">
-    <div class="am-tabs qiehuan"  onClick="event.cancelBubble = true" style="width: 90%;margin: 50% auto;border-radius: 8px;">
+    <div class="am-tabs qiehuan" onClick="event.cancelBubble = true"
+         style="width: 90%;margin: 50% auto;border-radius: 8px;">
         <div class="">
             <div class="am-tab-panel am-fade am-in am-active" id="tab1">
                 <li>
-                    <input type="text" name="logistics" id="logistics"  value="${data.logistics}" placeholder="物流公司" class="tab-input"/>
-                    <input type="text" name="iphone" id="iphone"  value="${data.iphone}" placeholder="联系电话" class="tab-input"/>
-                    <input type="text" name="driver" id="driver" value="${data.driver}" placeholder="司机" class="tab-input"/>
-                    <input type="text" name="logphone" id="logphone" value="${data.logphone}" placeholder="司机电话" class="tab-input"/>
-                    <input type="date" name="delatime" id="delatime" value="${data.delatime}" placeholder="发货时间" class="tab-input"/>
-                    <button type="button" onclick="addLogistics()" class="tab-btn" style="padding: 2px;width: 150px;text-align: center;margin: auto 25% ;margin-top:20px;">确认提交</button>
+                    <input type="text" name="logistics" id="logistics" value="" placeholder="物流公司" class="tab-input"/>
+                    <input type="text" name="iphone" id="iphone" value="" placeholder="联系电话" class="tab-input"/>
+                    <input type="text" name="driver" id="driver" value="" placeholder="司机" class="tab-input"/>
+                    <input type="text" name="logphone" id="logphone" value="" placeholder="司机电话" class="tab-input"/>
+                    <input type="date" name="delatime" id="delatime" value="" placeholder="发货时间" class="tab-input"/>
+                    <button type="button" onclick="addLogistics()" class="tab-btn"
+                            style="padding: 2px;width: 150px;text-align: center;margin: auto 25% ;margin-top:20px;">确认提交
+                    </button>
                 </li>
             </div>
         </div>
@@ -111,11 +129,23 @@
 
 </body>
 <script type="text/javascript">
+
+    var dids = "";
+    $("input[name='did']").click(function () {
+        if ($(this).is(':checked')) {
+            dids +=$(this).val() + ",";
+        }
+    });
+
     function edit(id) {
-        location.href = "/web/order/office/edit/"+${data.id};
+        location.href = "/web/order/office/edit/" +${data.id};
     }
 
     function delivery() {
+        if(dids == ""){
+            alertMess("请选择发货的设备");
+            return;
+        }
         $('#wuliu_infor').removeClass('hide');
     }
 
@@ -129,11 +159,11 @@
         $.ajax({
             type: 'post',
             url: '/web/order/delete/${data.id}',
-            data: { },
+            data: {},
             dataType: 'json',
             success: function (json) {
                 console.log(json);
-                if (json.code =='200') {
+                if (json.code == '200') {
                     alertMess("操作成功");
                     location.href = "/order/query.html";
                 } else {
@@ -177,6 +207,7 @@
             type: 'post',
             url: '/web/order/manage/logistics',
             data: {
+                dids:dids,
                 id: oid,
                 logistics: logistics,
                 iphone: iphone,
@@ -187,9 +218,9 @@
             dataType: 'json',
             success: function (json) {
                 console.log(json);
-                if(json.code ==  '200'){
-                    location.href =  "/order/query.html";
-                }else{
+                if (json.code == '200') {
+                    location.href = "/order/query.html";
+                } else {
                     alertMess("操作失败");
                 }
             }

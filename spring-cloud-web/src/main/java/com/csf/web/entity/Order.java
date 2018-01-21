@@ -41,16 +41,16 @@ public class Order {
     private String stime;
     @Column
     private String dtime;
-    @Column
-    private String logistics;
-    @Column
-    private String iphone;
-    @Column
-    private String driver;
-    @Column
-    private String logphone;
-    @Column
-    private String delatime;
+//    @Column
+//    private String logistics;
+//    @Column
+//    private String iphone;
+//    @Column
+//    private String driver;
+//    @Column
+//    private String logphone;
+//    @Column
+//    private String delatime;
     @Column
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date time;
@@ -170,46 +170,6 @@ public class Order {
 
     public void setDtime(String dtime) {
         this.dtime = dtime;
-    }
-
-    public String getLogistics() {
-        return logistics;
-    }
-
-    public void setLogistics(String logistics) {
-        this.logistics = logistics;
-    }
-
-    public String getIphone() {
-        return iphone;
-    }
-
-    public void setIphone(String iphone) {
-        this.iphone = iphone;
-    }
-
-    public String getDriver() {
-        return driver;
-    }
-
-    public void setDriver(String driver) {
-        this.driver = driver;
-    }
-
-    public String getLogphone() {
-        return logphone;
-    }
-
-    public void setLogphone(String logphone) {
-        this.logphone = logphone;
-    }
-
-    public String getDelatime() {
-        return delatime;
-    }
-
-    public void setDelatime(String delatime) {
-        this.delatime = delatime;
     }
 
     public Date getTime() {

@@ -24,6 +24,13 @@ public interface OrderDao extends JpaRepository<Order, Long> {
     @Query("from Order o where o.state = :state and o.pub.id = :pid ORDER  by o.time desc")
     public Page<Order> queryUserStateOrder(@Param("pid")Long pid,@Param("state")String state, Pageable pageable);
 
+    //发货待派工订单 需要包含部分发货
+    @Query(value = "select  * from app_order o where (o.state = 2  or (o.state = 1 and o. id in (SELECT  oid from app_order_delivery b where b.state = 1))) and o.pid = ? ORDER  by o.time desc limit ?,?",nativeQuery = true)
+    public List<Order> queryUserInstallOrder(Long pid,Integer offset,Integer limit);
+
+    @Query(value = "select  count(*) from app_order o where (o.state = 2  or (o.state = 1 and o. id in (SELECT  oid from app_order_delivery b where b.state = 1))) and o.pid = :pid",nativeQuery = true)
+    public Long queryUserInstallOrderNo(@Param("pid")Long pid);
+
 
     @Query("from Order o where o.state = :state ORDER  by o.time desc")
     public Page<Order> queryWorkStateOrder(@Param("state")String state, Pageable pageable);
@@ -42,14 +49,14 @@ public interface OrderDao extends JpaRepository<Order, Long> {
      * 查询未派工订单
      * @return
      */
-    @Query(value = "select  * from app_order o where o.state = 2 and o.id  not in (select order_id from app_order_tech ) ORDER  by o.time desc limit ?,? ",nativeQuery = true)
+    @Query(value = "(select  * from app_order o where o.state = 2 and o.id  not in (select order_id from app_order_tech ) ) UNION (select * from app_order a where a.state = 1 and a.id in (select b.oid from app_order_delivery b where b.state = 1)) ORDER  by time desc limit ?,? ",nativeQuery = true)
     public List<Order> querySplitOrder(Integer offset,Integer limit);
 
     /**
      * 查询未派工订单数量
      * @return
      */
-    @Query(value = "select  count(*) from app_order o where o.state = 2 and o.id  not in (select order_id from app_order_tech ) ",nativeQuery = true)
+    @Query(value = "select (select  count(*) from app_order o where o.state = 2 and o.id  not in (select order_id from app_order_tech ) ) + (select count(*) from app_order a where a.state = 1 and a.id in (select b.oid from app_order_delivery b where b.state = 1)) as total",nativeQuery = true)
     public Long querySplitOrderNo();
 
 
@@ -60,7 +67,7 @@ public interface OrderDao extends JpaRepository<Order, Long> {
      * @param limit
      * @return
      */
-    @Query(value = "select  * from app_order o where o.state = 2 and o.id   in (select t.order_id from app_order_tech t where t.uid = ? and t.state = 0 ) ORDER  by o.time desc limit ?,? ",nativeQuery = true)
+    @Query(value = "select  * from app_order o where o.id   in (select t.order_id from app_order_tech t where t.uid = ? and t.state = 0 ) ORDER  by o.time desc limit ?,? ",nativeQuery = true)
     public List<Order> querySrvOrder(Long uid,Integer offset,Integer limit);
 
     /**
@@ -68,7 +75,7 @@ public interface OrderDao extends JpaRepository<Order, Long> {
      * @param uid
      * @return
      */
-    @Query(value = "select  count(*) from app_order o where o.state = 2 and o.id  in (select t.order_id from app_order_tech t where t.uid = ? and t.state =0 ) ",nativeQuery = true)
+    @Query(value = "select  count(*) from app_order o where  o.id  in (select t.order_id from app_order_tech t where t.uid = ? and t.state =0 ) ",nativeQuery = true)
     public Long querySrvOrderNo(Long uid);
 
     /**

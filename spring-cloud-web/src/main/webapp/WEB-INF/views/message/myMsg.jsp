@@ -105,6 +105,9 @@
             if (data.state == false) {//未读 浅色
                 color = '#8695ab';
             }
+            if(data.title.toString().indexOf("已拒绝") !=-1){
+                color = '#bf6565';
+            }
             html += "<li style='background-color: " + color + "'>";
             html += "<p>来源：&nbsp;&nbsp;" + data.user.role + " - " + data.user.name + " </p>";
             html += "<p class='order-add1'>" + data.title + "</p>";

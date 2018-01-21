@@ -41,20 +41,14 @@ CREATE TABLE app_user (
   PRIMARY KEY (id)
 )ENGINE = InnoDB  DEFAULT CHARSET = utf8;
 
--- INSERT INTO app_user(username, password, phone,role, state) VALUES ('admin','123456','13524625212','管理员',1);
--- INSERT INTO app_user(username, password, phone,role, state) VALUES ('tech','123456','13524625212','技术员',1);
--- INSERT INTO app_user(username, password, phone,role, state) VALUES ('office','123456','13524625212','内勤',1);
--- INSERT INTO app_user(username, password, phone,role, state) VALUES ('service','123456','13524625212','售后服务',1);
--- INSERT INTO app_user(username, password, phone,role, state) VALUES ('produce','123456','13524625212','生产部',1);
--- INSERT INTO app_user(username, password, phone,role, state,device,s_time) VALUES ('custom','123456','13524625212','购机客户',1,'1111222333',now());
-
-INSERT INTO `oa`.`app_user`(`id`, `username`, `password`, `mobno`, `phone`, `role`, `device`, `s_time`, `state`) VALUES (1, 'admin', '111111', 'adfdf-fdfe-fdf-erer-efd', '13524625212', '管理员', NULL, NULL, 1);
-INSERT INTO `oa`.`app_user`(`id`, `username`, `password`, `mobno`, `phone`, `role`, `device`, `s_time`, `state`) VALUES (2, 'tech', '111111', 'adfdf-fdfe-fdf-erer-1111', '13524625212', '技术员', NULL, NULL, 1);
-INSERT INTO `oa`.`app_user`(`id`, `username`, `password`, `mobno`, `phone`, `role`, `device`, `s_time`, `state`) VALUES (3, 'office', '111111', 'adfdf-fdfe-fdf-2222', '13524625212', '内勤', NULL, NULL, 1);
-INSERT INTO `oa`.`app_user`(`id`, `username`, `password`, `mobno`, `phone`, `role`, `device`, `s_time`, `state`) VALUES (4, 'service', '111111', 'adfdf-fdfe-fdf-erer-333', '13524625212', '售后服务', NULL, NULL, 1);
-INSERT INTO `oa`.`app_user`(`id`, `username`, `password`, `mobno`, `phone`, `role`, `device`, `s_time`, `state`) VALUES (5, 'manager', '111111', 'adfdf-fdfe-fdf-erer-444', '13524625212', '售后管理', NULL, NULL, 1);
-INSERT INTO `oa`.`app_user`(`id`, `username`, `password`, `mobno`, `phone`, `role`, `device`, `s_time`, `state`) VALUES (6, 'custom', '111111', 'adfdf-fdfe-fdf-erer-555', '13524625212', '购机客户', '1111222333', '2017-09-03', 1);
-
+INSERT INTO `app_user` VALUES (1,'admin','111111','吴小西','xxxxx','135246252122','管理员','管理员','总经理一部',NULL,'2018-01-07 20:53:36',1,'浙江省');
+INSERT INTO `app_user` VALUES (2,'tech','111111','吴小东','adfdf-fdfe-fdf-erer-1111','13524625212','技术员','技术员','后勤一部',NULL,'2018-01-07 20:53:36',1,'浙江省');
+INSERT INTO `app_user` VALUES (3,'office','111111','吴小北','adfdf-fdfe-fdf-2222','13524625212','内勤','内勤','销售一部',NULL,'2018-01-07 20:53:36',1,'浙江省');
+INSERT INTO `app_user` VALUES (4,'service','111111','吴小南','adfdf-fdfe-fdf-erer-333','13524625212','售后服务','售后服务','市场一部',NULL,'2018-01-07 20:53:36',1,'浙江省');
+INSERT INTO `app_user` VALUES (6,'customer','111111','吴外来','adfdf-fdfe-fdf-erer-555','13524625212','购机客户','',NULL,'1111222333','2017-09-03 00:00:00',1,'浙江省');
+INSERT INTO `app_user` VALUES (7,'manager','111111','吴小二','adfdf-fdfe-fdf-erer-555','13524309647','售后管理','售后管理',NULL,NULL,'2017-10-22 17:54:18',1,'浙江省');
+INSERT INTO `app_user` VALUES (8,'amey','111111','小美',NULL,'13422101114','技术员','技术员',NULL,NULL,'2017-12-17 18:00:53',1,'浙江省');
+INSERT INTO `app_user` VALUES (9,'achang','111111','achang',NULL,'12332323232','售后服务','售后服务',NULL,NULL,'2018-01-20 09:54:10',1,' 北京市');
 
 
 -- 办事处信息
@@ -91,7 +85,10 @@ CREATE TABLE app_device (
   PRIMARY KEY (id)
 )ENGINE = InnoDB  DEFAULT CHARSET = utf8;
 
-INSERT  INTO  app_device (sn,_name,_desc,type,`number`,price,state,time) VALUES ('1111222333','机床螺丝','xxxxxx NB','螺丝',1000,0.1,1,now());
+INSERT INTO `app_attach` VALUES (1,1,'111',22.00,'333','cxcvx','2018-01-02 17:38:55',1);
+INSERT INTO `app_attach` VALUES(2,1,'xxx',122.00,'33','4444','2018-01-02 17:39:15',1);
+INSERT INTO `app_attach` VALUES(3,1,'新产品',135.20,'砍刀','锋利，轻便','2018-01-11 16:36:43',1);
+INSERT INTO `app_attach` VALUES(4,7,'螺丝',12.00,'切割机','小行星','2018-01-16 17:18:38',1);
 
 -- 设备图片
 DROP TABLE IF EXISTS app_device_img;
@@ -123,7 +120,6 @@ CREATE TABLE app_location (
   PRIMARY KEY (id)
 )ENGINE = InnoDB  DEFAULT CHARSET = utf8;
 
-INSERT  INTO  app_location(mid,longitude,latitude,time) VALUES('adfdf-fdfe-fdf-erer-efd',121.628719618,31.1963795,now());
 
 -- 消息
 DROP TABLE IF EXISTS app_message;
@@ -140,9 +136,6 @@ CREATE TABLE app_message (
   PRIMARY KEY (id)
 )ENGINE = InnoDB  DEFAULT CHARSET = utf8;
 
-INSERT  INTO  app_message(pid,title,content,time,state) VALUES(1,'关于国庆放假通知','本公司严格按照国务院规定，今年（2017年）从10月1日起到10月8号，共八天假期！请相关部门负责人做好工作安排',now(),1);
-INSERT INTO app_message(pid,title,content,time,state) values (3,'订单编号13422101114客户李先生订购的设备已经发货','订单编号13422101114客户李先生订购的设备已经发货',now(),1);
-
 DROP TABLE IF EXISTS app_order;
 CREATE TABLE app_order (
   id         INT AUTO_INCREMENT,
@@ -158,17 +151,35 @@ CREATE TABLE app_order (
   dtime    VARCHAR (20)   COMMENT '送货时间',
   address    VARCHAR (500)   COMMENT '送货地址',
   phone    VARCHAR (30)   COMMENT '联系电话',
-  logistics    VARCHAR (20)   COMMENT '物流公司',
-  iphone    VARCHAR (20)   COMMENT '物流公司联系方式',
-  driver    VARCHAR (20)   COMMENT '物流司机',
-  logphone    VARCHAR (20)   COMMENT '司机联系电话',
-  delatime    VARCHAR (20)   COMMENT '发货时间',
+--   logistics    VARCHAR (20)   COMMENT '物流公司',
+--   iphone    VARCHAR (20)   COMMENT '物流公司联系方式',
+--   driver    VARCHAR (20)   COMMENT '物流司机',
+--   logphone    VARCHAR (20)   COMMENT '司机联系电话',
+--   delatime    VARCHAR (20)   COMMENT '发货时间',
   fqid       INT   COMMENT '废弃订单id',
   time   TIMESTAMP COMMENT '发布时间',
   state  CHAR (2) DEFAULT '1'  COMMENT '状态 0 无效（废弃，重录） 1 - 2 -3 -4 -5 ... -> over  1:内勤录入等待发货，2已发货待安装  3 已完成',
   PRIMARY KEY (id)
 )ENGINE = InnoDB auto_increment=20170000001  DEFAULT CHARSET = utf8;
 
+DROP TABLE IF EXISTS app_order_delivery;
+CREATE TABLE app_order_delivery (
+    id         INT AUTO_INCREMENT,
+  oid      INT(10)    COMMENT '订单id',
+  did   INT COMMENT '设备ID',
+  `numb`   int  COMMENT '数量',
+  weight   double (8,2)    COMMENT '重量',
+  logistics    VARCHAR (20)   COMMENT '物流公司',
+  iphone    VARCHAR (20)   COMMENT '物流公司联系方式',
+  driver    VARCHAR (20)   COMMENT '物流司机',
+  logphone    VARCHAR (20)   COMMENT '司机联系电话',
+  delatime    VARCHAR (20)   COMMENT '发货时间',
+  time   TIMESTAMP COMMENT '发布时间',
+  state  CHAR (2) DEFAULT '1'  COMMENT '状态  0 未发货， 1已发货',
+  PRIMARY KEY (id)
+)ENGINE = InnoDB   DEFAULT CHARSET = utf8;
+
+-- app_order_delivery 由app_order_delivery代替
 DROP TABLE IF EXISTS app_order_device;
 CREATE TABLE app_order_device (
   id         INT AUTO_INCREMENT,
