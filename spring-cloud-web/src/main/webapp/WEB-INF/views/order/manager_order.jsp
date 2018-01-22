@@ -19,20 +19,20 @@
     <script type="text/javascript" src="/js/alert.js?v=1.0"></script>
 
     <style type="text/css">
-        .qiehuan{
+        .qiehuan {
 
         }
 
-        #wuliu_infor{
-            background-color: rgba(0,0,0,0.5);
+        #wuliu_infor {
+            background-color: rgba(0, 0, 0, 0.5);
             width: 100%;
             height: 100%;
             position: fixed;
-            top:0px;
+            top: 0px;
 
         }
 
-        #wuliu_infor .am-tabs-bd{
+        #wuliu_infor .am-tabs-bd {
             background-color: transparent;
         }
 
@@ -54,13 +54,20 @@
 <div class="page zShow" id="couponDetail" refresh="0" style=" margin-top:120px;">
     <div class="coupon-wrap">
         <img src="/images/default_photo.png" alt="logo" class="logo">
-        <p class="name">时间：<fmt:formatDate value="${data.time}" pattern="yyyy-MM-dd"></fmt:formatDate> </p>
+        <p class="name">时间：<fmt:formatDate value="${data.time}" pattern="yyyy-MM-dd"></fmt:formatDate></p>
         <h2 class="sub-title"> 订单编号：${data.id}</h2>
         <h2 class="sub-title">订单状态：${data.state}</h2>
         <c:if test="${not empty data.devices }">
             <c:forEach items="${data.devices}" var="device">
-                <p class="condition">设备名称：<span></span>${device.device.name}</p>
-                <p class="date">设备型号：<span>${device.device.sn}</span></p>
+                <c:if test="${device.state == 1}">
+                    <p class="condition">设备名称：<span></span>${device.device.name}</p>
+                    <p class="date">设备型号：<span>${device.device.sn}</span></p>
+                    <p class="date">物流公司：${device.logistics}</p>
+                    <p class="date">联系电话: <span>${device.iphone}</span></p>
+                    <p class="date">司机：${device.driver}</p>
+                    <p class="date">司机电话: <span>${device.logphone}</span></p>
+                    <p class="date">发货时间: <span>${device.delatime}</span></p>
+                </c:if>
             </c:forEach>
         </c:if>
 
@@ -83,18 +90,15 @@
 
     <c:if test="${isEdit == true}">
         <ul class="fixed-btn hide" style="text-align: center;padding-left: 0px;">
-            <li style="width: 150px;float: none;display: inline-block;"><a href="javascript:delivery()" class="current">发货</a></li>
+            <li style="width: 150px;float: none;display: inline-block;"><a href="javascript:delivery()" class="current">发货</a>
+            </li>
         </ul>
     </c:if>
 
     <c:if test="${isSplit == true}">
         <div class="coupon-wrap" style="margin-top:-40px;padding-top: 0px;">
             <div class="contact-wrap" style="margin-bottom: 60px;">
-                <p>物流公司：${data.logistics}</p>
-                <p>联系电话: <span>${data.iphone}</span></p>
-                <p>司机：${data.driver}</p>
-                <p>司机电话: <span>${data.logphone}</span></p>
-                <p>发货时间: <span>${data.delatime}</span></p>
+
             </div>
 
             <ul class="fixed-btn">
@@ -106,31 +110,38 @@
     <c:if test="${not empty data.service}">
         <div class="coupon-wrap" style="margin-top:0px;padding-top: 0px;">
             服务派工人员
-        <div class="contact-wrap" style="margin-bottom: 60px;">
-        <c:forEach items="${data.service}" var="service">
-            <c:if test="${service.state ne -1}">
-                <p>${service.user.role}：${service.user.name}</p>
-            </c:if>
-        </c:forEach>
-        </div>
+            <div class="contact-wrap" style="margin-bottom: 60px;">
+                <c:forEach items="${data.service}" var="service">
+                    <c:if test="${service.state ne -1}">
+                        <p>${service.user.role}：${service.user.name}</p>
+                    </c:if>
+                </c:forEach>
+            </div>
         </div>
     </c:if>
-
 
 
 </div>
 
 <div class="hide" id="wuliu_infor">
-    <div class="am-tabs qiehuan"  onClick="event.cancelBubble = true" style="width: 90%;margin: 50% auto;border-radius: 8px;">
+    <div class="am-tabs qiehuan" onClick="event.cancelBubble = true"
+         style="width: 90%;margin: 50% auto;border-radius: 8px;">
         <div class="">
             <div class="am-tab-panel am-fade am-in am-active" id="tab1">
                 <li>
-                    <input type="text" name="logistics" id="logistics"  value="${data.logistics}" placeholder="物流公司" class="tab-input"/>
-                    <input type="text" name="iphone" id="iphone"  value="${data.iphone}" placeholder="联系电话" class="tab-input"/>
-                    <input type="text" name="driver" id="driver" value="${data.driver}" placeholder="司机" class="tab-input"/>
-                    <input type="text" name="logphone" id="logphone" value="${data.logphone}" placeholder="司机电话" class="tab-input"/>
-                    <input type="date" name="delatime" id="delatime" value="${data.delatime}" placeholder="发货时间" class="tab-input"/>
-                    <button type="button" onclick="addLogistics()" class="tab-btn" style="padding: 2px;width: 150px;text-align: center;margin: auto 25% ;margin-top:20px;">确认提交</button>
+                    <input type="text" name="logistics" id="logistics" value="" placeholder="物流公司"
+                           class="tab-input"/>
+                    <input type="text" name="iphone" id="iphone" value="" placeholder="联系电话"
+                           class="tab-input"/>
+                    <input type="text" name="driver" id="driver" value="" placeholder="司机"
+                           class="tab-input"/>
+                    <input type="text" name="logphone" id="logphone" value="" placeholder="司机电话"
+                           class="tab-input"/>
+                    <input type="date" name="delatime" id="delatime" value="" placeholder="发货时间"
+                           class="tab-input"/>
+                    <button type="button" onclick="addLogistics()" class="tab-btn"
+                            style="padding: 2px;width: 150px;text-align: center;margin: auto 25% ;margin-top:20px;">确认提交
+                    </button>
                 </li>
             </div>
         </div>
@@ -158,14 +169,14 @@
     function delivery() {
         $('#wuliu_infor').removeClass('hide');
     }
-    
+
     $('#wuliu_infor').click(function (e) {
         $('#wuliu_infor').addClass('hide');
     });
 
     $('#wuliu_infor .am-tabs').unbind();
 
-    
+
     function addLogistics() {
         var oid = ${data.id};
         var logistics = $('#logistics').val();
@@ -209,11 +220,11 @@
             dataType: 'json',
             success: function (json) {
                 console.log(json);
-               if(json.code ==  '200'){
-                    location.href =  "/order/service.html";
-               }else{
-                   alertMess("操作失败");
-               }
+                if (json.code == '200') {
+                    location.href = "/order/service.html";
+                } else {
+                    alertMess("操作失败");
+                }
             }
         });
     }
@@ -307,7 +318,7 @@
             }
         })
         console.log(">> uids :: " + uids);
-        if(uids == ""){
+        if (uids == "") {
             alertMess('请选择服务人员进行派工');
             return false;
         }
@@ -323,7 +334,7 @@
                     alertMess('派工成功');
                     location.href = "/order/service.html";
                 } else {
-                    alertMess(json.msg+'，请重新提交');
+                    alertMess(json.msg + '，请重新提交');
                 }
             }
         });
