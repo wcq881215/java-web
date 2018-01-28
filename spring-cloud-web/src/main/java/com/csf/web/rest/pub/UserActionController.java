@@ -13,9 +13,12 @@ import com.csf.web.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
@@ -189,5 +192,18 @@ public class UserActionController extends APIService {
         return BaseDto.newDto(APIStatus.success);
     }
 
+    @RequestMapping("/cust/list")
+    public BaseDto delete(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "30") Integer pageSize) {
+        Page<User> data = userService.findAllInner("", "购机客户", page, pageSize);
+        return BaseDto.newDto(data);
+    }
+
+    @RequestMapping("/detail/{id}")
+    public ModelAndView getUserDetail(@PathVariable("id") Long id,ModelAndView v) {
+        User data = userService.findById(id);
+        v.addObject("data",data);
+         v.setViewName("/user/detail");
+         return v;
+    }
 
 }

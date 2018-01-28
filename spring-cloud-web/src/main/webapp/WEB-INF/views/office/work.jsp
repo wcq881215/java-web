@@ -64,6 +64,13 @@
         </a>
     </li>
 
+    <li class="">
+        <a href="/user/list.html">
+            <img src="/images/az.png"/>
+            <p>客户管理</p>
+        </a>
+    </li>
+
 </ul>
 
 <h3 align="center" class="hide" style="padding-top:15px;">售后管理</h3>
