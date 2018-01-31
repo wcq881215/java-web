@@ -28,9 +28,6 @@
 <div id="wrapper">
     <!-- Navigation -->
     <nav class="top1 navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-        <div class="navbar-header">
-
-        </div>
         <!-- /.navbar-header -->
         <%@include file="menu.jsp" %>
         <!-- /.navbar-static-side -->

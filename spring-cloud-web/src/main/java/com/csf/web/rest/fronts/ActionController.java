@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -68,6 +69,16 @@ public class ActionController extends APIService {
         }
         return "/facade/home";
     }
+
+    @RequestMapping("/logout")
+    public String logout() {
+        HttpSession session = request.getSession();
+        if(session !=null){
+            session.invalidate();
+        }
+        return "/facade/login";
+    }
+
 
     @RequestMapping("/user/list")
     public String userList(String name, String mobile, String area, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "30") Integer pageSize) {

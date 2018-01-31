@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<div class="" style="float: right;margin-right: 100px;line-height: 50px;">
+    <a class="btn" style="color: #fff;" href="/fronts/logout">退出</a>
+</div>
 <div class="navbar-default sidebar" role="navigation">
     <div class="sidebar-nav navbar-collapse">
         <ul class="nav" id="side-menu">

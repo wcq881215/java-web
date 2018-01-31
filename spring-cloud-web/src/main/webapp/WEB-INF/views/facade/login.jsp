@@ -29,8 +29,8 @@
 <h2 class="form-heading">login</h2>
 <div class="app-cam">
     <form action="/fronts/user/login" method="post" onsubmit="return login()">
-        <input type="text" id="username" name="username" class="text" value="admin" placeholder="用户名">
-        <input type="password" id="password" name="password" value="111111" placeholder="密码">
+        <input type="text" id="username" name="username" class="text" value="" placeholder="用户名">
+        <input type="password" id="password" name="password" value="" placeholder="密码">
         <div class="submit"><input type="submit" onClick="login()" value="登陆"></div>
     </form>
 </div>
