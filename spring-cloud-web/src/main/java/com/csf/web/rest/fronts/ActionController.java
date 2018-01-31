@@ -1,5 +1,6 @@
 package com.csf.web.rest.fronts;
 
+import com.csf.web.dto.BaseDto;
 import com.csf.web.entity.*;
 import com.csf.web.rest.APIService;
 import com.csf.web.rest.AttacheService;
@@ -51,6 +52,9 @@ public class ActionController extends APIService {
 
     @Autowired
     private DeviceService deviceService;
+
+    @Autowired
+    private AdviceService adviceService;
 
     @RequestMapping("/user/login")
     public String login(String username, String password) {
@@ -217,6 +221,24 @@ public class ActionController extends APIService {
         Device data = deviceService.findById(id);
         attr("data", data);
         return "/facade/device_detail";
+    }
+
+    @RequestMapping("/advice/list")
+    public String adviceList(String kword, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "30") Integer pageSize) {
+        System.out.println(String.format(" key %s , ", kword));
+        page = page - 1; //实际下标  ： 页码 -1
+        Sort sort = new Sort(Sort.Direction.DESC, "time");
+        Pageable pageable = new PageRequest(page, pageSize, sort);
+        Page<Advice> data = adviceService.search(kword, pageable);
+        attr("data", data);
+        return "/facade/adviceListAjax";
+    }
+
+    @RequestMapping("/advice/delete")
+    @ResponseBody
+    public BaseDto updateDevice(Long id) {
+        adviceService.deleteAdvice(id);
+        return BaseDto.newDto("");
     }
 
 }

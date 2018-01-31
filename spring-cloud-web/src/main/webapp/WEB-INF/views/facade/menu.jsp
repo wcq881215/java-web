@@ -47,7 +47,6 @@
                     <li>
                         <a href="/facade/news_add.html">发布公司动态</a>
                     </li>
-                    </li>
                 </ul>
             </li>
 
@@ -59,7 +58,6 @@
                     </li>
                     <li>
                         <a href="/facade/maintain_add.html">发布保养指南</a>
-                    </li>
                     </li>
                 </ul>
             </li>
@@ -73,7 +71,6 @@
                     <li>
                         <a href="/facade/video_add.html">发布安装教程</a>
                     </li>
-                    </li>
                 </ul>
             </li>
 
@@ -85,7 +82,6 @@
                     </li>
                     <li>
                         <a href="/facade/proxy_add.html">发布办事处信息</a>
-                    </li>
                     </li>
                 </ul>
             </li>
@@ -99,6 +95,14 @@
                     <li>
                         <a href="/facade/device_add.html">发布设备信息</a>
                     </li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#"><i class="fa fa-envelope nav_icon"></i>用户反馈管理<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level ">
+                    <li>
+                        <a href="/facade/advice.html">用户反馈管理</a>
                     </li>
                 </ul>
             </li>

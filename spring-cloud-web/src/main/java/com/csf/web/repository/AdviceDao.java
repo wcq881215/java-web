@@ -1,6 +1,8 @@
 package com.csf.web.repository;
 
 import com.csf.web.entity.Advice;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -9,7 +11,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface AdviceDao extends JpaRepository<Advice, Long> {
 
 
-
-
-
+    Page<Advice> findByContentLike(String content, Pageable pageable);
 }
