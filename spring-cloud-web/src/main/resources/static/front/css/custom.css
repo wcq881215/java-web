@@ -105,6 +105,13 @@
     padding-left: 52px;
 }
 
+.navbar-header{
+    background: url("../images/loginlogo.png") no-repeat 10px;
+    height: 50px;
+    width: 200px;
+    display: inline-block;
+}
+
 @media(min-width:768px) {
     .sidebar {
         z-index: 1;

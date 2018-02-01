@@ -23,6 +23,7 @@
     <link href="/front/css/basic.css" rel="stylesheet"/>
     <!-- Nav CSS -->
     <link href="/front/css/custom.css" rel="stylesheet">
+
 </head>
 <body>
 <div id="wrapper">
