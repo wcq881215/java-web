@@ -114,7 +114,7 @@
                             </div>
 
                             <div class="form-group  ">
-                                <label>登录密码</label> <input type="text" name="password" value="" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required" placeholder="输入登录密码" />
+                                <label>登录密码</label> <input type="text" name="password" id="password" value="" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required" placeholder="输入登录密码" />
                             </div>
 
                             <div class="form-group">
