@@ -30,7 +30,7 @@ public class OAConstants {
 
     public static String getUploadPath(HttpServletRequest request) {
         if (StringUtils.isBlank(upload_path)) {
-            String path = request.getServletContext().getRealPath(upload_path_default_dir);
+            String path = request.getServletContext().getRealPath("/")+upload_path_default_dir;
             upload_path = path;
             return path;
         } else {
