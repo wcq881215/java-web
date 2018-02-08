@@ -1,12 +1,11 @@
 package com.csf.web.rest.fronts;
 
+import com.csf.web.constants.OAConstants;
 import com.csf.web.dto.BaseDto;
 import com.csf.web.entity.*;
 import com.csf.web.rest.APIService;
 import com.csf.web.rest.AttacheService;
-import com.csf.web.rest.pub.MaintainController;
 import com.csf.web.service.*;
-import com.csf.web.util.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 /**
  * Created by Administrator on 2018/1/6.
@@ -67,6 +65,7 @@ public class ActionController extends APIService {
         if (!UserRole.ADMIN.getName().equals(user.getRole())) {
             return webFailure("400", "管理员才能登陆");
         }
+        request.getSession().setAttribute(OAConstants.SESSION_USER,user);
         return "/facade/home";
     }
 
