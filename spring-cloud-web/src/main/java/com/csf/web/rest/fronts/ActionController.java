@@ -101,7 +101,7 @@ public class ActionController extends APIService {
     public String orderList(String name, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "30") Integer pageSize) {
         System.out.println(String.format(" user %s ，", name));
         page = page - 1; //实际下标  ： 页码 -1
-        Page<Order> data = orderService.queryMgrOrder(page, pageSize);
+        Page<Order> data = orderService.queryMgrOrder(name,page, pageSize);
         attr("data", data);
         return "/facade/orderListAjax";
     }

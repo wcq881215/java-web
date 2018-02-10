@@ -42,6 +42,9 @@ public interface OrderDao extends JpaRepository<Order, Long> {
     @Query("from Order o where o.state  in (2,3,4,5)  ORDER  by o.time desc ")
     public Page<Order> queryMgrOrder(Pageable pageable);
 
+    @Query("from Order o where o.state  in (2,3,4,5) and cust like ?  ORDER  by o.time desc ")
+    public Page<Order> queryOrderByCustLike(String name,Pageable pageable);
+
     @Query("from Order o where o.state = 1 ORDER  by o.time desc")
     public Page<Order> querySrvOrder(Pageable pageable);
 

@@ -3,6 +3,7 @@ package com.csf.web.service;
 import com.csf.web.entity.*;
 import com.csf.web.repository.*;
 import com.csf.web.util.OAUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -111,6 +112,15 @@ public class OrderService {
     public Page<Order> queryMgrOrder(Integer page, Integer pageSize) {
         Pageable pageable = new PageRequest(page, pageSize);
         return orderDao.queryMgrOrder(pageable);
+    }
+
+    public Page<Order> queryMgrOrder(String cname,Integer page, Integer pageSize) {
+        Pageable pageable = new PageRequest(page, pageSize);
+        if(StringUtils.isBlank(cname)){
+            cname = "";
+        }
+        cname = "%" + cname + "%";
+        return orderDao.queryOrderByCustLike(cname,pageable);
     }
 
     public Order findById(Long id) {
