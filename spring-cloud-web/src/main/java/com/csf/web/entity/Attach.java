@@ -18,7 +18,7 @@ public class Attach implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.REFRESH }, optional = true)
+    @OneToOne(cascade = {CascadeType.MERGE,CascadeType.REFRESH }, optional = true)
     @JoinColumn(name = "uid")
     private User user;//发布人
 

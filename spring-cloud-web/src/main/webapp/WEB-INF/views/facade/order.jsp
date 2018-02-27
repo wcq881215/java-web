@@ -44,7 +44,7 @@
                 <div class="col-md-12">
                     <h1 class="page-head-line">订单查询</h1>
                     <div class="form-group  ">
-                        <input type="text" name="name" id="name" value="" placeholder="内勤用户姓名"/>
+                        <input type="text" name="name" id="name" value="" placeholder="客户信息"/>
                         <input type="button" class="button btn" value="查询" onclick="search()"/>
                     </div>
 

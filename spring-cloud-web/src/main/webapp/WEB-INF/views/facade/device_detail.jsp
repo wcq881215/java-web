@@ -77,7 +77,7 @@
                                 <label>设备分类</label> <input type="text" name="type" id="type" value="${data.type}" class="form-control1 ng-invalid ng-invalid-required ng-touched" required="required"  />
                             </div>
 
-                            <div>
+                            <div class="hide">
                                 <label>请选择设备所属办事处：</label>
                                 <select id="proxy" name="proxy" class="form-control1 ng-invalid ng-invalid-required">
 

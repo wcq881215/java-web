@@ -20,6 +20,8 @@ public class Proxy implements Serializable {
     @Column
     private String pname;
     @Column
+    private String area;
+    @Column
     private String address;
     @Column
     private String phone;
@@ -104,5 +106,13 @@ public class Proxy implements Serializable {
 
     public void setState(Boolean state) {
         this.state = state;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
     }
 }
