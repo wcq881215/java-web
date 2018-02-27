@@ -1,6 +1,6 @@
 package com.csf.log4j;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.*;
 
 import java.io.File;
