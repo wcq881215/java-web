@@ -19,13 +19,12 @@ import java.util.Map;
 /**
  * Created by changqi.wu on 17-10-6.
  */
-public class
-FileUploadService extends APIService {
+public class FileUploadService extends APIService {
 
     private static final String file_path = "/upload";
 
     public Map<String, String> upload(MultipartFile files, HttpServletRequest request) {
-        String path = request.getServletContext().getRealPath(file_path);
+        String path = request.getServletContext().getRealPath("/") + file_path;
         String fileName = files.getOriginalFilename();
         System.out.println("===========" + path + "	" + files.getContentType() + "  " + fileName);
         Map<String, String> urlMap = new HashMap<>();

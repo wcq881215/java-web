@@ -103,7 +103,7 @@
 <script type="text/javascript">
     function addCase() {
         var title = $('#title').val();
-        var content = $('#content').val();
+        var content = $('#_desc').val();
         if (title == '') {
             alertMess("请输入标题");
             return false;

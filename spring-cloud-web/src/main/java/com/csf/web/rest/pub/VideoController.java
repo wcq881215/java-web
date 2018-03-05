@@ -139,4 +139,11 @@ public class VideoController extends FileUploadService {
         return BaseDto.newDto(video.getId());
     }
 
+    @RequestMapping("/delete")
+    @ResponseBody
+    public BaseDto delVideo(Long id) {
+        videoService.deleteVideo(id);
+        return BaseDto.newDto(APIStatus.success);
+    }
+
 }
