@@ -110,7 +110,7 @@
                 console.log(json);
                 if (json.code == '200') {
                     alertMsg('提交成功');
-                    history.go(-1);
+                    location.href = "/facade/maintain.html";
                     return;
                 } else {
                     alertMess(json.msg);

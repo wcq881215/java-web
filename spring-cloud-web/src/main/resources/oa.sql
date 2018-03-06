@@ -56,6 +56,7 @@ DROP TABLE IF EXISTS app_proxy;
 CREATE TABLE app_proxy (
   id         INT AUTO_INCREMENT,
   pname   VARCHAR (300)  NOT NULL  COMMENT '办事处',
+  area      VARCHAR(200)    COMMENT '区域',
   address      VARCHAR(200)    COMMENT '地址',
   phone    VARCHAR(50)   COMMENT '联系电话',
   leader    VARCHAR(50)   COMMENT '负责人',

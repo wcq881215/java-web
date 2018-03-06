@@ -188,7 +188,7 @@
                 console.log(json);
                 if (json.code == '200') {
                     alertMess('提交成功');
-                    history.go(-1);
+                    location.href = "/facade/proxy.html";
                     return;
                 } else {
                     alertMess(json.msg);
