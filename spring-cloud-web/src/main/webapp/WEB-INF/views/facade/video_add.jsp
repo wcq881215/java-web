@@ -54,7 +54,7 @@
         <div id="page-inner">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 class="page-head-line">配件库</h1>
+                    <h1 class="page-head-line">安装教程</h1>
 
                 </div>
             </div>
