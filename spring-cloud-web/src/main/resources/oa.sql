@@ -377,6 +377,7 @@ CREATE TABLE app_attach_img (
 DROP TABLE IF EXISTS app_purchase_device;
 CREATE TABLE app_purchase_device (
   id         INT AUTO_INCREMENT,
+  pid         INT COMMENT '客户id',
   _name   VARCHAR(200) NOT NULL  COMMENT '设备名称',
   type   VARCHAR(100) NOT NULL  COMMENT '类别',
   number         INT DEFAULT 1,
