@@ -55,4 +55,9 @@ public class VideoService {
         key = "%"+ key+ "%";
         return videoDao.findByTitleLikeAndContentLike(key,key,pageable);
     }
+
+    public void deleteVideo(Long id) {
+        videoDao.delete(id);
+        videoSrcDao.deleteByVid(id);
+    }
 }
