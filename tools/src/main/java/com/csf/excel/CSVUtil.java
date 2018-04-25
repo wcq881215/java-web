@@ -19,8 +19,8 @@ import java.util.Map;
  */
 
 public class CSVUtil {
-    public static String path = "C:\\Users\\changqi.wu\\Desktop\\文字直播室老师发言-UTF8-2.csv";
-    public static final String result_excel = "C:\\Users\\changqi.wu\\Desktop\\文字直播室老师发言-UTF8-2.xlsx";
+    public static String path = "C:\\Users\\changqi.wu\\Desktop\\文字直播室老师发言-UTF8.csv";
+    public static final String result_excel = "C:\\Users\\changqi.wu\\Desktop\\文字直播室老师发言-UTF8.xlsx";
 
     public static void main(String[] args) throws IOException {
         pasrse();
@@ -32,8 +32,8 @@ public class CSVUtil {
         XSSFSheet dataSheet = resultWorkbook.createSheet("处理掉html的数据");
         XSSFSheet parseSheet = resultWorkbook.createSheet("算法分析结果");
 
-//        String url = "http://54.222.205.14:8003/nlp-service-server/analysis";
-        String url = "http://192.168.30.134:8003/nlp-service-server/analysis";
+        String url = "http://54.222.205.14:8003/nlp-service-server/analysis";
+//        String url = "http://192.168.30.134:8003/nlp-service-server/analysis";
 
         XSSFRow dataSheetTitleRow = dataSheet.createRow(0);
         dataSheetTitleRow.createCell(0).setCellValue("ID");

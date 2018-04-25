@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,7 +27,7 @@ public class ExcelUtil {
         pasrse();
     }
 
-    public static void pasrseResult() throws IOException {
+    public static void write(List data) throws IOException {
 
 
 
